@@ -1,0 +1,7 @@
+/dist/
+build/web/WEB-INF/classes/Utilities/Test.class
+build/web/WEB-INF/lib/eclipselink.jar
+build/web/WEB-INF/lib/javax.persistence_2.1.0.v201304241213.jar
+build/web/WEB-INF/lib/org.eclipse.persistence.jpa.jpql_2.5.2.v20140319-9ad6abd.jar
+build/web/WEB-INF/lib/sqljdbc4.jar
+build/web/index.html
