@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 ### Java ###
 # Compiled class file
 *.class
@@ -23,11 +25,21 @@
 hs_err_pid*
 
 ### NetBeans ###
+>>>>>>> origin/dev-StormNs
 nbproject/private/
 build/
 nbbuild/
 dist/
 nbdist/
+<<<<<<< HEAD
+dist/XMLProject.war
+nbactions.xml
+nb-configuration.xml
+*.class
+*.jar
+*.war
+*.ear
+=======
 .nb-gradle/
 
 ### Windows ###
@@ -50,3 +62,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+>>>>>>> origin/dev-StormNs
