@@ -11,11 +11,9 @@
     <class>entities.Genres</class>
     <class>entities.MovieUrl</class>
     <class>entities.Comment</class>
-    <class>entities.MovieGenres</class>
-    <class>entities.Directing</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://SONPHSE61822\SQLEXPRESS:1433;databaseName=ProjectXML"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://DANHDCSE61904\SQLEXPRESS2:1433;databaseName=ProjectXML"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
       <property name="javax.persistence.jdbc.password" value="."/>
