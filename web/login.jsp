@@ -11,12 +11,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login</title>
     </head>
-    <body>
+    <body style="margin: 0px">
+            <jsp:include page="template/header.jsp"/>
+            <div style="height: 310px">
         <h1>Welcome to MovieGuru</h1>
         <form action="DispatchServlet" method="POST">
             <input type="text" value="" name="txtUsername"/>
             <input type="password" value="" name="txtPassword"/>
             <input type="submit" value="LOGIN" name="btnAction" />
         </form>
+            </div>
+            <jsp:include page="template/footer.jsp"/>
     </body>
 </html>

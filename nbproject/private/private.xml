@@ -6,8 +6,10 @@
             <file>file:/D:/FPT%20Uni/XML/XMLProject/nbproject/build-impl.xml</file>
             <file>file:/D:/FPT%20Uni/XML/XMLProject/src/java/utilities/DAO.java</file>
             <file>file:/D:/FPT%20Uni/XML/XMLProject/web/index.html</file>
+            <file>file:/D:/FPT%20Uni/XML/XMLProject/web/template/footer.jsp</file>
             <file>file:/D:/FPT%20Uni/XML/XMLProject/src/java/entities/Accounts.java</file>
             <file>file:/D:/FPT%20Uni/XML/XMLProject/src/conf/persistence.xml</file>
+            <file>file:/D:/FPT%20Uni/XML/XMLProject/web/template/header.jsp</file>
         </group>
     </open-files>
 </project-private>
