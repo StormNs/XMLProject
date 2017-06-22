@@ -12,7 +12,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -65,10 +64,10 @@ public class Persons implements Serializable {
     private Boolean isActor;
     @Column(name = "ImageUrl")
     private String imageUrl;
-    @ManyToMany(mappedBy = "personsCollection")
-    private Collection<Movies> moviesCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "actorId")
     private Collection<Cast> castCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "directorId")
+    private Collection<Directing> directingCollection;
 
     public Persons() {
     }
@@ -163,21 +162,21 @@ public class Persons implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Movies> getMoviesCollection() {
-        return moviesCollection;
-    }
-
-    public void setMoviesCollection(Collection<Movies> moviesCollection) {
-        this.moviesCollection = moviesCollection;
-    }
-
-    @XmlTransient
     public Collection<Cast> getCastCollection() {
         return castCollection;
     }
 
     public void setCastCollection(Collection<Cast> castCollection) {
         this.castCollection = castCollection;
+    }
+
+    @XmlTransient
+    public Collection<Directing> getDirectingCollection() {
+        return directingCollection;
+    }
+
+    public void setDirectingCollection(Collection<Directing> directingCollection) {
+        this.directingCollection = directingCollection;
     }
 
     @Override

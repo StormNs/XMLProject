@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Accounts.findById", query = "SELECT a FROM Accounts a WHERE a.id = :id")
     , @NamedQuery(name = "Accounts.findByUsername", query = "SELECT a FROM Accounts a WHERE a.username = :username")
     , @NamedQuery(name = "Accounts.findByPassword", query = "SELECT a FROM Accounts a WHERE a.password = :password")
-    , @NamedQuery(name = "Accounts.findByEmail", query = "SELECT a FROM Accounts a WHERE a.email = :email")})
+    , @NamedQuery(name = "Accounts.findByEmail", query = "SELECT a FROM Accounts a WHERE a.email = :email")
+})
 public class Accounts implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,7 +49,7 @@ public class Accounts implements Serializable {
     @Basic(optional = false)
     @Column(name = "Email")
     private String email;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accounts")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
     private Collection<UserRating> userRatingCollection;
     @OneToMany(mappedBy = "accountId")
     private Collection<Comment> commentCollection;
@@ -141,5 +142,5 @@ public class Accounts implements Serializable {
     public String toString() {
         return "entities.Accounts[ id=" + id + " ]";
     }
-    
+
 }

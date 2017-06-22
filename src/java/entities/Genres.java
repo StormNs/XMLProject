@@ -8,14 +8,13 @@ package entities;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -40,11 +39,8 @@ public class Genres implements Serializable {
     private Integer id;
     @Column(name = "Name")
     private String name;
-    @JoinTable(name = "MovieGenres", joinColumns = {
-        @JoinColumn(name = "GenreId", referencedColumnName = "Id")}, inverseJoinColumns = {
-        @JoinColumn(name = "MovieId", referencedColumnName = "Id")})
-    @ManyToMany
-    private Collection<Movies> moviesCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "genreId")
+    private Collection<MovieGenres> movieGenresCollection;
 
     public Genres() {
     }
@@ -70,12 +66,12 @@ public class Genres implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Movies> getMoviesCollection() {
-        return moviesCollection;
+    public Collection<MovieGenres> getMovieGenresCollection() {
+        return movieGenresCollection;
     }
 
-    public void setMoviesCollection(Collection<Movies> moviesCollection) {
-        this.moviesCollection = moviesCollection;
+    public void setMovieGenresCollection(Collection<MovieGenres> movieGenresCollection) {
+        this.movieGenresCollection = movieGenresCollection;
     }
 
     @Override

@@ -3,12 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/NetBean_Project/XMLProject/src/java/servlets/Ultilities.java</file>
-            <file>file:/F:/NetBean_Project/XMLProject/src/java/entities/UserRating.java</file>
             <file>file:/F:/NetBean_Project/XMLProject/src/conf/persistence.xml</file>
+            <file>file:/F:/NetBean_Project/XMLProject/web/login.jsp</file>
+            <file>file:/F:/NetBean_Project/XMLProject/web/main.jsp</file>
+            <file>file:/F:/NetBean_Project/XMLProject/src/java/servlets/LoginServlet.java</file>
             <file>file:/F:/NetBean_Project/XMLProject/src/java/utilities/DAO.java</file>
+            <file>file:/F:/NetBean_Project/XMLProject/src/java/utilities/Ultilities.java</file>
             <file>file:/F:/NetBean_Project/XMLProject/src/java/entities/Accounts.java</file>
-            <file>file:/F:/NetBean_Project/XMLProject/src/java/entities/UserRatingPK.java</file>
+            <file>file:/F:/NetBean_Project/XMLProject/src/java/servlets/DispatchServlet.java</file>
+            <file>file:/F:/NetBean_Project/XMLProject/web/META-INF/context.xml</file>
         </group>
     </open-files>
 </project-private>

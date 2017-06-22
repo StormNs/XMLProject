@@ -46,21 +46,35 @@ public class DAO implements Serializable {
         }
         return true;
     }
-    
-    public List getAllAccounts(){
-       Query query = em.createNamedQuery("Accounts.findAll");
-       return query.getResultList();
+
+    public List findAccounts(String email, String username) {
+        List listAccounts = null;
+        Query query = null;
+        if (username.isEmpty()) { //user use email to login
+            query = em.createNamedQuery("Accounts.findByEmail");
+            query.setParameter("email", email);
+        } else { // user use username to login
+            query = em.createNamedQuery("Accounts.findByUsername");
+            query.setParameter("username", username);
+        }
+        listAccounts = query.getResultList();
+        return listAccounts;
     }
-    
-    public List getAllGenres(){
-       Query query = em.createNamedQuery("Accounts.findAll");
-       return query.getResultList();
+
+    public List getAllAccounts() {
+        Query query = em.createNamedQuery("Accounts.findAll");
+        return query.getResultList();
     }
-    public List getAllMovies(){
-       Query query = em.createNamedQuery("Accounts.findAll");
-       query.setMaxResults(100);
-       return query.getResultList();
+
+    public List getAllGenres() {
+        Query query = em.createNamedQuery("Accounts.findAll");
+        return query.getResultList();
     }
-    
+
+    public List getAllMovies() {
+        Query query = em.createNamedQuery("Accounts.findAll");
+        query.setMaxResults(100);
+        return query.getResultList();
+    }
 
 }

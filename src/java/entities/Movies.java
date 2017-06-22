@@ -12,9 +12,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -76,21 +73,18 @@ public class Movies implements Serializable {
     private String imageCover;
     @Column(name = "TrailerUrl")
     private String trailerUrl;
-    @ManyToMany(mappedBy = "moviesCollection")
-    private Collection<Genres> genresCollection;
-    @JoinTable(name = "Directing", joinColumns = {
-        @JoinColumn(name = "MovieId", referencedColumnName = "Id")}, inverseJoinColumns = {
-        @JoinColumn(name = "DirectorId", referencedColumnName = "Id")})
-    @ManyToMany
-    private Collection<Persons> personsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
     private Collection<Cast> castCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movies")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
     private Collection<UserRating> userRatingCollection;
     @OneToMany(mappedBy = "movieId")
     private Collection<Comment> commentCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
     private Collection<MovieImages> movieImagesCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
+    private Collection<MovieGenres> movieGenresCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
+    private Collection<Directing> directingCollection;
     @OneToMany(mappedBy = "movieId")
     private Collection<MovieUrl> movieUrlCollection;
 
@@ -206,24 +200,6 @@ public class Movies implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Genres> getGenresCollection() {
-        return genresCollection;
-    }
-
-    public void setGenresCollection(Collection<Genres> genresCollection) {
-        this.genresCollection = genresCollection;
-    }
-
-    @XmlTransient
-    public Collection<Persons> getPersonsCollection() {
-        return personsCollection;
-    }
-
-    public void setPersonsCollection(Collection<Persons> personsCollection) {
-        this.personsCollection = personsCollection;
-    }
-
-    @XmlTransient
     public Collection<Cast> getCastCollection() {
         return castCollection;
     }
@@ -257,6 +233,24 @@ public class Movies implements Serializable {
 
     public void setMovieImagesCollection(Collection<MovieImages> movieImagesCollection) {
         this.movieImagesCollection = movieImagesCollection;
+    }
+
+    @XmlTransient
+    public Collection<MovieGenres> getMovieGenresCollection() {
+        return movieGenresCollection;
+    }
+
+    public void setMovieGenresCollection(Collection<MovieGenres> movieGenresCollection) {
+        this.movieGenresCollection = movieGenresCollection;
+    }
+
+    @XmlTransient
+    public Collection<Directing> getDirectingCollection() {
+        return directingCollection;
+    }
+
+    public void setDirectingCollection(Collection<Directing> directingCollection) {
+        this.directingCollection = directingCollection;
     }
 
     @XmlTransient
