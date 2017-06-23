@@ -29,6 +29,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+src/conf/persistence.xml
 
 ### Windows ###
 # Windows thumbnail cache files
