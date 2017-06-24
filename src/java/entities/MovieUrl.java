@@ -45,7 +45,7 @@ public class MovieUrl implements Serializable {
     private String quality;
     @JoinColumn(name = "MovieId", referencedColumnName = "Id")
     @ManyToOne
-    private Movies movieId;
+    private MovieType movieId;
 
     public MovieUrl() {
     }
@@ -86,11 +86,11 @@ public class MovieUrl implements Serializable {
         this.quality = quality;
     }
 
-    public Movies getMovieId() {
+    public MovieType getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(Movies movieId) {
+    public void setMovieId(MovieType movieId) {
         this.movieId = movieId;
     }
 

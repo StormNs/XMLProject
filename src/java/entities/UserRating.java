@@ -40,10 +40,10 @@ public class UserRating implements Serializable {
     private double rating;
     @JoinColumn(name = "AccountId", referencedColumnName = "Id")
     @ManyToOne(optional = false)
-    private Accounts accountId;
+    private AccountType accountId;
     @JoinColumn(name = "MovieId", referencedColumnName = "Id")
     @ManyToOne(optional = false)
-    private Movies movieId;
+    private MovieType movieId;
 
     public UserRating() {
     }
@@ -73,19 +73,19 @@ public class UserRating implements Serializable {
         this.rating = rating;
     }
 
-    public Accounts getAccountId() {
+    public AccountType getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Accounts accountId) {
+    public void setAccountId(AccountType accountId) {
         this.accountId = accountId;
     }
 
-    public Movies getMovieId() {
+    public MovieType getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(Movies movieId) {
+    public void setMovieId(MovieType movieId) {
         this.movieId = movieId;
     }
 

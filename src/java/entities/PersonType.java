@@ -27,18 +27,18 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "Persons")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Persons.findAll", query = "SELECT p FROM Persons p")
-    , @NamedQuery(name = "Persons.findById", query = "SELECT p FROM Persons p WHERE p.id = :id")
-    , @NamedQuery(name = "Persons.findByName", query = "SELECT p FROM Persons p WHERE p.name = :name")
-    , @NamedQuery(name = "Persons.findByAlternateName", query = "SELECT p FROM Persons p WHERE p.alternateName = :alternateName")
-    , @NamedQuery(name = "Persons.findByHeight", query = "SELECT p FROM Persons p WHERE p.height = :height")
-    , @NamedQuery(name = "Persons.findByBirthDate", query = "SELECT p FROM Persons p WHERE p.birthDate = :birthDate")
-    , @NamedQuery(name = "Persons.findByBirthPlace", query = "SELECT p FROM Persons p WHERE p.birthPlace = :birthPlace")
-    , @NamedQuery(name = "Persons.findByBiography", query = "SELECT p FROM Persons p WHERE p.biography = :biography")
-    , @NamedQuery(name = "Persons.findByIsDirector", query = "SELECT p FROM Persons p WHERE p.isDirector = :isDirector")
-    , @NamedQuery(name = "Persons.findByIsActor", query = "SELECT p FROM Persons p WHERE p.isActor = :isActor")
-    , @NamedQuery(name = "Persons.findByImageUrl", query = "SELECT p FROM Persons p WHERE p.imageUrl = :imageUrl")})
-public class Persons implements Serializable {
+    @NamedQuery(name = "PersonType.findAll", query = "SELECT p FROM PersonType p")
+    , @NamedQuery(name = "PersonType.findById", query = "SELECT p FROM PersonType p WHERE p.id = :id")
+    , @NamedQuery(name = "PersonType.findByName", query = "SELECT p FROM PersonType p WHERE p.name = :name")
+    , @NamedQuery(name = "PersonType.findByAlternateName", query = "SELECT p FROM PersonType p WHERE p.alternateName = :alternateName")
+    , @NamedQuery(name = "PersonType.findByHeight", query = "SELECT p FROM PersonType p WHERE p.height = :height")
+    , @NamedQuery(name = "PersonType.findByBirthDate", query = "SELECT p FROM PersonType p WHERE p.birthDate = :birthDate")
+    , @NamedQuery(name = "PersonType.findByBirthPlace", query = "SELECT p FROM PersonType p WHERE p.birthPlace = :birthPlace")
+    , @NamedQuery(name = "PersonType.findByBiography", query = "SELECT p FROM PersonType p WHERE p.biography = :biography")
+    , @NamedQuery(name = "PersonType.findByIsDirector", query = "SELECT p FROM PersonType p WHERE p.isDirector = :isDirector")
+    , @NamedQuery(name = "PersonType.findByIsActor", query = "SELECT p FROM PersonType p WHERE p.isActor = :isActor")
+    , @NamedQuery(name = "PersonType.findByImageUrl", query = "SELECT p FROM PersonType p WHERE p.imageUrl = :imageUrl")})
+public class PersonType implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -69,14 +69,14 @@ public class Persons implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "directorId")
     private Collection<Directing> directingCollection;
 
-    public Persons() {
+    public PersonType() {
     }
 
-    public Persons(Integer id) {
+    public PersonType(Integer id) {
         this.id = id;
     }
 
-    public Persons(Integer id, boolean isDirector) {
+    public PersonType(Integer id, boolean isDirector) {
         this.id = id;
         this.isDirector = isDirector;
     }
@@ -189,10 +189,10 @@ public class Persons implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Persons)) {
+        if (!(object instanceof PersonType)) {
             return false;
         }
-        Persons other = (Persons) object;
+        PersonType other = (PersonType) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -201,7 +201,7 @@ public class Persons implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Persons[ id=" + id + " ]";
+        return "entities.PersonType[ id=" + id + " ]";
     }
     
 }

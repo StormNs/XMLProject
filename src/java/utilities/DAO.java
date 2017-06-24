@@ -5,7 +5,7 @@
  */
 package utilities;
 
-import entities.Accounts;
+import entities.AccountType;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -38,6 +38,7 @@ public class DAO implements Serializable {
         try {
             tran.begin();
             em.persist(object);
+            em.flush();
             tran.commit();
         } catch (Exception e) {
             tran.rollback();
@@ -50,31 +51,26 @@ public class DAO implements Serializable {
     public List findAccounts(String email, String username) {
         List listAccounts = null;
         Query query = null;
-        if (username.isEmpty()) { //user use email to login
-            query = em.createNamedQuery("Accounts.findByEmail");
-            query.setParameter("email", email);
-        } else { // user use username to login
-            query = em.createNamedQuery("Accounts.findByUsername");
-            query.setParameter("username", username);
+        try {
+            if (username.isEmpty()) { //user use email to login
+                query = em.createNamedQuery("AccountType.findByEmail");
+                query.setParameter("email", email);
+            } else { // user use username to login
+                query = em.createNamedQuery("AccountType.findByUsername");
+                query.setParameter("username", username);
+            }
+            listAccounts = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        listAccounts = query.getResultList();
         return listAccounts;
     }
 
     public List getAllAccounts() {
-        Query query = em.createNamedQuery("Accounts.findAll");
+        Query query = em.createNamedQuery("AccountType.findAll");
         return query.getResultList();
     }
 
-    public List getAllGenres() {
-        Query query = em.createNamedQuery("Accounts.findAll");
-        return query.getResultList();
-    }
-
-    public List getAllMovies() {
-        Query query = em.createNamedQuery("Accounts.findAll");
-        query.setMaxResults(100);
-        return query.getResultList();
-    }
+   
 
 }

@@ -36,10 +36,10 @@ public class Directing implements Serializable {
     private Integer id;
     @JoinColumn(name = "MovieId", referencedColumnName = "Id")
     @ManyToOne(optional = false)
-    private Movies movieId;
+    private MovieType movieId;
     @JoinColumn(name = "DirectorId", referencedColumnName = "Id")
     @ManyToOne(optional = false)
-    private Persons directorId;
+    private PersonType directorId;
 
     public Directing() {
     }
@@ -56,19 +56,19 @@ public class Directing implements Serializable {
         this.id = id;
     }
 
-    public Movies getMovieId() {
+    public MovieType getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(Movies movieId) {
+    public void setMovieId(MovieType movieId) {
         this.movieId = movieId;
     }
 
-    public Persons getDirectorId() {
+    public PersonType getDirectorId() {
         return directorId;
     }
 
-    public void setDirectorId(Persons directorId) {
+    public void setDirectorId(PersonType directorId) {
         this.directorId = directorId;
     }
 

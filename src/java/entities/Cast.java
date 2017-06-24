@@ -39,10 +39,10 @@ public class Cast implements Serializable {
     private String character;
     @JoinColumn(name = "MovieId", referencedColumnName = "Id")
     @ManyToOne(optional = false)
-    private Movies movieId;
+    private MovieType movieId;
     @JoinColumn(name = "ActorId", referencedColumnName = "Id")
     @ManyToOne(optional = false)
-    private Persons actorId;
+    private PersonType actorId;
 
     public Cast() {
     }
@@ -67,19 +67,19 @@ public class Cast implements Serializable {
         this.character = character;
     }
 
-    public Movies getMovieId() {
+    public MovieType getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(Movies movieId) {
+    public void setMovieId(MovieType movieId) {
         this.movieId = movieId;
     }
 
-    public Persons getActorId() {
+    public PersonType getActorId() {
         return actorId;
     }
 
-    public void setActorId(Persons actorId) {
+    public void setActorId(PersonType actorId) {
         this.actorId = actorId;
     }
 

@@ -27,21 +27,21 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "Movies")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Movies.findAll", query = "SELECT m FROM Movies m")
-    , @NamedQuery(name = "Movies.findById", query = "SELECT m FROM Movies m WHERE m.id = :id")
-    , @NamedQuery(name = "Movies.findByName", query = "SELECT m FROM Movies m WHERE m.name = :name")
-    , @NamedQuery(name = "Movies.findByAlternateName", query = "SELECT m FROM Movies m WHERE m.alternateName = :alternateName")
-    , @NamedQuery(name = "Movies.findByDescription", query = "SELECT m FROM Movies m WHERE m.description = :description")
-    , @NamedQuery(name = "Movies.findByGenreId", query = "SELECT m FROM Movies m WHERE m.genreId = :genreId")
-    , @NamedQuery(name = "Movies.findByCountry", query = "SELECT m FROM Movies m WHERE m.country = :country")
-    , @NamedQuery(name = "Movies.findByRuntime", query = "SELECT m FROM Movies m WHERE m.runtime = :runtime")
-    , @NamedQuery(name = "Movies.findByCategoryId", query = "SELECT m FROM Movies m WHERE m.categoryId = :categoryId")
-    , @NamedQuery(name = "Movies.findByLanguage", query = "SELECT m FROM Movies m WHERE m.language = :language")
-    , @NamedQuery(name = "Movies.findByReleaseDate", query = "SELECT m FROM Movies m WHERE m.releaseDate = :releaseDate")
-    , @NamedQuery(name = "Movies.findByRating", query = "SELECT m FROM Movies m WHERE m.rating = :rating")
-    , @NamedQuery(name = "Movies.findByImageCover", query = "SELECT m FROM Movies m WHERE m.imageCover = :imageCover")
-    , @NamedQuery(name = "Movies.findByTrailerUrl", query = "SELECT m FROM Movies m WHERE m.trailerUrl = :trailerUrl")})
-public class Movies implements Serializable {
+    @NamedQuery(name = "MovieType.findAll", query = "SELECT m FROM MovieType m")
+    , @NamedQuery(name = "MovieType.findById", query = "SELECT m FROM MovieType m WHERE m.id = :id")
+    , @NamedQuery(name = "MovieType.findByName", query = "SELECT m FROM MovieType m WHERE m.name = :name")
+    , @NamedQuery(name = "MovieType.findByAlternateName", query = "SELECT m FROM MovieType m WHERE m.alternateName = :alternateName")
+    , @NamedQuery(name = "MovieType.findByDescription", query = "SELECT m FROM MovieType m WHERE m.description = :description")
+    , @NamedQuery(name = "MovieType.findByGenreId", query = "SELECT m FROM MovieType m WHERE m.genreId = :genreId")
+    , @NamedQuery(name = "MovieType.findByCountry", query = "SELECT m FROM MovieType m WHERE m.country = :country")
+    , @NamedQuery(name = "MovieType.findByRuntime", query = "SELECT m FROM MovieType m WHERE m.runtime = :runtime")
+    , @NamedQuery(name = "MovieType.findByCategoryId", query = "SELECT m FROM MovieType m WHERE m.categoryId = :categoryId")
+    , @NamedQuery(name = "MovieType.findByLanguage", query = "SELECT m FROM MovieType m WHERE m.language = :language")
+    , @NamedQuery(name = "MovieType.findByReleaseDate", query = "SELECT m FROM MovieType m WHERE m.releaseDate = :releaseDate")
+    , @NamedQuery(name = "MovieType.findByRating", query = "SELECT m FROM MovieType m WHERE m.rating = :rating")
+    , @NamedQuery(name = "MovieType.findByImageCover", query = "SELECT m FROM MovieType m WHERE m.imageCover = :imageCover")
+    , @NamedQuery(name = "MovieType.findByTrailerUrl", query = "SELECT m FROM MovieType m WHERE m.trailerUrl = :trailerUrl")})
+public class MovieType implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -88,10 +88,10 @@ public class Movies implements Serializable {
     @OneToMany(mappedBy = "movieId")
     private Collection<MovieUrl> movieUrlCollection;
 
-    public Movies() {
+    public MovieType() {
     }
 
-    public Movies(Integer id) {
+    public MovieType(Integer id) {
         this.id = id;
     }
 
@@ -272,10 +272,10 @@ public class Movies implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Movies)) {
+        if (!(object instanceof MovieType)) {
             return false;
         }
-        Movies other = (Movies) object;
+        MovieType other = (MovieType) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -284,7 +284,7 @@ public class Movies implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Movies[ id=" + id + " ]";
+        return "entities.MovieType[ id=" + id + " ]";
     }
     
 }

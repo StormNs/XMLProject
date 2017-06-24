@@ -42,7 +42,7 @@ public class MovieImages implements Serializable {
     private String date;
     @JoinColumn(name = "MovieId", referencedColumnName = "Id")
     @ManyToOne(optional = false)
-    private Movies movieId;
+    private MovieType movieId;
 
     public MovieImages() {
     }
@@ -75,11 +75,11 @@ public class MovieImages implements Serializable {
         this.date = date;
     }
 
-    public Movies getMovieId() {
+    public MovieType getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(Movies movieId) {
+    public void setMovieId(MovieType movieId) {
         this.movieId = movieId;
     }
 
