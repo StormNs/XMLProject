@@ -12,9 +12,9 @@
         top: 0px;
         left:0px;
         height: 200px;
-        -webkit-box-shadow:0px 9px 21px 0px #888888;
-        -moz-box-shadow:0px 9px 21px 0px #888888;
-        box-shadow:0px -9px 21px 0px #888888;
+        -webkit-box-shadow:0px 9px 21px 0px #505050;
+        -moz-box-shadow:0px 9px 21px 0px #505050;
+        box-shadow:0px -9px 21px 0px #505050;
     }
     #footer-bar a:hover{
         color: white;

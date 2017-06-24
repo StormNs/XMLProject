@@ -5,6 +5,10 @@
 --%>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+    body{
+        background-color: #afb4bb;
+        margin: 0px;
+    }
     #menu{
         background-color: #24292e;
         overflow: hidden;
@@ -15,9 +19,9 @@
         top: 0px;
         left:0px;
         height: 60px;
-        -webkit-box-shadow:0px 9px 21px 0px #888888;
-        -moz-box-shadow:0px 9px 21px 0px #888888;
-        box-shadow:0px 9px 21px 0px #888888;
+        -webkit-box-shadow:0px 9px 21px 0px #505050;
+        -moz-box-shadow:0px 9px 21px 0px #505050;
+        box-shadow:0px 9px 21px 0px #505050;
     }
     #menu-container a{
         float:left;
