@@ -39,7 +39,7 @@ public class MovieGenres implements Serializable {
     private Genres genreId;
     @JoinColumn(name = "MovieId", referencedColumnName = "Id")
     @ManyToOne(optional = false)
-    private Movies movieId;
+    private MovieType movieId;
 
     public MovieGenres() {
     }
@@ -64,11 +64,11 @@ public class MovieGenres implements Serializable {
         this.genreId = genreId;
     }
 
-    public Movies getMovieId() {
+    public MovieType getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(Movies movieId) {
+    public void setMovieId(MovieType movieId) {
         this.movieId = movieId;
     }
 

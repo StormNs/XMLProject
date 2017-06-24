@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<accounts>
+    <account>
+        <username>Cuong</username>
+        <password>123</password>
+        <email>cat@gmail.com</email>
+    </account>
+     <account>
+        <username>Cuong2</username>
+        <password>123</password>
+        <email>cat2@gmail.com</email>
+    </account>
+</accounts>

@@ -5,17 +5,21 @@
  */
 package servlets;
 
-import entities.Accounts;
+import entities.AccountType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.JAXBException;
 import utilities.DAO;
+import utilities.Ultilities;
 
 /**
  *
@@ -60,14 +64,20 @@ public class LoginServlet extends HttpServlet {
                 index = Integer.parseInt((temp));
                 index++;
             }
-            DAO dao = new DAO();
-            List listAccounts = dao.findAccounts(email, username);
-            Accounts account = (Accounts) listAccounts.get(0);
-            if (account.getPassword().equals(password)) {
-                url = mainPage;
-                session.setAttribute("index", index.toString());
-            }
-        } finally {
+//            DAO dao = new DAO();
+//            dao.persist(new AccountType("Cuong", "123", "cat@gmail.com"));
+//            List listAccounts = dao.findAccounts(email, username);
+//            AccountType account = (AccountType) listAccounts.get(0);
+//            if (account.getPassword().equals(password)) {
+//                url = mainPage;
+//                session.setAttribute("index", index.toString());
+//            }
+            Ultilities.UnMarshallAccounts(this.getServletContext().getRealPath("/"));
+        } 
+        catch (JAXBException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
             response.sendRedirect(url);
             out.close();
         }

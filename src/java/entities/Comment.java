@@ -42,7 +42,7 @@ public class Comment implements Serializable {
     private String date;
     @JoinColumn(name = "AccountId", referencedColumnName = "Id")
     @ManyToOne
-    private Accounts accountId;
+    private AccountType accountId;
     @OneToMany(mappedBy = "replyTo")
     private Collection<Comment> commentCollection;
     @JoinColumn(name = "ReplyTo", referencedColumnName = "Id")
@@ -50,7 +50,7 @@ public class Comment implements Serializable {
     private Comment replyTo;
     @JoinColumn(name = "MovieId", referencedColumnName = "Id")
     @ManyToOne
-    private Movies movieId;
+    private MovieType movieId;
 
     public Comment() {
     }
@@ -75,11 +75,11 @@ public class Comment implements Serializable {
         this.date = date;
     }
 
-    public Accounts getAccountId() {
+    public AccountType getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Accounts accountId) {
+    public void setAccountId(AccountType accountId) {
         this.accountId = accountId;
     }
 
@@ -100,11 +100,11 @@ public class Comment implements Serializable {
         this.replyTo = replyTo;
     }
 
-    public Movies getMovieId() {
+    public MovieType getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(Movies movieId) {
+    public void setMovieId(MovieType movieId) {
         this.movieId = movieId;
     }
 
