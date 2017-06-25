@@ -13,6 +13,34 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Main</title>
         <style>
+            .grid-container{
+                display: inline-grid;
+            }
+            .lastest-container{
+                margin-top: 20px;
+                margin-bottom: 20px;
+                background-color: #191818;
+            }
+            .header-row{
+                width: 100%;
+                background-color: #232121;
+            }
+            .lastest-row{
+                margin: 20px 50px;
+            }
+            .lastest-row a{
+                text-decoration: none;
+            }
+            .title-row{
+                padding-left: 80px;
+                color: lightgray;
+                font-size: 35px;
+                text-shadow: 3px 3px black;
+            }
+            .movie-picture{
+                margin-left: 30px;
+                box-shadow: 2px 5px 8px 0px black;
+            }
             .Slider{z-index: -1;
             }
 
@@ -139,13 +167,14 @@
                 margin-top: 35px;
             }
             .genre-tag{
+                box-shadow: 3px 3px 10px 1px black;
                 margin-top: 5px;
                 display: inline-block;
                 padding: 6px;
                 margin-right: 10px;
                 background-color: lightgray;
                 color: #1f4d86;
-                border-radius: 7px;
+                border-radius: 5px;
                 font-size: 14px;
                 font-weight: 600;
                 white-space: nowrap;
@@ -165,6 +194,7 @@
                 margin-top: 10px;
             }
             .title-desc{
+                text-shadow: 2px 2px black;
                 font-size: 23px;
                 font-weight: bold;
                 color: #4b7dbb;
@@ -174,62 +204,83 @@
     <body style="margin:0px">
         <jsp:include page="template/header.jsp" />
         <!--container-->
-        <div style="height: 500px">
-            <div class="slideshow-contain container">
-                <div class="container Slider">
-                    <img src="https://www.w3schools.com/w3css/img_fjords_wide.jpg"
-                         alt="Image1" class="picture slideshow-image-1"/>
-                    <div class="slide-description">
-                        Wonder Woman 1
+        <div class="grid-container">
+            <div>
+                <div class="slideshow-contain container">
+                    <div class="container Slider">
+                        <img src="https://www.w3schools.com/w3css/img_fjords_wide.jpg"
+                             alt="Image1" class="picture slideshow-image-1"/>
+                        <div class="slide-description">
+                            Wonder Woman 1
+                        </div>
                     </div>
-                </div>
-                <div class="container Slider">
-                    <img src="https://www.w3schools.com/w3css/img_lights_wide.jpg"
-                         alt="Image2" class="picture slideshow-image-1"/>
-                    <div class="slide-description">
-                        Wonder Woman 2
+                    <div class="container Slider">
+                        <img src="https://www.w3schools.com/w3css/img_lights_wide.jpg"
+                             alt="Image2" class="picture slideshow-image-1"/>
+                        <div class="slide-description">
+                            Wonder Woman 2
+                        </div>
                     </div>
-                </div>
-                <div class="container Slider">
-                    <img src="https://www.w3schools.com/w3css/img_mountains_wide.jpg"
-                         alt="Image3" class="picture slideshow-image-1"/>
-                    <div class="slide-description">
-                        Wonder Woman 3
+                    <div class="container Slider">
+                        <img src="https://www.w3schools.com/w3css/img_mountains_wide.jpg"
+                             alt="Image3" class="picture slideshow-image-1"/>
+                        <div class="slide-description">
+                            Wonder Woman 3
+                        </div>
                     </div>
-                </div>
-                <div class="container Slider">
-                    <img src="https://www.w3schools.com/w3css/img_forest.jpg"
-                         alt="Image4" class="picture slideshow-image-1"/>
-                    <div class="slide-description">
-                        Wonder Woman 4
+                    <div class="container Slider">
+                        <img src="https://www.w3schools.com/w3css/img_forest.jpg"
+                             alt="Image4" class="picture slideshow-image-1"/>
+                        <div class="slide-description">
+                            Wonder Woman 4
+                        </div>
                     </div>
-                </div>
 
-                <button class="text-white display-left slide-button button-black" 
-                        onclick="nextSlide(-1)"> &#10094;</button>
-                <button class="text-white display-right slide-button button-black" 
-                        onclick="nextSlide(1)"> &#10095;</button>
-                <div class="display-bottommiddle">
-                    <span class="slide-badge" onclick="currentSlide(0)"></span>
-                    <span class="slide-badge" onclick="currentSlide(1)"></span>
-                    <span class="slide-badge" onclick="currentSlide(2)"></span>
-                    <span class="slide-badge" onclick="currentSlide(3)"></span>
+                    <button class="text-white display-left slide-button button-black" 
+                            onclick="nextSlide(-1)"> &#10094;</button>
+                    <button class="text-white display-right slide-button button-black" 
+                            onclick="nextSlide(1)"> &#10095;</button>
+                    <div class="display-bottommiddle">
+                        <span class="slide-badge" onclick="currentSlide(0)"></span>
+                        <span class="slide-badge" onclick="currentSlide(1)"></span>
+                        <span class="slide-badge" onclick="currentSlide(2)"></span>
+                        <span class="slide-badge" onclick="currentSlide(3)"></span>
+                    </div>
+                </div>
+                <div class="movie-inform">
+                    <div class="m-inform-content">
+                        <p class="title-desc">Wonder Woman<br>Nguoi dep Amazon</p>
+                        <div class="movie-description">Amazon princess
+                            Diana finds her idyllic life 
+                            interrupted when a pilot crash-lands nearby. 
+                            After being told of conflict in the outside world, 
+                            she decides to leave home to fight 
+                            a war that can end all wars.
+                        </div><br>
+                        <div><span class="genre-tag">Action</span><span class="genre-tag">Action</span><span class="genre-tag">Super Heroes</span><span class="genre-tag">Action</span><span class="genre-tag">Action</span></div>
+                        <form>
+                            <input class="watch-btn" type="submit" value="Watch" name="btnAction">
+                        </form>
+                    </div>
                 </div>
             </div>
-            <div class="movie-inform">
-                <div class="m-inform-content">
-                    <p class="title-desc">Wonder Woman<br>Nguoi dep Amazon</p>
-                    <div class="movie-description">Amazon princess
-                        Diana finds her idyllic life 
-                        interrupted when a pilot crash-lands nearby. 
-                        After being told of conflict in the outside world, 
-                        she decides to leave home to fight 
-                        a war that can end all wars.
-                    </div><br>
-                    <div><span class="genre-tag">Action</span><span class="genre-tag">Action</span><span class="genre-tag">Super Heroes</span><span class="genre-tag">Action</span><span class="genre-tag">Action</span></div>
-                    <form>
-                        <input class="watch-btn" type="submit" value="Watch" name="btnAction">
-                    </form>
+            <div class="lastest-container">
+                <div class="header-row">
+                    <span class="title-row">New  ❯ </span>
+                </div>
+                <div class="lastest-row">
+                    <a href="#"> 
+                        <img class="movie-picture" alt="Wonder Woman Poster" title="Wonder Woman Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                    </a>
+                    <a href="#"> 
+                        <img class="movie-picture" alt="The Mummy Poster" title="The Mummy Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMjM5NzM5NTgxN15BMl5BanBnXkFtZTgwNDEyNTk4MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                    </a>
+                    <a href="#"> 
+                        <img class="movie-picture" alt="Pirates of the Caribbean: Dead Men Tell No Tales Poster" title="Pirates of the Caribbean: Dead Men Tell No Tales Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTYyMTcxNzc5M15BMl5BanBnXkFtZTgwOTg2ODE2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                    </a>
+                    <a href="#"> 
+                        <img class="movie-picture" alt="Guardians of the Galaxy Vol. 2 Poster" title="Guardians of the Galaxy Vol. 2 Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTg2MzI1MTg3OF5BMl5BanBnXkFtZTgwNTU3NDA2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                    </a>
                 </div>
             </div>
         </div>
@@ -244,14 +295,18 @@
             slideImage(slideIndex);
         });
         function nextSlide(n) {
+            clearTimeout(slideTime);
+            if (isNaN(n)) {
+                n = 1;
+            }
             slideImage(slideIndex += n);
         }
         function currentSlide(n) {
+            clearTimeout(slideTime);
             slideImage(slideIndex = n);
         }
 
         function slideImage(x) {
-
             var i;
             var imagesContain = document.getElementsByClassName("Slider");//for fadeout
             var picture = document.getElementsByClassName("picture");//for sliding
@@ -300,7 +355,7 @@
                     imagesContain[slideIndex].style.background = "url('" + picture[slideIndex - 1].src + "') no-repeat";
                     imagesContain[slideIndex].style.backgroundSize = "100% 100%";
                     firstTime = false;
-                        
+
                 }
                 for (i = 0; i < picture.length; i++) {
                     picture[i].className = picture[i].className.replace(" slideshow-image-3", " slideshow-image-1");
@@ -321,9 +376,11 @@
             for (i = 0; i < badges.length; i++) {
                 badges[i].className = badges[i].className.replace(" slide-badge-selected", "");
             }
+
             imagesContain[slideIndex].style.display = "block";
             badges[slideIndex].className += " slide-badge-selected";
             slideBadge = slideIndex;
+            slideTime = window.setTimeout(nextSlide, 4000);
         }
 
 
