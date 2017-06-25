@@ -32,20 +32,31 @@
                 height:420px;
                 transition-delay: 2s;
                 margin-bottom:-4px;
-                animation:show 1.5s;
+                animation: slide-right 1.5s;
             }
-            @keyframes show {
+            @keyframes slide-right {
                 0% { transform: translateX(100%); }
                 100% { transform: translateX(0%); }
             }
-/*            .slideshow-image-2{
-                z-index: -1;
-                animation:hide 2s;
+            .slideshow-image-3{
+                width: 100%;
+                height:420px;
+                transition-delay: 2s;
+                margin-bottom:-4px;
+                animation: slide-left 1.5s;
             }
-            @keyframes hide {
-                0% { transform: translateX(0%); }
-                100% { transform: translateX(-100%); }
-            }*/
+            @keyframes slide-left {
+                0% { transform: translateX(-100%); }
+                100% { transform: translateX(0%); }
+            }
+            /*            .slideshow-image-2{
+                            z-index: -1;
+                            animation:hide 2s;
+                        }
+                        @keyframes hide {
+                            0% { transform: translateX(0%); }
+                            100% { transform: translateX(-100%); }
+                        }*/
 
 
             .display-bottommiddle{
@@ -225,8 +236,10 @@
         <jsp:include page="template/footer.jsp"/>
     </body>
     <script>
-        var firstTime =true;
+        var firstTime = true;
         var slideIndex = 0;
+        var slideIndex_pre = 0;
+        var slideBadge = 0;
         document.addEventListener("DOMContentLoaded", function () {
             slideImage(slideIndex);
         });
@@ -238,34 +251,79 @@
         }
 
         function slideImage(x) {
+
             var i;
-            var images = document.getElementsByClassName("Slider");
-            var picture = document.getElementsByClassName("picture");
-            var badges = document.getElementsByClassName("slide-badge");
-            if (x > images.length - 1) {
+            var imagesContain = document.getElementsByClassName("Slider");//for fadeout
+            var picture = document.getElementsByClassName("picture");//for sliding
+            var badges = document.getElementsByClassName("slide-badge");//for badge]
+
+            var tIndex = imagesContain.length - 1;
+
+            if (x > imagesContain.length - 1) {
                 slideIndex = 0;
+                slideIndex_pre = 0;
+                imagesContain[0].style.background = "url('" + picture[tIndex].src + "') no-repeat";
+                imagesContain[0].style.backgroundSize = "100% 100%";
             }
             if (x < 0) {
-                slideIndex = images.length - 1;
+                slideIndex = imagesContain.length - 1;
+                slideIndex_pre = slideIndex + 1;
+                imagesContain[tIndex].style.background = "url('" + picture[0].src + "') no-repeat";
+                imagesContain[tIndex].style.backgroundSize = "100% 100%";
             }
-            for (i = 0; i < images.length; i++) {
-                images[i].style.display = "none";
-                if(firstTime!==true&&slideIndex === 0){
-                    images[i].style.background = "url('" + picture[images.length - 1].src + "') no-repeat";
-                    images[i].style.backgroundSize = "100% 100%";
-                    
-                }
-                if (slideIndex !== 0) {
-                    images[i].style.background = "url('" + picture[slideIndex - 1].src + "') no-repeat";
-                    images[i].style.backgroundSize = "100% 100%";
-                    firstTime=false;
-                }
+
+//            if (firstTime !== true && slideIndex === 0) {// set background image 4 -> 1
+//                imagesContain[i].style.background = "url('" + picture[imagesContain.length - 1].src + "') no-repeat";
+//                imagesContain[i].style.backgroundSize = "100% 100%";
+//
+//            }
+//            if (x < 0 && slideIndex === tIndex) { //set background image 1->4
+//
+//            }
+
+//            if (x > tIndex)
+            //for display none
+            for (i = 0; i < imagesContain.length; i++) {
+                imagesContain[i].style.display = "none";
+//                if (i > 0 && i < imagesContain.length) {
+//                    if (x >= slideIndex_pre || x >= slideBadge) {
+//
+//                    } else {
+//
+//
+//                    }
+//                }
             }
+
+            if (x >= slideIndex_pre || x >= slideBadge) { //slide right
+                if (x > 0 && x < imagesContain.length) {
+                    imagesContain[slideIndex].style.background = "url('" + picture[slideIndex - 1].src + "') no-repeat";
+                    imagesContain[slideIndex].style.backgroundSize = "100% 100%";
+                    firstTime = false;
+                        
+                }
+                for (i = 0; i < picture.length; i++) {
+                    picture[i].className = picture[i].className.replace(" slideshow-image-3", " slideshow-image-1");
+                }
+            } else {
+                if (x >= 0 && x < imagesContain.length) {
+                    imagesContain[slideIndex].style.background = "url('" + picture[slideIndex + 1].src + "') no-repeat";
+                    imagesContain[slideIndex].style.backgroundSize = "100% 100%";
+                    firstTime = false;
+                }
+                for (i = 0; i < picture.length; i++) { //slide left
+                    picture[i].className = picture[i].className.replace(" slideshow-image-1", " slideshow-image-3");
+                }
+
+            }
+
+            slideIndex_pre = slideIndex;
             for (i = 0; i < badges.length; i++) {
                 badges[i].className = badges[i].className.replace(" slide-badge-selected", "");
             }
-            images[slideIndex].style.display = "block";
+            imagesContain[slideIndex].style.display = "block";
             badges[slideIndex].className += " slide-badge-selected";
+            slideBadge = slideIndex;
         }
 
 
