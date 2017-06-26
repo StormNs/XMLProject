@@ -16,8 +16,11 @@
             .grid-container{
                 display: inline-grid;
             }
-            .lastest-container{
+            .slide-panel{
                 margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            .lastest-container{
                 margin-bottom: 20px;
                 background-color: #191818;
             }
@@ -32,14 +35,32 @@
                 text-decoration: none;
             }
             .title-row{
-                padding-left: 80px;
+                padding-left: 50px;
                 color: lightgray;
                 font-size: 35px;
                 text-shadow: 3px 3px black;
             }
-            .movie-picture{
-                margin-left: 30px;
+            .movie-container{
+                width: 182px;
+                height: 268px;
+                overflow: hidden;
+                position: relative;
+                display: inline-block;
+                margin-right: 30px;
                 box-shadow: 2px 5px 8px 0px black;
+            }
+            .movie-title-overlay{
+                position: absolute;
+                left: 0px;
+                bottom: 0px;
+                background-color: black;
+                opacity: 0.8;
+                color: white;
+                padding: 10px;
+                font-size: 16px;
+            }
+            .movie-picture{
+
             }
             .Slider{z-index: -1;
             }
@@ -195,9 +216,10 @@
             }
             .title-desc{
                 text-shadow: 2px 2px black;
-                font-size: 23px;
+                font-size: 25px;
                 font-weight: bold;
                 color: #4b7dbb;
+                margin-bottom: 10px;
             }
         </style>
     </head>
@@ -205,7 +227,7 @@
         <jsp:include page="template/header.jsp" />
         <!--container-->
         <div class="grid-container">
-            <div>
+            <div class="slide-panel">
                 <div class="slideshow-contain container">
                     <div class="container Slider">
                         <img src="https://www.w3schools.com/w3css/img_fjords_wide.jpg"
@@ -250,6 +272,7 @@
                 <div class="movie-inform">
                     <div class="m-inform-content">
                         <p class="title-desc">Wonder Woman<br>Nguoi dep Amazon</p>
+                        <hr style="border-color: #292626;">
                         <div class="movie-description">Amazon princess
                             Diana finds her idyllic life 
                             interrupted when a pilot crash-lands nearby. 
@@ -269,18 +292,95 @@
                     <span class="title-row">New  ❯ </span>
                 </div>
                 <div class="lastest-row">
-                    <a href="#"> 
-                        <img class="movie-picture" alt="Wonder Woman Poster" title="Wonder Woman Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                    </a>
-                    <a href="#"> 
-                        <img class="movie-picture" alt="The Mummy Poster" title="The Mummy Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMjM5NzM5NTgxN15BMl5BanBnXkFtZTgwNDEyNTk4MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                    </a>
-                    <a href="#"> 
-                        <img class="movie-picture" alt="Pirates of the Caribbean: Dead Men Tell No Tales Poster" title="Pirates of the Caribbean: Dead Men Tell No Tales Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTYyMTcxNzc5M15BMl5BanBnXkFtZTgwOTg2ODE2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                    </a>
-                    <a href="#"> 
-                        <img class="movie-picture" alt="Guardians of the Galaxy Vol. 2 Poster" title="Guardians of the Galaxy Vol. 2 Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTg2MzI1MTg3OF5BMl5BanBnXkFtZTgwNTU3NDA2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                    </a>
+                    <div class="movie-container">
+                        <a href="#"> 
+                            <img class="movie-picture" alt="Wonder Woman Poster" title="Wonder Woman Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                            <div class="movie-title-overlay">Wonder Woman</div>
+                        </a>
+
+                    </div>
+                    <div class="movie-container">
+                        <a href="#"> 
+                            <img class="movie-picture" alt="The Mummy Poster" title="The Mummy Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMjM5NzM5NTgxN15BMl5BanBnXkFtZTgwNDEyNTk4MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                            <div class="movie-title-overlay">The Mummy</div>
+                        </a>
+                    </div>
+                    <div class="movie-container">
+                        <a href="#"> 
+                            <img class="movie-picture" alt="Pirates of the Caribbean: Dead Men Tell No Tales Poster" title="Pirates of the Caribbean: Dead Men Tell No Tales Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTYyMTcxNzc5M15BMl5BanBnXkFtZTgwOTg2ODE2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                            <div class="movie-title-overlay">Pirates of the Caribbean: Dead Men Tell No Tales</div>
+                        </a>
+                    </div>
+                    <div class="movie-container">
+                        <a href="#"> 
+                            <img class="movie-picture" alt="Guardians of the Galaxy Vol. 2 Poster" title="Guardians of the Galaxy Vol. 2 Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTg2MzI1MTg3OF5BMl5BanBnXkFtZTgwNTU3NDA2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                            <div class="movie-title-overlay">Guardians of the Galaxy Vol. 2</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="lastest-container">
+                <div class="header-row">
+                    <span class="title-row">Top Rated  ❯ </span>
+                </div>
+                <div class="lastest-row">
+                    <div class="movie-container">
+                        <a href="#"> 
+                            <img class="movie-picture" alt="Wonder Woman Poster" title="Wonder Woman Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                            <div class="movie-title-overlay">Wonder Woman</div>
+                        </a>
+
+                    </div>
+                    <div class="movie-container">
+                        <a href="#"> 
+                            <img class="movie-picture" alt="The Mummy Poster" title="The Mummy Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMjM5NzM5NTgxN15BMl5BanBnXkFtZTgwNDEyNTk4MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                            <div class="movie-title-overlay">The Mummy</div>
+                        </a>
+                    </div>
+                    <div class="movie-container">
+                        <a href="#"> 
+                            <img class="movie-picture" alt="Pirates of the Caribbean: Dead Men Tell No Tales Poster" title="Pirates of the Caribbean: Dead Men Tell No Tales Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTYyMTcxNzc5M15BMl5BanBnXkFtZTgwOTg2ODE2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                            <div class="movie-title-overlay">Pirates of the Caribbean: Dead Men Tell No Tales</div>
+                        </a>
+                    </div>
+                    <div class="movie-container">
+                        <a href="#"> 
+                            <img class="movie-picture" alt="Guardians of the Galaxy Vol. 2 Poster" title="Guardians of the Galaxy Vol. 2 Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTg2MzI1MTg3OF5BMl5BanBnXkFtZTgwNTU3NDA2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                            <div class="movie-title-overlay">Guardians of the Galaxy Vol. 2</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="lastest-container">
+                <div class="header-row">
+                    <span class="title-row">Series  ❯ </span>
+                </div>
+                <div class="lastest-row">
+                    <div class="movie-container">
+                        <a href="#"> 
+                            <img class="movie-picture" alt="Wonder Woman Poster" title="Wonder Woman Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                            <div class="movie-title-overlay">Wonder Woman</div>
+                        </a>
+
+                    </div>
+                    <div class="movie-container">
+                        <a href="#"> 
+                            <img class="movie-picture" alt="The Mummy Poster" title="The Mummy Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMjM5NzM5NTgxN15BMl5BanBnXkFtZTgwNDEyNTk4MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                            <div class="movie-title-overlay">The Mummy</div>
+                        </a>
+                    </div>
+                    <div class="movie-container">
+                        <a href="#"> 
+                            <img class="movie-picture" alt="Pirates of the Caribbean: Dead Men Tell No Tales Poster" title="Pirates of the Caribbean: Dead Men Tell No Tales Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTYyMTcxNzc5M15BMl5BanBnXkFtZTgwOTg2ODE2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                            <div class="movie-title-overlay">Pirates of the Caribbean: Dead Men Tell No Tales</div>
+                        </a>
+                    </div>
+                    <div class="movie-container">
+                        <a href="#"> 
+                            <img class="movie-picture" alt="Guardians of the Galaxy Vol. 2 Poster" title="Guardians of the Galaxy Vol. 2 Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTg2MzI1MTg3OF5BMl5BanBnXkFtZTgwNTU3NDA2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                            <div class="movie-title-overlay">Guardians of the Galaxy Vol. 2</div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
