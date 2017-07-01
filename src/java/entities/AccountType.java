@@ -8,22 +8,15 @@ package entities;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -31,10 +24,6 @@ import javax.xml.bind.annotation.XmlType;
  */
 @Entity
 @Table(name = "Accounts")
-@XmlAccessorType(XmlAccessType.FIELD)
-//@XmlType(name = "accountType", propOrder = {"id","username", "password", "email", "userRatingCollection", "commentCollection"})
-@XmlType(name = "accountType", propOrder = {"username", "password", "email"})
-
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "AccountType.findAll", query = "SELECT a FROM AccountType a")
@@ -48,32 +37,18 @@ public class AccountType implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "Id")
-    @XmlTransient
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // for auto generated ID
     private Integer id;
-
     @Basic(optional = false)
     @Column(name = "Username")
-    @XmlElement(required = true)
     private String username;
-
     @Basic(optional = false)
     @Column(name = "Password")
-    @XmlElement(required = true)
     private String password;
-
     @Basic(optional = false)
     @Column(name = "Email")
-    @XmlElement(required = true)
     private String email;
-
-    @XmlTransient
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountId")
-    private Collection<UserRating> userRatingCollection;
-
-    @XmlTransient
     @OneToMany(mappedBy = "accountId")
-    private Collection<Comment> commentCollection;
+    private Collection<Favourites> favouritesCollection;
 
     public AccountType() {
     }
@@ -84,12 +59,6 @@ public class AccountType implements Serializable {
 
     public AccountType(Integer id, String username, String password, String email) {
         this.id = id;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-    }
-
-    public AccountType(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -128,21 +97,12 @@ public class AccountType implements Serializable {
     }
 
     @XmlTransient
-    public Collection<UserRating> getUserRatingCollection() {
-        return userRatingCollection;
+    public Collection<Favourites> getFavouritesCollection() {
+        return favouritesCollection;
     }
 
-    public void setUserRatingCollection(Collection<UserRating> userRatingCollection) {
-        this.userRatingCollection = userRatingCollection;
-    }
-
-    @XmlTransient
-    public Collection<Comment> getCommentCollection() {
-        return commentCollection;
-    }
-
-    public void setCommentCollection(Collection<Comment> commentCollection) {
-        this.commentCollection = commentCollection;
+    public void setFavouritesCollection(Collection<Favourites> favouritesCollection) {
+        this.favouritesCollection = favouritesCollection;
     }
 
     @Override
@@ -169,5 +129,5 @@ public class AccountType implements Serializable {
     public String toString() {
         return "entities.AccountType[ id=" + id + " ]";
     }
-
+    
 }

@@ -6,18 +6,14 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,8 +31,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "PersonType.findByBirthDate", query = "SELECT p FROM PersonType p WHERE p.birthDate = :birthDate")
     , @NamedQuery(name = "PersonType.findByBirthPlace", query = "SELECT p FROM PersonType p WHERE p.birthPlace = :birthPlace")
     , @NamedQuery(name = "PersonType.findByBiography", query = "SELECT p FROM PersonType p WHERE p.biography = :biography")
-    , @NamedQuery(name = "PersonType.findByIsDirector", query = "SELECT p FROM PersonType p WHERE p.isDirector = :isDirector")
-    , @NamedQuery(name = "PersonType.findByIsActor", query = "SELECT p FROM PersonType p WHERE p.isActor = :isActor")
     , @NamedQuery(name = "PersonType.findByImageUrl", query = "SELECT p FROM PersonType p WHERE p.imageUrl = :imageUrl")})
 public class PersonType implements Serializable {
 
@@ -57,28 +51,14 @@ public class PersonType implements Serializable {
     private String birthPlace;
     @Column(name = "Biography")
     private String biography;
-    @Basic(optional = false)
-    @Column(name = "IsDirector")
-    private boolean isDirector;
-    @Column(name = "IsActor")
-    private Boolean isActor;
     @Column(name = "ImageUrl")
     private String imageUrl;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "actorId")
-    private Collection<Cast> castCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "directorId")
-    private Collection<Directing> directingCollection;
 
     public PersonType() {
     }
 
     public PersonType(Integer id) {
         this.id = id;
-    }
-
-    public PersonType(Integer id, boolean isDirector) {
-        this.id = id;
-        this.isDirector = isDirector;
     }
 
     public Integer getId() {
@@ -137,46 +117,12 @@ public class PersonType implements Serializable {
         this.biography = biography;
     }
 
-    public boolean getIsDirector() {
-        return isDirector;
-    }
-
-    public void setIsDirector(boolean isDirector) {
-        this.isDirector = isDirector;
-    }
-
-    public Boolean getIsActor() {
-        return isActor;
-    }
-
-    public void setIsActor(Boolean isActor) {
-        this.isActor = isActor;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    @XmlTransient
-    public Collection<Cast> getCastCollection() {
-        return castCollection;
-    }
-
-    public void setCastCollection(Collection<Cast> castCollection) {
-        this.castCollection = castCollection;
-    }
-
-    @XmlTransient
-    public Collection<Directing> getDirectingCollection() {
-        return directingCollection;
-    }
-
-    public void setDirectingCollection(Collection<Directing> directingCollection) {
-        this.directingCollection = directingCollection;
     }
 
     @Override

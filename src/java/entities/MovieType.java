@@ -8,7 +8,6 @@ package entities;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -32,7 +31,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "MovieType.findByName", query = "SELECT m FROM MovieType m WHERE m.name = :name")
     , @NamedQuery(name = "MovieType.findByAlternateName", query = "SELECT m FROM MovieType m WHERE m.alternateName = :alternateName")
     , @NamedQuery(name = "MovieType.findByDescription", query = "SELECT m FROM MovieType m WHERE m.description = :description")
-    , @NamedQuery(name = "MovieType.findByGenreId", query = "SELECT m FROM MovieType m WHERE m.genreId = :genreId")
     , @NamedQuery(name = "MovieType.findByCountry", query = "SELECT m FROM MovieType m WHERE m.country = :country")
     , @NamedQuery(name = "MovieType.findByRuntime", query = "SELECT m FROM MovieType m WHERE m.runtime = :runtime")
     , @NamedQuery(name = "MovieType.findByCategoryId", query = "SELECT m FROM MovieType m WHERE m.categoryId = :categoryId")
@@ -40,7 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "MovieType.findByReleaseDate", query = "SELECT m FROM MovieType m WHERE m.releaseDate = :releaseDate")
     , @NamedQuery(name = "MovieType.findByRating", query = "SELECT m FROM MovieType m WHERE m.rating = :rating")
     , @NamedQuery(name = "MovieType.findByImageCover", query = "SELECT m FROM MovieType m WHERE m.imageCover = :imageCover")
-    , @NamedQuery(name = "MovieType.findByTrailerUrl", query = "SELECT m FROM MovieType m WHERE m.trailerUrl = :trailerUrl")})
+    , @NamedQuery(name = "MovieType.findByTrailerUrl", query = "SELECT m FROM MovieType m WHERE m.trailerUrl = :trailerUrl")
+    , @NamedQuery(name = "MovieType.findByDirector", query = "SELECT m FROM MovieType m WHERE m.director = :director")})
 public class MovieType implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,8 +53,6 @@ public class MovieType implements Serializable {
     private String alternateName;
     @Column(name = "Description")
     private String description;
-    @Column(name = "GenreId")
-    private Integer genreId;
     @Column(name = "Country")
     private String country;
     @Column(name = "Runtime")
@@ -73,20 +70,10 @@ public class MovieType implements Serializable {
     private String imageCover;
     @Column(name = "TrailerUrl")
     private String trailerUrl;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
-    private Collection<Cast> castCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
-    private Collection<UserRating> userRatingCollection;
+    @Column(name = "Director")
+    private String director;
     @OneToMany(mappedBy = "movieId")
-    private Collection<Comment> commentCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
-    private Collection<MovieImages> movieImagesCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
-    private Collection<MovieGenres> movieGenresCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
-    private Collection<Directing> directingCollection;
-    @OneToMany(mappedBy = "movieId")
-    private Collection<MovieUrl> movieUrlCollection;
+    private Collection<Favourites> favouritesCollection;
 
     public MovieType() {
     }
@@ -125,14 +112,6 @@ public class MovieType implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Integer getGenreId() {
-        return genreId;
-    }
-
-    public void setGenreId(Integer genreId) {
-        this.genreId = genreId;
     }
 
     public String getCountry() {
@@ -199,67 +178,21 @@ public class MovieType implements Serializable {
         this.trailerUrl = trailerUrl;
     }
 
-    @XmlTransient
-    public Collection<Cast> getCastCollection() {
-        return castCollection;
+    public String getDirector() {
+        return director;
     }
 
-    public void setCastCollection(Collection<Cast> castCollection) {
-        this.castCollection = castCollection;
-    }
-
-    @XmlTransient
-    public Collection<UserRating> getUserRatingCollection() {
-        return userRatingCollection;
-    }
-
-    public void setUserRatingCollection(Collection<UserRating> userRatingCollection) {
-        this.userRatingCollection = userRatingCollection;
+    public void setDirector(String director) {
+        this.director = director;
     }
 
     @XmlTransient
-    public Collection<Comment> getCommentCollection() {
-        return commentCollection;
+    public Collection<Favourites> getFavouritesCollection() {
+        return favouritesCollection;
     }
 
-    public void setCommentCollection(Collection<Comment> commentCollection) {
-        this.commentCollection = commentCollection;
-    }
-
-    @XmlTransient
-    public Collection<MovieImages> getMovieImagesCollection() {
-        return movieImagesCollection;
-    }
-
-    public void setMovieImagesCollection(Collection<MovieImages> movieImagesCollection) {
-        this.movieImagesCollection = movieImagesCollection;
-    }
-
-    @XmlTransient
-    public Collection<MovieGenres> getMovieGenresCollection() {
-        return movieGenresCollection;
-    }
-
-    public void setMovieGenresCollection(Collection<MovieGenres> movieGenresCollection) {
-        this.movieGenresCollection = movieGenresCollection;
-    }
-
-    @XmlTransient
-    public Collection<Directing> getDirectingCollection() {
-        return directingCollection;
-    }
-
-    public void setDirectingCollection(Collection<Directing> directingCollection) {
-        this.directingCollection = directingCollection;
-    }
-
-    @XmlTransient
-    public Collection<MovieUrl> getMovieUrlCollection() {
-        return movieUrlCollection;
-    }
-
-    public void setMovieUrlCollection(Collection<MovieUrl> movieUrlCollection) {
-        this.movieUrlCollection = movieUrlCollection;
+    public void setFavouritesCollection(Collection<Favourites> favouritesCollection) {
+        this.favouritesCollection = favouritesCollection;
     }
 
     @Override

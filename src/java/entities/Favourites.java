@@ -22,29 +22,29 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author StormNs
  */
 @Entity
-@Table(name = "Directing")
+@Table(name = "Favourites")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Directing.findAll", query = "SELECT d FROM Directing d")
-    , @NamedQuery(name = "Directing.findById", query = "SELECT d FROM Directing d WHERE d.id = :id")})
-public class Directing implements Serializable {
+    @NamedQuery(name = "Favourites.findAll", query = "SELECT f FROM Favourites f")
+    , @NamedQuery(name = "Favourites.findById", query = "SELECT f FROM Favourites f WHERE f.id = :id")})
+public class Favourites implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "Id")
     private Integer id;
+    @JoinColumn(name = "AccountId", referencedColumnName = "Id")
+    @ManyToOne
+    private AccountType accountId;
     @JoinColumn(name = "MovieId", referencedColumnName = "Id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private MovieType movieId;
-    @JoinColumn(name = "DirectorId", referencedColumnName = "Id")
-    @ManyToOne(optional = false)
-    private PersonType directorId;
 
-    public Directing() {
+    public Favourites() {
     }
 
-    public Directing(Integer id) {
+    public Favourites(Integer id) {
         this.id = id;
     }
 
@@ -56,20 +56,20 @@ public class Directing implements Serializable {
         this.id = id;
     }
 
+    public AccountType getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(AccountType accountId) {
+        this.accountId = accountId;
+    }
+
     public MovieType getMovieId() {
         return movieId;
     }
 
     public void setMovieId(MovieType movieId) {
         this.movieId = movieId;
-    }
-
-    public PersonType getDirectorId() {
-        return directorId;
-    }
-
-    public void setDirectorId(PersonType directorId) {
-        this.directorId = directorId;
     }
 
     @Override
@@ -82,10 +82,10 @@ public class Directing implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Directing)) {
+        if (!(object instanceof Favourites)) {
             return false;
         }
-        Directing other = (Directing) object;
+        Favourites other = (Favourites) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -94,7 +94,7 @@ public class Directing implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Directing[ id=" + id + " ]";
+        return "entities.Favourites[ id=" + id + " ]";
     }
     
 }
