@@ -71,6 +71,9 @@ public class DAO implements Serializable {
         return query.getResultList();
     }
 
-   
+   public List getAllMovie(){
+       Query query = em.createNamedQuery("MovieType.findAll");
+       return query.getResultList();
+   }
 
 }

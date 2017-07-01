@@ -31,7 +31,15 @@
         color: lightgray;
         padding: 20px 40px;
     }
-    #menu-account a{
+    #menu-account > a{
+        float: right;
+        display: block;
+        font-size: 17px;
+        text-align: center;
+        color: lightgray;
+        padding: 20px 40px;
+    }
+    #menu-account > span{
         float: right;
         display: block;
         font-size: 17px;
@@ -92,6 +100,9 @@
         border: none;
     }
     .sub-menu{
+        display: grid;
+        border-radius: 5px;
+        border: solid 1px #6d6d6d;
         position: absolute;
         display: none;
         background-color: rgb(25, 24, 24);
@@ -136,6 +147,9 @@
         max-height: 80px;
     }
     #fast-result-container{
+        display: grid;
+        border-radius: 5px;
+        border: solid 1px #6d6d6d;
         position: absolute;
         display: none;
         background-color: rgb(25, 24, 24);
@@ -173,7 +187,7 @@
                     <button class="search-btn"><i class="fa fa-search"></i></button>
                     <!--FAST RESULT-->
                     <div id="fast-result-container" style="display: none">
-                        <a href="#" class="movie-link"> 
+                        <a href="" class="movie-link"> 
                             <div class="movie-result-container">
                                 <img class="movie-picture-result" alt="Wonder Woman Poster" title="Wonder Woman Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg">
                                 <span class="movie-title-result">WONDER WOMAN</span>
@@ -197,6 +211,9 @@
         <div id="menu-account">
             <a>Sign up</a>
             <a><i class="fa fa-user"></i> Login</a>
+            
+<!--            <a>Logout</a>
+            <span>Welcome <span style="color: lightseagreen">Danh</span></span>-->
 
         </div>
     </div> 

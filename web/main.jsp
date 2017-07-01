@@ -6,7 +6,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -72,7 +71,7 @@
                         </div><br>
                         <div><span class="genre-tag">Action</span><span class="genre-tag">Action</span><span class="genre-tag">Super Heroes</span><span class="genre-tag">Action</span><span class="genre-tag">Action</span></div>
                         <form>
-                            <input class="watch-btn" type="submit" value="Watch" name="btnAction">
+                            <input class="watch-btn" type="button" value="Watch" name="btnAction">
                         </form>
                     </div>
                 </div>
@@ -83,7 +82,7 @@
                 </div>
                 <div class="lastest-row">
                     <div class="movie-container">
-                        <a href="#"> 
+                        <a href="movie.jsp"> 
                             <img class="movie-picture" alt="Wonder Woman Poster" title="Wonder Woman Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg">
                             <div class="movie-title-overlay">Wonder Woman</div>
                         </a>

@@ -7,6 +7,8 @@ package utilities;
 
 import entities.AccountType;
 import entities.Accounts;
+import entities.Movies;
+import entities.MovieType;
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
@@ -89,6 +91,27 @@ public class Ultilities {
             
 
             mar.marshal(accs, f);
+
+        } catch (JAXBException ex) {
+            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public static void MarshallMovies(String realPath) {
+        try {
+            DAO dao = new DAO();
+            List<MovieType> list = dao.getAllMovie();
+            Movies movies = new Movies();
+            movies.setMovies(list);
+
+            JAXBContext jc = JAXBContext.newInstance(Movies.class);
+            Marshaller mar = jc.createMarshaller();
+            mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            File f = new File(realPath+"WEB-INF/Movies.xml");
+
+            
+
+            mar.marshal(movies, f);
 
         } catch (JAXBException ex) {
             Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
