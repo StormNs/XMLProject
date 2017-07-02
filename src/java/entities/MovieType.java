@@ -8,6 +8,7 @@ package entities;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -72,8 +73,18 @@ public class MovieType implements Serializable {
     private String trailerUrl;
     @Column(name = "Director")
     private String director;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
+    private Collection<Cast> castCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
+    private Collection<UserRating> userRatingCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
+    private Collection<MovieImages> movieImagesCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
+    private Collection<MovieGenres> movieGenresCollection;
     @OneToMany(mappedBy = "movieId")
     private Collection<Favourites> favouritesCollection;
+    @OneToMany(mappedBy = "movieId")
+    private Collection<MovieUrl> movieUrlCollection;
 
     public MovieType() {
     }
@@ -187,12 +198,57 @@ public class MovieType implements Serializable {
     }
 
     @XmlTransient
+    public Collection<Cast> getCastCollection() {
+        return castCollection;
+    }
+
+    public void setCastCollection(Collection<Cast> castCollection) {
+        this.castCollection = castCollection;
+    }
+
+    @XmlTransient
+    public Collection<UserRating> getUserRatingCollection() {
+        return userRatingCollection;
+    }
+
+    public void setUserRatingCollection(Collection<UserRating> userRatingCollection) {
+        this.userRatingCollection = userRatingCollection;
+    }
+
+    @XmlTransient
+    public Collection<MovieImages> getMovieImagesCollection() {
+        return movieImagesCollection;
+    }
+
+    public void setMovieImagesCollection(Collection<MovieImages> movieImagesCollection) {
+        this.movieImagesCollection = movieImagesCollection;
+    }
+
+    @XmlTransient
+    public Collection<MovieGenres> getMovieGenresCollection() {
+        return movieGenresCollection;
+    }
+
+    public void setMovieGenresCollection(Collection<MovieGenres> movieGenresCollection) {
+        this.movieGenresCollection = movieGenresCollection;
+    }
+
+    @XmlTransient
     public Collection<Favourites> getFavouritesCollection() {
         return favouritesCollection;
     }
 
     public void setFavouritesCollection(Collection<Favourites> favouritesCollection) {
         this.favouritesCollection = favouritesCollection;
+    }
+
+    @XmlTransient
+    public Collection<MovieUrl> getMovieUrlCollection() {
+        return movieUrlCollection;
+    }
+
+    public void setMovieUrlCollection(Collection<MovieUrl> movieUrlCollection) {
+        this.movieUrlCollection = movieUrlCollection;
     }
 
     @Override

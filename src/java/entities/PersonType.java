@@ -6,14 +6,18 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -53,6 +57,8 @@ public class PersonType implements Serializable {
     private String biography;
     @Column(name = "ImageUrl")
     private String imageUrl;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "actorId")
+    private Collection<Cast> castCollection;
 
     public PersonType() {
     }
@@ -123,6 +129,15 @@ public class PersonType implements Serializable {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    @XmlTransient
+    public Collection<Cast> getCastCollection() {
+        return castCollection;
+    }
+
+    public void setCastCollection(Collection<Cast> castCollection) {
+        this.castCollection = castCollection;
     }
 
     @Override
