@@ -19,6 +19,7 @@
             <input type="text" value="" name="txtUsername"/>
             <input type="password" value="" name="txtPassword"/>
             <input type="submit" value="LOGIN" name="btnAction" />
+            <img src="/XMLProject/asset/play.png"/>
         </form>
             </div>
             <jsp:include page="template/footer.jsp"/>

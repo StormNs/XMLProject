@@ -125,6 +125,9 @@ public class MovieType implements Serializable {
     
     @XmlTransient
     private Collection<MovieUrl> movieUrlCollection;
+<<<<<<< HEAD
+    
+=======
     @XmlTransient
     private Collection<PersonType> personTypeCollection;
 
@@ -135,6 +138,7 @@ public class MovieType implements Serializable {
     public void setPersonTypeCollection(Collection<PersonType> personTypeCollection) {
         this.personTypeCollection = personTypeCollection;
     }
+>>>>>>> XMLProject/dev-danhdc
 
     public MovieType() {
     }
