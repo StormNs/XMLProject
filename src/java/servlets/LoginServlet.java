@@ -80,9 +80,6 @@ public class LoginServlet extends HttpServlet {
 //            }
             Crawler crawl = new Crawler();
             crawl.DownloadImage(this.getServletContext().getRealPath("")+"/../../");
-        }         catch (Exception ex) {
-                    Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
         
 
         } catch (Exception ex) {
