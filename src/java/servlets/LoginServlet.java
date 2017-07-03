@@ -6,9 +6,13 @@
 package servlets;
 
 import entities.AccountType;
+import entities.Genres;
 import entities.MovieType;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBException;
+import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 import utilities.DAO;
 import utilities.Ultilities;
 
@@ -46,9 +51,15 @@ public class LoginServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         DAO dao = new DAO();
         MovieType movie = new MovieType();
-        movie.setName("TEST");
-        int result = dao.createMovie(movie);
+        Genres genre = new Genres();
+        genre.setName("Action");
+        movie.setName("TEST3");
+        movie.setReleaseDate("20 May 2016");
 
+//        dao.createMovie(movie);
+        dao.createGenre(genre);
+        dao.createMappingMoiveGenre(movie, genre);
+        
         String username = request.getParameter("txtUsername");
         String password = request.getParameter("txtPassword");
         String email = "";
@@ -61,7 +72,10 @@ public class LoginServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             String temp = (String) session.getAttribute("index");
-
+            Ultilities ulti = new Ultilities();
+            String realPath = request.getServletContext().getRealPath("/");
+            String xmlMovies = ulti.MarshallMovies(realPath);
+            request.setAttribute("xmlMovies", xmlMovies);
             Integer index = null;
             if (temp == null) {
                 index = 0;
@@ -69,10 +83,7 @@ public class LoginServlet extends HttpServlet {
                 index = Integer.parseInt((temp));
                 index++;
             }
-            Ultilities ulti = new Ultilities();
-            String realPath = request.getServletContext().getRealPath("/");
-            ulti.MarshallMovies(realPath);
-            
+
 //            DAO dao = new DAO();
 //            dao.persist(new AccountType("Cuong", "123", "cat@gmail.com"));
 //            List listAccounts = dao.findAccounts(email, username);
@@ -85,7 +96,8 @@ public class LoginServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            response.sendRedirect(url);
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
             out.close();
         }
     }

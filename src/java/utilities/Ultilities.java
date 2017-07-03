@@ -12,6 +12,7 @@ import entities.MovieType;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,7 +60,7 @@ public class Ultilities {
     public static void UnMarshallAccounts(String realPath) throws JAXBException {
         JAXBContext jc = JAXBContext.newInstance(Accounts.class);
         Unmarshaller u = jc.createUnmarshaller();
-        File f = new File(realPath+"WEB-INF/accounts.xml");
+        File f = new File(realPath + "WEB-INF/accounts.xml");
         if (!f.exists()) {
             System.out.println("not exist");
             return;
@@ -86,10 +87,9 @@ public class Ultilities {
             Marshaller mar = jc.createMarshaller();
             mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
             mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            File f = new File(realPath+"WEB-INF/accounts1.xml");
+            File f = new File(realPath + "WEB-INF/accounts1.xml");
 //            File f2 = new File("WEB-INF/accounts.xml");
 //            Boolean b  = f2.exists();
-            
 
             mar.marshal(accs, f);
 
@@ -97,7 +97,8 @@ public class Ultilities {
             Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public static void MarshallMovies(String realPath) {
+
+    public static String MarshallMovies(String realPath) {
         try {
             DAO dao = new DAO();
             List<MovieType> list = dao.getAllMovie();
@@ -107,16 +108,16 @@ public class Ultilities {
             JAXBContext jc = JAXBContext.newInstance(Movies.class);
             Marshaller mar = jc.createMarshaller();
             mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            File f = new File(realPath+"WEB-INF/movies.xml");
-            f.createNewFile();
-            mar.marshal(movies, f);
-
+//            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+//            File f = new File(realPath+"WEB-INF/movies.xml");
+//            f.createNewFile();
+            StringWriter sw = new StringWriter();
+            mar.marshal(movies, sw);
+            return sw.toString();
         } catch (JAXBException ex) {
             Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+        return null;
 
+    }
 }
