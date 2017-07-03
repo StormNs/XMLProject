@@ -85,6 +85,7 @@ public class MovieType implements Serializable {
     private Collection<Favourites> favouritesCollection;
     @OneToMany(mappedBy = "movieId")
     private Collection<MovieUrl> movieUrlCollection;
+    
 
     public MovieType() {
     }

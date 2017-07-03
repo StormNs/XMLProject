@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBException;
+import utilities.Crawler;
 import utilities.DAO;
 import utilities.Ultilities;
 
@@ -26,7 +27,7 @@ import utilities.Ultilities;
  * @author StormNs
  */
 public class LoginServlet extends HttpServlet {
-    
+
     private final String loginPage = "login.jsp";
     private final String mainPage = "main.jsp";
 
@@ -43,7 +44,7 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+
         String username = request.getParameter("txtUsername");
         String password = request.getParameter("txtPassword");
         String email = "";
@@ -51,12 +52,12 @@ public class LoginServlet extends HttpServlet {
             email = username;
             username = "";
         }
-        
+
         String url = loginPage;
         try {
             HttpSession session = request.getSession();
             String temp = (String) session.getAttribute("index");
-            
+
             Integer index = null;
             if (temp == null) {
                 index = 0;
@@ -72,11 +73,11 @@ public class LoginServlet extends HttpServlet {
 //                url = mainPage;
 //                session.setAttribute("index", index.toString());
 //            }
-            Ultilities.UnMarshallAccounts(this.getServletContext().getRealPath("/"));
-        } 
-        catch (JAXBException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            Crawler crawl = new Crawler();
+            crawl.DownloadImage(this.getServletContext().getRealPath("")+"/../../");
+        }         catch (Exception ex) {
+                    Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
         finally {
             response.sendRedirect(url);
             out.close();
