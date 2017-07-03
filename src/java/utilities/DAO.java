@@ -6,6 +6,10 @@
 package utilities;
 
 import entities.AccountType;
+import entities.Cast;
+import entities.Genres;
+import entities.MovieType;
+import entities.PersonType;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -71,9 +75,55 @@ public class DAO implements Serializable {
         return query.getResultList();
     }
 
-   public List getAllMovie(){
-       Query query = em.createNamedQuery("MovieType.findAll");
-       return query.getResultList();
-   }
+    public List getAllMovie() {
+        Query query = em.createNamedQuery("MovieType.findAll");
+        return query.getResultList();
+    }
+
+    public int createMovie(MovieType movie) {
+//        List<MovieType> list = movielist;
+//       for (MovieType object : list) {
+//           Query query =em.createQuery("INSERT INTO Movies (Name, AlternateName, Description, Country, Runtime, CategoryId, Language, ReleaseDate, Rating, ImageCover, TrailerUrl, Director)"
+//                   + " VALUES ("+object.getName()+", "+object.getAlternateName()+", "+object.getDescription()+", "+object.getCountry()+", "+object.getRuntime()+", NULL, "+object.getLanguage()+", "+object.getReleaseDate()+", "+object.getRating()+", "+object.getImageCover()+", NULL, "+object.getDirector()+");");
+//           query.getResultList();
+//       }
+//        for (MovieType object : list) {
+            em.getTransaction().begin();
+            em.persist(movie);
+            em.flush();
+            em.getTransaction().commit();
+            em.close();
+            return movie.getId();
+
+//        }
+        
+    }
+
+    public int createGenre(Genres genre) {
+        em.getTransaction().begin();
+        em.persist(genre);
+        em.flush();
+        em.getTransaction().commit();
+        em.close();
+        return genre.getId();
+    }
+
+    public int createPerson(PersonType person) {
+        em.getTransaction().begin();
+        em.persist(person);
+        em.flush();
+        em.getTransaction().commit();
+        em.close();
+        return person.getId();
+    }
+
+    public int createCast(Cast cast) {
+            em.getTransaction().begin();
+            em.persist(cast);
+            em.flush();
+            em.getTransaction().commit();
+            em.close();
+            return cast.getId();
+    }
 
 }

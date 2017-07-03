@@ -10,6 +10,7 @@ import entities.Accounts;
 import entities.Movies;
 import entities.MovieType;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.logging.Level;
@@ -107,13 +108,13 @@ public class Ultilities {
             Marshaller mar = jc.createMarshaller();
             mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
             mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            File f = new File(realPath+"WEB-INF/Movies.xml");
-
-            
-
+            File f = new File(realPath+"WEB-INF/movies.xml");
+            f.createNewFile();
             mar.marshal(movies, f);
 
         } catch (JAXBException ex) {
+            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

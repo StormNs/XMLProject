@@ -7,11 +7,18 @@ package entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
- * @author StormNs
+ * @author 
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name="", propOrder = "movie")
+@XmlRootElement(name="movies")
 public class Movies {
     
     private List<MovieType> movie;

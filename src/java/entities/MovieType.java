@@ -7,17 +7,24 @@ package entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -25,6 +32,9 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "Movies")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "movieType", propOrder = {"id", "name", "alternateName",
+    "description", "country", "rating", "releaseDate", "imageCover", "director"})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "MovieType.findAll", query = "SELECT m FROM MovieType m")
@@ -34,7 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "MovieType.findByDescription", query = "SELECT m FROM MovieType m WHERE m.description = :description")
     , @NamedQuery(name = "MovieType.findByCountry", query = "SELECT m FROM MovieType m WHERE m.country = :country")
     , @NamedQuery(name = "MovieType.findByRuntime", query = "SELECT m FROM MovieType m WHERE m.runtime = :runtime")
-    , @NamedQuery(name = "MovieType.findByCategoryId", query = "SELECT m FROM MovieType m WHERE m.categoryId = :categoryId")
+//    , @NamedQuery(name = "MovieType.findByCategoryId", query = "SELECT m FROM MovieType m WHERE m.categoryId = :categoryId")
     , @NamedQuery(name = "MovieType.findByLanguage", query = "SELECT m FROM MovieType m WHERE m.language = :language")
     , @NamedQuery(name = "MovieType.findByReleaseDate", query = "SELECT m FROM MovieType m WHERE m.releaseDate = :releaseDate")
     , @NamedQuery(name = "MovieType.findByRating", query = "SELECT m FROM MovieType m WHERE m.rating = :rating")
@@ -46,45 +56,85 @@ public class MovieType implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // for auto generated ID
     @Column(name = "Id")
+    @XmlElement(required = true)
     private Integer id;
+
     @Column(name = "Name")
+    @XmlElement(required = true)
     private String name;
+
     @Column(name = "AlternateName")
+    @XmlElement(required = true)
     private String alternateName;
+
     @Column(name = "Description")
+    @XmlElement(required = true)
     private String description;
+
     @Column(name = "Country")
+    @XmlElement(required = true)
     private String country;
+
     @Column(name = "Runtime")
-    private Integer runtime;
-    @Column(name = "CategoryId")
-    private Integer categoryId;
+    @XmlTransient
+    private String runtime;
+//    @Column(name = "CategoryId")
+//    private Integer categoryId;
     @Column(name = "Language")
+    @XmlTransient
     private String language;
     @Column(name = "ReleaseDate")
+    @XmlElement(required = true)
     private String releaseDate;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "Rating")
+    @XmlElement(required = true)
     private Double rating;
     @Column(name = "ImageCover")
+    @XmlElement(required = true)
     private String imageCover;
     @Column(name = "TrailerUrl")
+    @XmlTransient
     private String trailerUrl;
     @Column(name = "Director")
+    @XmlElement(required = true)
     private String director;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
+    @XmlTransient
     private Collection<Cast> castCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
+    @XmlTransient
     private Collection<UserRating> userRatingCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
+    @XmlTransient
     private Collection<MovieImages> movieImagesCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
+    @XmlTransient
     private Collection<MovieGenres> movieGenresCollection;
+    
     @OneToMany(mappedBy = "movieId")
+    @XmlTransient
     private Collection<Favourites> favouritesCollection;
     @OneToMany(mappedBy = "movieId")
+    
+    @XmlTransient
     private Collection<MovieUrl> movieUrlCollection;
+    @XmlTransient
+    private Collection<PersonType> personTypeCollection;
+
+    public Collection<PersonType> getPersonTypeCollection() {
+        return personTypeCollection;
+    }
+
+    public void setPersonTypeCollection(Collection<PersonType> personTypeCollection) {
+        this.personTypeCollection = personTypeCollection;
+    }
 
     public MovieType() {
     }
@@ -133,22 +183,21 @@ public class MovieType implements Serializable {
         this.country = country;
     }
 
-    public Integer getRuntime() {
+    public String getRuntime() {
         return runtime;
     }
 
-    public void setRuntime(Integer runtime) {
+    public void setRuntime(String runtime) {
         this.runtime = runtime;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
+//    public Integer getCategoryId() {
+//        return categoryId;
+//    }
+//
+//    public void setCategoryId(Integer categoryId) {
+//        this.categoryId = categoryId;
+//    }
     public String getLanguage() {
         return language;
     }
@@ -275,5 +324,5 @@ public class MovieType implements Serializable {
     public String toString() {
         return "entities.MovieType[ id=" + id + " ]";
     }
-    
+
 }

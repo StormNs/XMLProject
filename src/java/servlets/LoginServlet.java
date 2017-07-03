@@ -6,6 +6,7 @@
 package servlets;
 
 import entities.AccountType;
+import entities.MovieType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -26,7 +27,7 @@ import utilities.Ultilities;
  * @author StormNs
  */
 public class LoginServlet extends HttpServlet {
-    
+
     private final String loginPage = "login.jsp";
     private final String mainPage = "main.jsp";
 
@@ -43,7 +44,11 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+        DAO dao = new DAO();
+        MovieType movie = new MovieType();
+        movie.setName("TEST");
+        int result = dao.createMovie(movie);
+
         String username = request.getParameter("txtUsername");
         String password = request.getParameter("txtPassword");
         String email = "";
@@ -51,12 +56,12 @@ public class LoginServlet extends HttpServlet {
             email = username;
             username = "";
         }
-        
+
         String url = loginPage;
         try {
             HttpSession session = request.getSession();
             String temp = (String) session.getAttribute("index");
-            
+
             Integer index = null;
             if (temp == null) {
                 index = 0;
@@ -64,6 +69,10 @@ public class LoginServlet extends HttpServlet {
                 index = Integer.parseInt((temp));
                 index++;
             }
+            Ultilities ulti = new Ultilities();
+            String realPath = request.getServletContext().getRealPath("/");
+            ulti.MarshallMovies(realPath);
+            
 //            DAO dao = new DAO();
 //            dao.persist(new AccountType("Cuong", "123", "cat@gmail.com"));
 //            List listAccounts = dao.findAccounts(email, username);
@@ -72,12 +81,10 @@ public class LoginServlet extends HttpServlet {
 //                url = mainPage;
 //                session.setAttribute("index", index.toString());
 //            }
-            Ultilities.UnMarshallAccounts(this.getServletContext().getRealPath("/"));
-        } 
-        catch (JAXBException ex) {
+//            Ultilities.UnMarshallAccounts(this.getServletContext().getRealPath("/"));
+        } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        finally {
+        } finally {
             response.sendRedirect(url);
             out.close();
         }
