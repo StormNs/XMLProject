@@ -9,23 +9,25 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
  *
- * @author 
+ * @author
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name="", propOrder = "movie")
-@XmlRootElement(name="movies")
+@XmlType(name = "movieList", propOrder = "movie")
+@XmlRootElement(name = "movies")
 public class Movies {
-    
+
+    @XmlElement(required = true)
     private List<MovieType> movie;
 
     public List<MovieType> getMovies() {
-        if(movie == null){
-         movie = new ArrayList<>();   
+        if (movie == null) {
+            movie = new ArrayList<>();
         }
         return movie;
     }
@@ -33,8 +35,5 @@ public class Movies {
     public void setMovies(List<MovieType> movie) {
         this.movie = movie;
     }
-    
-    
-    
-    
+
 }

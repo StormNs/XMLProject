@@ -15,10 +15,12 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.util.JAXBSource;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -29,7 +31,12 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  *
@@ -117,6 +124,33 @@ public class Ultilities {
         } catch (IOException ex) {
             Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    
+    public void validateBeforeSavetoDB(String xmlPath, Movies movies, String contextPath){
+        try {
+            File f = new File(xmlPath);
+            if(f.exists()){
+                System.out.println("exist!");
+            }
+            JAXBContext jc = JAXBContext.newInstance(Movies.class);
+            
+            SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = sf.newSchema(new File(xmlPath));
+            
+            Marshaller mar = jc.createMarshaller();
+            mar.setSchema(schema);
+            mar.marshal(schema, new DefaultHandler());
+           
+            
+            System.out.println("yeee");
+            
+        } catch (SAXException ex) {
+            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JAXBException ex) {
+            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
     }
 
 }

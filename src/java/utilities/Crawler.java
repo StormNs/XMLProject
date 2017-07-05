@@ -5,7 +5,9 @@
  */
 package utilities;
 
+import entities.Genres;
 import entities.MovieType;
+import entities.PersonType;
 import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -47,17 +49,27 @@ import javax.xml.stream.events.XMLEvent;
  */
 public class Crawler {
 
-    static ArrayList<MovieType> list = new ArrayList<>();
+    static ArrayList<MovieType> movieList = null;
 
     public Crawler() {
+        movieList = new ArrayList<>();
 
     }
 
-    public static void DownloadImage(String path) {
-        try {
+    public static ArrayList<MovieType> getMovieList() {
+        return movieList;
+    }
 
-            String uri = "https://images-na.ssl-images-amazon.com/images/M/MV5BMTk3OTI3MDk4N15BMl5BanBnXkFtZTgwNDg2ODIyMjI@._V1_SX261_CR0,0,261,383_AL_.jpg";
-            String filePath = path + "/web/movieImg/t.jpg";
+    public static void setMovieList(ArrayList<MovieType> movieList) {
+        Crawler.movieList = movieList;
+    }
+    
+
+    public static void DownloadImage(String fileName, String uri) {
+        try {
+            String path  = "F:\\NetBean_Project\\img\\";
+            uri = "https://images-na.ssl-images-amazon.com/images/M/MV5BMTk3OTI3MDk4N15BMl5BanBnXkFtZTgwNDg2ODIyMjI@._V1_SX261_CR0,0,261,383_AL_.jpg";
+            String filePath = path + fileName;
             URL url = new URL(uri);
             InputStream in = url.openStream();
             Files.copy(in, Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
@@ -70,7 +82,7 @@ public class Crawler {
     }
 
     public static void crawlData() {
-        String uri3 = "http://www.imdb.com";
+//        String uri3 = "http://www.imdb.com";
         String uri4 = "http://www.imdb.com/chart/moviemeter?ref_=nv_mv_mpm_8";
 
 //        String t = "http://www.imdb.com/title/tt4116284/?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=2240084082&pf_rd_r=15T546FJTADCGX5CGTPW&pf_rd_s=center-1&pf_rd_t=15506&pf_rd_i=moviemeter&ref_=chtmvm_tt_26";
@@ -79,11 +91,13 @@ public class Crawler {
 
         System.out.println(link.size());
 //        String document = parseMovieHTML("http://www.imdb.com" + link.get(0));
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 2; i++) {
             System.out.println(i + 1 + ". ");
             String document = parseMovieHTML("http://www.imdb.com" + link.get(i));
-            StAXParserMovie(document);
+            MovieType movie = StAXParserMovie(document);
+            movieList.add(movie);
         }
+        System.out.println(movieList.size());
 
     }
 
@@ -107,6 +121,7 @@ public class Crawler {
     }
 
     public static String parseMovieHTML(String uri) {
+
         String document = "";
         try {
             BufferedReader in = getUrlBufferReader(uri);
@@ -312,7 +327,10 @@ public class Crawler {
 
     }
 
-    public static void StAXParserMovie(String document) {
+    public static MovieType StAXParserMovie(String document) {
+        MovieType movie = new MovieType();
+        List<Genres> listGenre = new ArrayList<>();
+        List<PersonType> listPerson = new ArrayList<>();
 
         XMLInputFactory fact = XMLInputFactory.newInstance();
         fact.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, false);
@@ -343,14 +361,15 @@ public class Crawler {
             boolean inActor = false;
             boolean inActorName = false;
             boolean inCharacterName = false;
+            boolean inActorPhoto = false;
+            boolean inDirectorSection = false;
 //            boolean inImageCover = false; //no need
+            PersonType actor = null;
             while (reader.hasNext()) {
                 try {
 
                     XMLEvent event = reader.nextEvent();
-                    if (event.getLocation().getLineNumber() == 27) {
-                        System.out.println("heheh");
-                    }
+
                     if (event.isStartElement()) {
                         StartElement element = event.asStartElement();
                         if (element.getName().toString().equals("h1")) { //Name
@@ -421,7 +440,8 @@ public class Crawler {
                             Attribute attr = element.getAttributeByName(new QName("src"));
                             if (attr != null) {
                                 if (attr.getValue().trim().contains("jpg")) {
-                                    System.out.println("ImageCover: " + attr.getValue().trim());
+//                                    System.out.println("ImageCover: " + attr.getValue().trim());
+                                    movie.setImageCover(attr.getValue().trim());
                                 }
                             }
                         }
@@ -430,6 +450,24 @@ public class Crawler {
                             if (attr != null) {
                                 if (attr.getValue().trim().contains("originalTitle")) {
                                     inOriginalName = true;
+                                }
+                            }
+                        }
+                        if (element.getName().toString().equals("td")) { //inActorPhoto
+                            Attribute attr = element.getAttributeByName(new QName("class"));
+                            if (attr != null) {
+                                if (attr.getValue().trim().equals("primary_photo")) {
+                                    actor = new PersonType();
+                                    inActorPhoto = true;
+                                }
+                            }
+                        }
+                        if (inActorPhoto) {
+                            if (element.getName().toString().equals("img")) { //inActorPhotoLink
+                                Attribute attr = element.getAttributeByName(new QName("loadlate"));
+                                if (attr != null) {
+                                    actor.setImageUrl(attr.getValue().trim());
+                                    inActorPhoto = false;
                                 }
                             }
                         }
@@ -467,11 +505,23 @@ public class Crawler {
                                 }
                             }
                         }
-                        if (element.getName().toString().equals("span")) { //CharacterName
-                            Attribute attr = element.getAttributeByName(new QName("itemprop"));
+
+                        if (element.getName().toString().equals("div")) { //Director
+                            Attribute attr = element.getAttributeByName(new QName("class"));
                             if (attr != null) {
-                                if (attr.getValue().trim().equals("name")) {
-                                    inDirector = true;
+                                if (attr.getValue().trim().equals("credit_summary_item")) {
+                                    inDirectorSection = true;
+                                }
+                            }
+                        }
+                        if (inDirectorSection) {
+                            if (element.getName().toString().equals("span")) { //Director
+                                Attribute attr = element.getAttributeByName(new QName("itemprop"));
+                                if (attr != null) {
+                                    if (attr.getValue().trim().equals("name")) {
+                                        inDirector = true;
+                                        inDirectorSection = false;
+                                    }
                                 }
                             }
                         }
@@ -480,89 +530,106 @@ public class Crawler {
 
                     if (inMovieName) {
                         if (event.isCharacters()) {
-                            String t = event.asCharacters().getData();
-                            System.out.println("Name: " + t);
+                            String t = event.asCharacters().getData().trim();
+//                            System.out.println("Name: " + t);
+                            movie.setName(t);
                             inMovieName = false;
                         }
                     }
-                    if (inMovieDate) {
+                    if (inMovieDate) { // need to fix date
                         if (event.isCharacters()) {
-                            String t = event.asCharacters().getData();
-                            System.out.println("Date: " + t);
+                            String t = event.asCharacters().getData().trim();
+//                            System.out.println("Date: " + t);
+                            movie.setReleaseDate(t);
                             inMovieDate = false;
                         }
                     }
                     if (inDescription) {
                         if (event.isCharacters()) {
-                            String t = event.asCharacters().getData();
-                            System.out.println("Description: " + t.trim());
+                            String t = event.asCharacters().getData().trim();
+                            System.out.println("Description: " + t);
+                            movie.setDescription(t);
                             inDescription = false;
                         }
                     }
                     if (inRuntime) {
                         if (event.isCharacters()) {
-                            String t = event.asCharacters().getData();
+                            String t = event.asCharacters().getData().trim();
                             System.out.println("Runtime: " + t);
+                            movie.setRuntime(t);
                             inRuntime = false;
                         }
                     }
                     if (inGenre) {
                         if (event.isCharacters()) {
-                            String t = event.asCharacters().getData();
+                            String t = event.asCharacters().getData().trim();
                             System.out.println("Genre: " + t);
+                            listGenre.add(new Genres(t));
                             inGenre = false;
                         }
                     }
                     if (inCountry) {
                         if (event.isCharacters()) {
-                            String t = event.asCharacters().getData();
+                            String t = event.asCharacters().getData().trim();
                             System.out.println("Country: " + t);
+                            if (movie.getCountry() == null) {
+                                movie.setCountry(t);
+                            } else {
+                                movie.setCountry(movie.getCountry() + " " + t);
+                            }
                             inCountry = false;
                         }
                     }
                     if (inLanguage) {
                         if (event.isCharacters()) {
-                            String t = event.asCharacters().getData();
+                            String t = event.asCharacters().getData().trim();
                             System.out.println("Language: " + t);
+                            movie.setLanguage(t);
                             inLanguage = false;
+                            isDone = true;
                         }
                     }
                     if (inRating) {
                         if (event.isCharacters()) {
-                            String t = event.asCharacters().getData();
+                            String t = event.asCharacters().getData().trim();
                             System.out.println("Rating: " + t);
+                            movie.setRating(Double.parseDouble(t));
                             inRating = false;
                         }
                     }
                     if (inOriginalName) {
                         if (event.isCharacters()) {
-                            String t = event.asCharacters().getData();
+                            String t = event.asCharacters().getData().trim();
                             System.out.println("Orignal Title: " + t);
+                            movie.setAlternateName(t);
                             inOriginalName = false;
                         }
                     }
                     if (inActorName) {
                         if (event.isCharacters()) {
-                            String t = event.asCharacters().getData();
+                            String t = event.asCharacters().getData().trim();
                             System.out.println("Actor: " + t);
+                            actor.setName(t);
                             inActorName = false;
                             inActor = false;
                         }
                     }
                     if (inCharacterName) {
                         if (event.isCharacters()) {
-                            String t = event.asCharacters().getData();
+                            String t = event.asCharacters().getData().trim();
                             System.out.println("Chracter: " + t);
+                            actor.setCharacterName(t);
+                            listPerson.add(actor);
                             inCharacterName = false;
                             System.out.println("");
                         }
                     }
                     if (inDirector) {
                         if (event.isCharacters()) {
-                            String t = event.asCharacters().getData();
+                            String t = event.asCharacters().getData().trim();
                             System.out.println("Director: " + t);
+                            movie.setDirector(t);
                             inDirector = false;
-                            System.out.println("");
                         }
                     }
                     if (isDone) {
@@ -573,13 +640,15 @@ public class Crawler {
                     break;
                 }
             }
+            movie.setGenreList(listGenre);
+            movie.setPersonTypeList(listPerson);
             reader.close();
 //        } catch (FileNotFoundException | UnsupportedEncodingException ex) {
 //            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (XMLStreamException | IOException ex) {
             Logger.getLogger(Crawler.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        return movie;
     }
 
     public static List<String> getLinkMovie(String uri) {

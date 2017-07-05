@@ -7,6 +7,7 @@ package servlets;
 
 import entities.AccountType;
 import entities.MovieType;
+import entities.Movies;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -59,16 +60,16 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             String temp = (String) session.getAttribute("index");
 
-            Integer index = null;
+            Integer index = null; // test session
             if (temp == null) {
                 index = 0;
             } else {
                 index = Integer.parseInt((temp));
                 index++;
             }
-            Ultilities ulti = new Ultilities();
-            String realPath = request.getServletContext().getRealPath("/");
-            ulti.MarshallMovies(realPath);
+//            Ultilities ulti = new Ultilities();
+//            String realPath = request.getServletContext().getRealPath("/");
+//            ulti.MarshallMovies(realPath);
             
 //            DAO dao = new DAO();
 //            dao.persist(new AccountType("Cuong", "123", "cat@gmail.com"));
@@ -79,9 +80,15 @@ public class LoginServlet extends HttpServlet {
 //                session.setAttribute("index", index.toString());
 //            }
             Crawler crawl = new Crawler();
-            crawl.DownloadImage(this.getServletContext().getRealPath("")+"/../../");
-        
-
+//            crawl.DownloadImage(this.getServletContext().getRealPath("") + "/../../");
+                    crawl.crawlData();
+            List<MovieType> list = crawl.getMovieList();
+            Movies movies = new Movies();
+            movies.setMovies(list);
+            Ultilities ul = new Ultilities();
+            ul.validateBeforeSavetoDB(this.getServletContext().getRealPath("/")+"schema/movies.xsd",
+                    movies, this.getServletContext().getContextPath());
+            
         } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

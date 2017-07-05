@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 @Table(name = "Movies")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "movieType", propOrder = {"id", "name", "alternateName",
-    "description", "country", "rating", "releaseDate", "imageCover", "director"})
+    "description", "country", "runtime", "language", "releaseDate", "rating", "imageCover", "director"})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "MovieType.findAll", query = "SELECT m FROM MovieType m")
@@ -78,62 +78,77 @@ public class MovieType implements Serializable {
     private String country;
 
     @Column(name = "Runtime")
-    @XmlTransient
+    @XmlElement(required = true)
     private String runtime;
-//    @Column(name = "CategoryId")
-//    private Integer categoryId;
+
     @Column(name = "Language")
-    @XmlTransient
+    @XmlElement(required = true)
     private String language;
+
     @Column(name = "ReleaseDate")
     @XmlElement(required = true)
     private String releaseDate;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+
     @Column(name = "Rating")
     @XmlElement(required = true)
     private Double rating;
+
     @Column(name = "ImageCover")
     @XmlElement(required = true)
     private String imageCover;
+
     @Column(name = "TrailerUrl")
     @XmlTransient
     private String trailerUrl;
+
     @Column(name = "Director")
     @XmlElement(required = true)
     private String director;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
     @XmlTransient
     private Collection<Cast> castCollection;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
     @XmlTransient
     private Collection<UserRating> userRatingCollection;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
     @XmlTransient
     private Collection<MovieImages> movieImagesCollection;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "movieId")
     @XmlTransient
     private Collection<MovieGenres> movieGenresCollection;
-    
+
     @OneToMany(mappedBy = "movieId")
     @XmlTransient
     private Collection<Favourites> favouritesCollection;
+
     @OneToMany(mappedBy = "movieId")
-    
     @XmlTransient
     private Collection<MovieUrl> movieUrlCollection;
-    @XmlTransient
-    private Collection<PersonType> personTypeCollection;
 
-    public Collection<PersonType> getPersonTypeCollection() {
-        return personTypeCollection;
+    @XmlTransient
+    private Collection<PersonType> personTypeList;
+
+    @XmlTransient
+    private Collection<Genres> genreList;
+
+    public Collection<Genres> getGenreList() {
+        return genreList;
     }
 
-    public void setPersonTypeCollection(Collection<PersonType> personTypeCollection) {
-        this.personTypeCollection = personTypeCollection;
+    public void setGenreList(Collection<Genres> genreList) {
+        this.genreList = genreList;
+    }
+
+    public Collection<PersonType> getPersonTypeList() {
+        return personTypeList;
+    }
+
+    public void setPersonTypeList(Collection<PersonType> personTypeList) {
+        this.personTypeList = personTypeList;
     }
 
     public MovieType() {

@@ -42,6 +42,11 @@ public class Genres implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "genreId")
     private Collection<MovieGenres> movieGenresCollection;
 
+    public Genres(String name) {
+        this.name = name;
+    }
+
+    
     public Genres() {
     }
 
