@@ -16,8 +16,12 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -25,6 +29,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "Persons")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "", propOrder = {"name", "imageUrl"})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PersonType.findAll", query = "SELECT p FROM PersonType p")
@@ -41,24 +47,52 @@ public class PersonType implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @XmlTransient
     @Column(name = "Id")
     private Integer id;
+
+    @XmlElement(required = true)
     @Column(name = "Name")
     private String name;
+
+    @XmlTransient
     @Column(name = "AlternateName")
     private String alternateName;
+
+    @XmlTransient
     @Column(name = "Height")
     private String height;
+
+    @XmlTransient
     @Column(name = "BirthDate")
     private String birthDate;
+
+    @XmlTransient
     @Column(name = "BirthPlace")
     private String birthPlace;
+
+    @XmlTransient
     @Column(name = "Biography")
     private String biography;
+
+    @XmlElement(required = false)
     @Column(name = "ImageUrl")
     private String imageUrl;
+
+    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "actorId")
     private Collection<Cast> castCollection;
+
+    @XmlTransient
+    private String characterName;
+
+    public String getCharacterName() {
+        return characterName;
+    }
+
+    public void setCharacterName(String characterName) {
+        this.characterName = characterName;
+    }
 
     public PersonType() {
     }
@@ -164,5 +198,5 @@ public class PersonType implements Serializable {
     public String toString() {
         return "entities.PersonType[ id=" + id + " ]";
     }
-    
+
 }

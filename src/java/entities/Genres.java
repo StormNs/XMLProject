@@ -11,8 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -37,13 +35,17 @@ public class Genres implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private Integer id;
     @Column(name = "Name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "genreId")
     private Collection<MovieGenres> movieGenresCollection;
+
+    public Genres(String name) {
+        this.name = name;
+    }
+
     
     public Genres() {
     }
@@ -101,5 +103,5 @@ public class Genres implements Serializable {
     public String toString() {
         return "entities.Genres[ id=" + id + " ]";
     }
-
+    
 }

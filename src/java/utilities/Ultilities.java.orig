@@ -33,10 +33,13 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+<<<<<<< HEAD
 import javax.xml.transform.stream.StreamSource;
+=======
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+>>>>>>> origin/dev-StormNs
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -106,7 +109,8 @@ public class Ultilities {
             Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public static void MarshallMovies(String realPath) {
+
+    public void MarshallMovies(String realPath) throws IOException {
         try {
             DAO dao = new DAO();
             List<MovieType> list = dao.getAllMovie();
@@ -117,17 +121,43 @@ public class Ultilities {
             Marshaller mar = jc.createMarshaller();
             mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
             mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            File f = new File(realPath+"WEB-INF/movies.xml");
+            File f = new File(realPath + "WEB-INF/movies.xml");
             f.createNewFile();
+//            StringWriter sw = new StringWriter();
             mar.marshal(movies, f);
-
+//            return sw.toString();
         } catch (JAXBException ex) {
-            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
             Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
         }
 //        return null;
 
+    }
+    
+    
+    public void validateBeforeSavetoDB(String xmlPath, Movies movies, String contextPath){
+        try {
+            File f = new File(xmlPath);
+            if(f.exists()){
+                System.out.println("exist!");
+            }
+            JAXBContext jc = JAXBContext.newInstance(Movies.class);
+            
+            SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = sf.newSchema(new File(xmlPath));
+            
+            Marshaller mar = jc.createMarshaller();
+            mar.setSchema(schema);
+            mar.marshal(schema, new DefaultHandler());
+           
+            
+            System.out.println("yeee");
+            
+        } catch (SAXException ex) {
+            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JAXBException ex) {
+            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
     }
 
     public String TransMoviesForClient(String realPath) {
@@ -146,5 +176,4 @@ public class Ultilities {
         return null;
 
     }
-
 }
