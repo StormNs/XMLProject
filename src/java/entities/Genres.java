@@ -44,7 +44,7 @@ public class Genres implements Serializable {
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "genreId")
     private Collection<MovieGenres> movieGenresCollection;
-
+    
     public Genres() {
     }
 

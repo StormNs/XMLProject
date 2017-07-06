@@ -26,10 +26,12 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import org.w3c.dom.Node;
 
 /**
@@ -98,7 +100,7 @@ public class Ultilities {
         }
     }
 
-    public static String MarshallMovies(String realPath) {
+    public void MarshallMovies(String realPath) throws IOException {
         try {
             DAO dao = new DAO();
             List<MovieType> list = dao.getAllMovie();
@@ -108,13 +110,30 @@ public class Ultilities {
             JAXBContext jc = JAXBContext.newInstance(Movies.class);
             Marshaller mar = jc.createMarshaller();
             mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-//            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-//            File f = new File(realPath+"WEB-INF/movies.xml");
-//            f.createNewFile();
-            StringWriter sw = new StringWriter();
-            mar.marshal(movies, sw);
-            return sw.toString();
+            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            File f = new File(realPath + "WEB-INF/movies.xml");
+            f.createNewFile();
+//            StringWriter sw = new StringWriter();
+            mar.marshal(movies, f);
+//            return sw.toString();
         } catch (JAXBException ex) {
+            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
+//        return null;
+
+    }
+
+    public String TransMoviesForClient(String realPath) {
+        try {
+            File f = new File(realPath + "WEB-INF/movies.xml");
+            TransformerFactory tf = TransformerFactory.newInstance();
+            StreamSource xsltFile = new StreamSource(realPath + "WEB-INF/clientMovies.xsl");
+            Transformer trans = tf.newTransformer(xsltFile);
+            StringWriter sw = new StringWriter();
+            StreamResult xmlFile = new StreamResult(sw);
+            trans.transform(xsltFile, xmlFile);
+            return sw.toString();
+        } catch (TransformerException ex) {
             Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;

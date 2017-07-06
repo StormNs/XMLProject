@@ -49,16 +49,18 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        DAO dao = new DAO();
-        MovieType movie = new MovieType();
-        Genres genre = new Genres();
-        genre.setName("Action");
-        movie.setName("TEST3");
-        movie.setReleaseDate("20 May 2016");
-
+//        DAO dao = new DAO();
+//        MovieType movie = new MovieType();
+//        Genres genre = new Genres();
+//        genre.setName("Action");
+//        movie.setName("TEST3");
+//        movie.setReleaseDate("20 May 2016");
+//
 //        dao.createMovie(movie);
-        dao.createGenre(genre);
-        dao.createMappingMoiveGenre(movie, genre);
+//        dao.createGenre(genre);
+//        dao.createMappingMoiveGenre(movie, genre);
+        
+        
         
         String username = request.getParameter("txtUsername");
         String password = request.getParameter("txtPassword");
@@ -74,7 +76,7 @@ public class LoginServlet extends HttpServlet {
             String temp = (String) session.getAttribute("index");
             Ultilities ulti = new Ultilities();
             String realPath = request.getServletContext().getRealPath("/");
-            String xmlMovies = ulti.MarshallMovies(realPath);
+            String xmlMovies = ulti.TransMoviesForClient(realPath);
             request.setAttribute("xmlMovies", xmlMovies);
             Integer index = null;
             if (temp == null) {
