@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<movies xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xmlns='http://www.netbean.movie'
+    xsi:schemaLocation='http://www.netbean.movie movies.xsd'>
+    <movie>
+        <name>Baby Driver</name>
+        <description>After being coerced into working for a crime boss, a young getaway driver finds himself taking part in a heist doomed to fail.</description>
+        <country>UK USA</country>
+        <runtime>1h 52min</runtime>
+        <language>English</language>
+        <releaseDate>30 June 2017 (Vietnam)</releaseDate>
+        <rating>8.4</rating>
+        <imageCover>https://images-na.ssl-images-amazon.com/images/M/MV5BMjM3MjQ1MzkxNl5BMl5BanBnXkFtZTgwODk1ODgyMjI@._V1_UX182_CR0,0,182,268_AL_.jpg</imageCover>
+        <director>Edgar Wright</director>
+    </movie>
+</movies>

@@ -42,7 +42,7 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  * @author StormNs
  */
-public class Ultilities {
+public class Utilities implements Runnable{
 
     public static void transformDOMToStream(Node node, String xmlOutputFile)
             throws TransformerException {
@@ -66,7 +66,7 @@ public class Ultilities {
     public static void UnMarshallAccounts(String realPath) throws JAXBException {
         JAXBContext jc = JAXBContext.newInstance(Accounts.class);
         Unmarshaller u = jc.createUnmarshaller();
-        File f = new File(realPath+"WEB-INF/accounts.xml");
+        File f = new File(realPath + "WEB-INF/accounts.xml");
         if (!f.exists()) {
             System.out.println("not exist");
             return;
@@ -93,17 +93,17 @@ public class Ultilities {
             Marshaller mar = jc.createMarshaller();
             mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
             mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            File f = new File(realPath+"WEB-INF/accounts1.xml");
+            File f = new File(realPath + "WEB-INF/accounts1.xml");
 //            File f2 = new File("WEB-INF/accounts.xml");
 //            Boolean b  = f2.exists();
-            
 
             mar.marshal(accs, f);
 
         } catch (JAXBException ex) {
-            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public static void MarshallMovies(String realPath) {
         try {
             DAO dao = new DAO();
@@ -115,42 +115,62 @@ public class Ultilities {
             Marshaller mar = jc.createMarshaller();
             mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
             mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            File f = new File(realPath+"WEB-INF/movies.xml");
+            File f = new File(realPath + "WEB-INF/movies.xml");
             f.createNewFile();
             mar.marshal(movies, f);
 
         } catch (JAXBException ex) {
-            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    public void validateBeforeSavetoDB(String xmlPath, Movies movies, String contextPath){
+
+    public void validateBeforeSavetoDB(String realPath , Movies movies) {
         try {
-            File f = new File(xmlPath);
+            String test = "F:\\NetBean_Project\\XMLProject\\web\\schema\\movies.xsd";
+            File f = new File(test);
             if(f.exists()){
                 System.out.println("exist!");
             }
             JAXBContext jc = JAXBContext.newInstance(Movies.class);
-            
+
             SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema = sf.newSchema(new File(xmlPath));
-            
+          Schema schema = sf.newSchema(new File(realPath+"schema/movies.xsd"));
+//            Schema schema = sf.newSchema(new File(test));
+
             Marshaller mar = jc.createMarshaller();
             mar.setSchema(schema);
-            mar.marshal(schema, new DefaultHandler());
-           
-            
+            mar.marshal(movies, new DefaultHandler());
+
+//            File xmlFile = new File(contextPath+"/web/schema/movies.xml");
+
+//            mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+//            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+//            mar.marshal(movies, new File(realPath+"schema/movies.xml"));
+
             System.out.println("yeee");
-            
+
         } catch (SAXException ex) {
-            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JAXBException ex) {
-            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
+    
+    public Boolean printForFun(){
+         System.out.println("test 1");
+         return true;
+    }
+
+    @Override
+    public void run() {
+        printForFun();
+
+    }
+    
+    
+    
 
 }

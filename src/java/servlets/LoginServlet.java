@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBException;
 import utilities.Crawler;
 import utilities.DAO;
-import utilities.Ultilities;
+import utilities.Utilities;
 
 /**
  *
@@ -67,7 +67,7 @@ public class LoginServlet extends HttpServlet {
                 index = Integer.parseInt((temp));
                 index++;
             }
-//            Ultilities ulti = new Ultilities();
+//            Utilities ulti = new Utilities();
 //            String realPath = request.getServletContext().getRealPath("/");
 //            ulti.MarshallMovies(realPath);
             
@@ -85,9 +85,9 @@ public class LoginServlet extends HttpServlet {
             List<MovieType> list = crawl.getMovieList();
             Movies movies = new Movies();
             movies.setMovies(list);
-            Ultilities ul = new Ultilities();
-            ul.validateBeforeSavetoDB(this.getServletContext().getRealPath("/")+"schema/movies.xsd",
-                    movies, this.getServletContext().getContextPath());
+            Utilities ul = new Utilities();
+            ul.validateBeforeSavetoDB(this.getServletContext().getRealPath("/"),
+                    movies);
             
         } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
