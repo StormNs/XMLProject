@@ -146,5 +146,31 @@ public class Ultilities {
         return null;
 
     }
+    
+     public void validateBeforeSavetoDB(String xmlPath, Movies movies, String contextPath){
+        try {
+            File f = new File(xmlPath);
+            if(f.exists()){
+                System.out.println("exist!");
+            }
+            JAXBContext jc = JAXBContext.newInstance(Movies.class);
+            
+            SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = sf.newSchema(new File(xmlPath));
+            
+            Marshaller mar = jc.createMarshaller();
+            mar.setSchema(schema);
+            mar.marshal(schema, new DefaultHandler());
+           
+            
+            System.out.println("yeee");
+            
+        } catch (SAXException ex) {
+            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JAXBException ex) {
+            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+    }
 
 }
