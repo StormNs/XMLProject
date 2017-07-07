@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utilities.Ultilities;
 
 /**
  *
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DispatchServlet extends HttpServlet {
 
     private final String loginPage = "login.html";
+    private final String mainPage = "main.jsp";
     private final String loginServlet = "LoginServlet";
 //    private final String invalidPage = "invalid.html";
 
@@ -39,11 +41,12 @@ public class DispatchServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String button = request.getParameter("btnAction");
-
+        
         String url = loginPage;
         try {
             if (button == null) {
                 //invalid
+                
             } else {
                 switch (button) {
                     case "LOGIN":
