@@ -39,16 +39,16 @@ public class DispatchServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String button = request.getParameter("btnAction");
-        
-        String url = loginPage;
+
+        String url = mainPage;
         try {
             if (button == null) {
                 //invalid
-                
+
             } else {
                 switch (button) {
                     case "LOGIN":
-                        url = loginServlet;
+                        url = mainPage;
                         break;
                     default:
                         break;
@@ -74,7 +74,15 @@ public class DispatchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        Ultilities ulti = new Ultilities();
+        String realPath = request.getServletContext().getRealPath("/");
+        String xmlMovies = ulti.MarshallMovies(realPath);
+//            String xmlMovies = ulti.TransMoviesForClient(realPath);
+//        request.setAttribute("xmlMovies", xmlMovies);
+        response.setContentType("text/xml");
+//        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(xmlMovies);
+//        processRequest(request, response);
     }
 
     /**

@@ -12,7 +12,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Main</title>
     </head>
-    <body style="margin:0px" onload="getMovies()">
+    <body style="margin:0px">
         <jsp:include page="template/header.jsp" />
         <!--container-->
         <div class="grid-container">
@@ -184,9 +184,6 @@
             slideImage(slideIndex);
         });
 
-        function getMovies() {
-            localStorage.setItem("movies", ${requestScope.xmlMovies});
-        }
 
         function nextSlide(n) {
             clearTimeout(slideTime);

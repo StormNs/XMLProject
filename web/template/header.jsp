@@ -187,23 +187,24 @@
                     <button class="search-btn"><i class="fa fa-search"></i></button>
                     <!--FAST RESULT-->
                     <div id="fast-result-container" style="display: none">
-                        <a href="" class="movie-link"> 
-                            <div class="movie-result-container">
-                                <img class="movie-picture-result" alt="Wonder Woman Poster" title="Wonder Woman Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                                <span class="movie-title-result">WONDER WOMAN</span>
-                                <br>
-                                <span class="movie-title-result">Nguoi dep Amazon</span>
-                            </div>
-                        </a>
-                        <a href="#" class="movie-link"> 
-                            <div class="movie-result-container">
-                                <img class="movie-picture-result" alt="Wonder Woman Poster" title="Wonder Woman Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                                <span class="movie-title-result">WONDER WOMAN</span>
-                                <br>
-                                <span class="movie-title-result">Nguoi dep Amazon</span>
-                            </div>
-                        </a>
-                        <a href="#" class="movie-link">More</a> 
+                        <!--                        <a href="" class="movie-link"> 
+                                                    <div class="movie-result-container">
+                                                        <img class="movie-picture-result" alt="Wonder Woman Poster" title="Wonder Woman Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                                                        <span class="movie-title-result">WONDER WOMAN</span>
+                                                        <br>
+                                                        <span class="movie-title-result">Nguoi dep Amazon</span>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="movie-link"> 
+                                                    <div class="movie-result-container">
+                                                        <img class="movie-picture-result" alt="Wonder Woman Poster" title="Wonder Woman Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                                                        <span class="movie-title-result">WONDER WOMAN</span>
+                                                        <br>
+                                                        <span class="movie-title-result">Nguoi dep Amazon</span>
+                                                    </div>
+                                                </a>-->
+
+                        <!--<a href="#" class="movie-link">More</a>--> 
                     </div>
                 </div>
             </div>
@@ -211,14 +212,137 @@
         <div id="menu-account">
             <a>Sign up</a>
             <a><i class="fa fa-user"></i> Login</a>
-            
-<!--            <a>Logout</a>
-            <span>Welcome <span style="color: lightseagreen">Danh</span></span>-->
+
+            <!--            <a>Logout</a>
+                        <span>Welcome <span style="color: lightseagreen">Danh</span></span>-->
 
         </div>
-    </div> 
+    </div>
 </header>
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        loadMovies();
+    });
+    function loadMovies() {
+
+        if (window.XMLHttpRequest)
+        {// IE7+, Firefox, Chrome, Opera, Safari
+            xmlDOM = new XMLHttpRequest();
+        } else
+        {// IE6, IE5
+            xmlDOM = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+    }
+
+    function searchNode(node, searchVal, displayId) {
+        if (node === null) {
+            return;
+        }
+        if (node.tagName === "name") {
+            var tmp = node.firstChild.nodeValue.toLowerCase();
+            if (tmp.indexOf(searchVal.toLowerCase(), 0) > -1) {
+                var name = node.firstChild.nodeValue;
+                var sibling = node.previousSibling;
+                var num = sibling.firstChild.nodeValue;
+                var sibling = sibling.nextSibling;
+                var sibling = sibling.nextSibling;
+                if (sibling !== null) {
+                    var alt = sibling.firstChild.nodeValue;
+                } else {
+                    var alt = "";
+                }
+                if (sibling !== null) {
+                    var sibling = sibling.nextSibling;
+                }
+                if (sibling !== null) {
+                    var sibling = sibling.nextSibling;
+                }
+
+                if (sibling !== null) {
+                    var cover = sibling.firstChild.nodeValue;
+                } else {
+                    var cover = "";
+                }
+                addResult(name, num, alt, cover, displayId);
+            }
+        }
+        var childs = node.childNodes;
+        for (var i = 0; i < childs.length; i++) {
+            searchNode(childs[i], searchVal, displayId);
+        }
+    }
+
+    function addResult(name, num, alt, cover, displayId) {
+        var result = document.createElement('a');
+        result.className = 'movie-link';
+        result.href = "#";
+        var resultDiv = document.createElement('div');
+        resultDiv.className = 'movie-result-container';
+        var resultImg = document.createElement('img');
+        resultImg.className = 'movie-picture-result';
+        resultImg.src = cover;
+        resultImg.alt = name + " cover";
+        resultImg.title = name + " cover";
+        var resultSpan1 = document.createElement('span');
+        resultSpan1.className = "movie-title-result";
+        resultSpan1.innerHTML = name;
+        var br = document.createElement('br');
+        var resultSpan2 = document.createElement('span');
+        resultSpan2.className = "movie-title-result";
+        resultSpan2.innerHTML = alt;
+
+        var container = document.getElementById(displayId);
+        container.appendChild(result);
+        result.appendChild(resultDiv);
+        resultDiv.appendChild(resultImg);
+        resultDiv.appendChild(resultSpan1);
+        resultDiv.appendChild(br);
+        resultDiv.appendChild(resultSpan2);
+    }
+
+    function fastSearchMovies(displayId, searchValue) {
+        var container = document.getElementById(displayId);
+        if (sessionStorage.getItem("list") === null || sessionStorage.getItem("list") === '') {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'DispatchServlet',false);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    sessionStorage.setItem("list", xhr.responseText);
+                } else {
+                    alert('Request failed');
+                }
+            };
+            xhr.send();
+            parser = new DOMParser();
+            xmlDOM = parser.parseFromString(sessionStorage.getItem("list"), "text/xml");
+
+            container.innerHTML = "";
+            searchNode(xmlDOM, searchValue, displayId);
+        } else {
+//            xmlDOM.async = false;
+//            xmlDOM.loadXML(localStorage.getItem("list"));
+            parser = new DOMParser();
+            xmlDOM = parser.parseFromString(sessionStorage.getItem("list"), "text/xml");
+
+            container.innerHTML = "";
+            searchNode(xmlDOM, searchValue, displayId);
+
+        }
+        if (document.getElementById("fast-result-container").innerHTML === "") {
+            var result = document.createElement('a');
+            result.className = 'movie-link';
+            result.href = "#";
+            result.innerHTML = "No Result";
+            document.getElementById("fast-result-container").appendChild(result);
+        } else {
+            var result = document.createElement('a');
+            result.className = 'movie-link';
+            result.href = "#";
+            result.innerHTML = "More";
+            document.getElementById("fast-result-container").appendChild(result);
+        }
+    }
     function showSubMenu(id) {
         var submenu = document.getElementById(id);
         if (submenu.style.display === 'none' || submenu.style.display === "") {
@@ -233,8 +357,10 @@
     }
     function fastSearch() {
         var x = document.getElementById("search-bar").value;
-        if (x.length > 2) {
+        if (x.length >= 1) {
+            fastSearchMovies("fast-result-container", x);
             document.getElementById("fast-result-container").style.display = 'grid';
+
         } else {
             document.getElementById("fast-result-container").style.display = 'none';
         }

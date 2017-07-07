@@ -76,10 +76,12 @@ public class LoginServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             String temp = (String) session.getAttribute("index");
-            Ultilities ulti = new Ultilities();
-            String realPath = request.getServletContext().getRealPath("/");
-            String xmlMovies = ulti.TransMoviesForClient(realPath);
-            request.setAttribute("xmlMovies", xmlMovies);
+//            Ultilities ulti = new Ultilities();
+//            String realPath = request.getServletContext().getRealPath("/");
+//            String xmlMovies=ulti.MarshallMovies(realPath);
+//            String xmlMovies = ulti.TransMoviesForClient(realPath);
+//            request.setAttribute("xmlMovies", xmlMovies);
+            
             Integer index = null;
             if (temp == null) {
                 index = 0;
@@ -99,15 +101,15 @@ public class LoginServlet extends HttpServlet {
 //                url = mainPage;
 //                session.setAttribute("index", index.toString());
 //            }
-            Crawler crawl = new Crawler();
+//            Crawler crawl = new Crawler();
 //            crawl.DownloadImage(this.getServletContext().getRealPath("") + "/../../");
-                    crawl.crawlData();
-            List<MovieType> list = crawl.getMovieList();
-            Movies movies = new Movies();
-            movies.setMovies(list);
-            Ultilities ul = new Ultilities();
-            ul.validateBeforeSavetoDB(this.getServletContext().getRealPath("/")+"schema/movies.xsd",
-                    movies, this.getServletContext().getContextPath());
+//                    crawl.crawlData();
+//            List<MovieType> list = crawl.getMovieList();
+//            Movies movies = new Movies();
+//            movies.setMovies(list);
+//            Ultilities ul = new Ultilities();
+//            ul.validateBeforeSavetoDB(this.getServletContext().getRealPath("/")+"schema/movies.xsd",
+//                    movies, this.getServletContext().getContextPath());
             
         } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
