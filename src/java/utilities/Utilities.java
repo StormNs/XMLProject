@@ -141,13 +141,13 @@ public String TransMoviesForClient(String realPath) {
             trans.transform(xsltFile, xmlFile);
             return sw.toString();
         } catch (TransformerException ex) {
-            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
 
     }
     
-     public void validateBeforeSavetoDB(String xmlPath, Movies movies, String contextPath){
+     public void validateBeforeSavetoDB(String realPath, Movies movies){
         try {
             String test = "F:\\NetBean_Project\\XMLProject\\web\\schema\\movies.xsd";
             File f = new File(test);

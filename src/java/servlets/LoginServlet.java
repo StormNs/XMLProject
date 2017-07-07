@@ -76,7 +76,7 @@ public class LoginServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             String temp = (String) session.getAttribute("index");
-            Ultilities ulti = new Ultilities();
+            Utilities ulti = new Utilities();
             String realPath = request.getServletContext().getRealPath("/");
             String xmlMovies = ulti.TransMoviesForClient(realPath);
             request.setAttribute("xmlMovies", xmlMovies);
