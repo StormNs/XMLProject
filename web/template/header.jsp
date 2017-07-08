@@ -183,9 +183,9 @@
             <a>ABOUT</a>
             <div class="search-container">
                 <div class="fast-search-result">
-                    <form action="">
+                    <form action="SearchMovie" method="GET">
                         <input id="search-bar" name="search-bar" required="true" type="text" placeholder="Search..." oninput="fastSearch()"/>
-                        <button type="submit" name="btnAction" value="search" class="search-btn"><i class="fa fa-search"></i></button>
+                        <button type="submit" value="search" class="search-btn"><i class="fa fa-search"></i></button>
                     </form>
 
                     <!--FAST RESULT-->
@@ -251,7 +251,7 @@
     }
     function getMovieList() {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'SearchServlet', false);
+        xhr.open('POST', 'SearchMovie', false);
         xhr.onload = function () {
             if (xhr.status === 200) {
                 sessionStorage.setItem("list", xhr.responseText);

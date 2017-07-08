@@ -5,18 +5,24 @@
  */
 package servlets;
 
+import entities.MovieType;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utilities.DAO;
 import utilities.Utilities;
 
 /**
  *
  * @author USER
  */
+@WebServlet("/SearchMovie")
 public class SearchServlet extends HttpServlet {
 
     /**
@@ -34,7 +40,12 @@ public class SearchServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String keyword = request.getParameter("search-bar");
-            
+            DAO dao = new DAO();
+            List<MovieType> result = dao.searchMoviesByName(keyword);
+            request.setAttribute("keyword", keyword);
+            request.setAttribute("result", result);
+            RequestDispatcher rd = request.getRequestDispatcher("result.jsp");
+            rd.forward(request, response);
         }
     }
 
@@ -50,15 +61,8 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Utilities ulti = new Utilities();
-        String realPath = request.getServletContext().getRealPath("/");
-        String xmlMovies = ulti.MarshallMovies(realPath);
-//            String xmlMovies = ulti.TransMoviesForClient(realPath);
-//        request.setAttribute("xmlMovies", xmlMovies);
-        response.setContentType("text/xml");
-//        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(xmlMovies);
-//        processRequest(request, response);
+        
+        processRequest(request, response);
     }
 
     /**
@@ -72,7 +76,15 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        Utilities ulti = new Utilities();
+        String realPath = request.getServletContext().getRealPath("/");
+        String xmlMovies = ulti.MarshallMovies(realPath);
+//            String xmlMovies = ulti.TransMoviesForClient(realPath);
+//        request.setAttribute("xmlMovies", xmlMovies);
+        response.setContentType("text/xml");
+//        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(xmlMovies); 
+//       processRequest(request, response);
     }
 
     /**

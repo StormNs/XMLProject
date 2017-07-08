@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,18 +28,19 @@
             <div>
                 <div class="lastest-container">
                     <div class="header-row">
-                        <span class="title-row">Result for:  ❯ </span>
+                        <span class="title-row">Result for:  ❯ ${requestScope.keyword}</span>
                     </div>
                     <div class="lastest-row">
+                        <c:forEach items="${requestScope.result}" var="result">
                         <div class="movie-container">
-                            <a href="#"> 
-                                <img class="movie-picture" alt="Wonder Woman Poster" title="Wonder Woman Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                                <div class="movie-title-overlay">Wonder Woman</div>
+                            <a href="<c:out value="${result.id}"/>"> 
+                                <img class="movie-picture" alt="<c:out value="${result.alternateName}"/>" title="${result.name} Poster" src="${result.imageCover}">
+                                <div class="movie-title-overlay"><c:out value="${result.name}"/></div>
                             </a>
 
                         </div>
-                        
-                        <div class="movie-container">
+                        </c:forEach>
+<!--                        <div class="movie-container">
                             <a href="#"> 
                                 <img class="movie-picture" alt="The Mummy Poster" title="The Mummy Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMjM5NzM5NTgxN15BMl5BanBnXkFtZTgwNDEyNTk4MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
                                 <div class="movie-title-overlay">The Mummy</div>
@@ -53,7 +57,7 @@
                                 <img class="movie-picture" alt="Guardians of the Galaxy Vol. 2 Poster" title="Guardians of the Galaxy Vol. 2 Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTg2MzI1MTg3OF5BMl5BanBnXkFtZTgwNTU3NDA2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
                                 <div class="movie-title-overlay">Guardians of the Galaxy Vol. 2</div>
                             </a>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>

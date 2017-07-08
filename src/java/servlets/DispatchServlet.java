@@ -52,9 +52,6 @@ public class DispatchServlet extends HttpServlet {
                     case "LOGIN":
                         url = mainPage;
                         break;
-                    case "search":
-                        url = searchServlet;
-                        break;
                     default:
                         break;
                 }

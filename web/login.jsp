@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login</title>
     </head>
-    <body style="margin: 0px" onload="">
+    <body style="margin: 0px">
         <jsp:include page="template/header.jsp"/>
         <div style="height: 310px">
             <h1>Welcome to Login</h1>

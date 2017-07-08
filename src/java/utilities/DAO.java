@@ -229,4 +229,9 @@ public class DAO implements Serializable {
         return cast.getId();
     }
 
+    public List searchMoviesByName(String keyword) {
+        Query query = em.createNativeQuery("SELECT Name,Id,AlternateName,[Description],"
+                + "ImageCover FROM Movies WHERE Name Like '%"+keyword+"%'", MovieType.class);
+        return (List<MovieType>) query.getResultList();
+    }
 }
