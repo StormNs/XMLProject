@@ -8,13 +8,19 @@ package utilities;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.Template;
 import entities.AccountType;
 import entities.Accounts;
+import entities.Genres;
 import entities.Movies;
 import entities.MovieType;
+import entities.PersonType;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,12 +49,13 @@ import javax.xml.validation.Validator;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import servlets.LoginServlet;
 
 /**
  *
  * @author StormNs
  */
-public class Utilities implements Runnable{
+public class Utilities implements Runnable {
 
     public static void transformDOMToStream(Node node, String xmlOutputFile)
             throws TransformerException {
@@ -155,18 +162,15 @@ public class Utilities implements Runnable{
         return null;
 
     }
-    
-     public void validateBeforeSavetoDB(String realPath, Movies movies){
+
+    public Boolean validateBeforeSavetoDB(String realPath, Movies movies) {
+        Boolean result = false;
         try {
-            String test = "F:\\NetBean_Project\\XMLProject\\web\\schema\\movies.xsd";
-            File f = new File(test);
-            if(f.exists()){
-                System.out.println("exist!");
-            }
+
             JAXBContext jc = JAXBContext.newInstance(Movies.class);
 
             SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-          Schema schema = sf.newSchema(new File(realPath+"schema/movies.xsd"));
+            Schema schema = sf.newSchema(new File(realPath + "schema/movies.xsd"));
 //            Schema schema = sf.newSchema(new File(test));
 
             Marshaller mar = jc.createMarshaller();
@@ -174,33 +178,94 @@ public class Utilities implements Runnable{
             mar.marshal(movies, new DefaultHandler());
 
 //            File xmlFile = new File(contextPath+"/web/schema/movies.xml");
-
 //            mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 //            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 //            mar.marshal(movies, new File(realPath+"schema/movies.xml"));
-
-            System.out.println("yeee");
+            result = true;
 
         } catch (SAXException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JAXBException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        return result;
     }
-    
-    public Boolean printForFun(){
-         System.out.println("test 1");
-         return true;
+
+    public void CrawlDataAuto() {
+        Crawler crawler = new Crawler();
+        crawler.crawlData(); // arrayList will exist after crawl
+        List<MovieType> listMovie = crawler.getMovieList(); //contain both Actors and Genres
+//        validateBeforeSavetoDB(realPath, movies); // does not work in background thread - still finding way to resolve
+        DAO dao = new DAO();
+        for (MovieType mItem : listMovie) {
+            MovieType movie = null;
+            MovieType mValue = dao.createMovie(mItem);
+            if (mValue != null) { // movie insert successed
+                movie = mValue;
+            } else { // find exist movie
+                movie = dao.getMovieByName(mItem.getName());
+            }
+
+            ArrayList<Genres> listGenre = new ArrayList<>(mItem.getGenreList());
+            for (Genres gItem : listGenre) {
+                Genres genre = null;
+                Genres genValue = dao.createGenre(gItem);
+                if (genValue != null) { // genre insert successed
+                    genre = gItem;
+                } else { // find exist genre
+                    genre = dao.getGenreByName(gItem.getName());
+                }
+
+                Boolean check = dao.createMappingMoiveGenre(movie, genre);
+
+            }
+
+            ArrayList<PersonType> listActor = new ArrayList<>(mItem.getPersonTypeList());
+            for (PersonType aItem : listActor) {
+                PersonType actor = null;
+                PersonType aValue = dao.createPerson(aItem);
+                if (aValue != null) { // actor insert successed
+                    actor = aValue;
+                } else { // find exist actor
+                    actor = dao.getActorByName(aItem.getName());
+                }
+
+                Boolean check = dao.createCast(movie, actor, aItem.getCharacterName());
+
+            }
+            String imageName = movie.getName();
+            String folder = movie.getName();
+            String uri = mItem.getImageCover();
+            String imageUri = crawler.DownloadImage(imageName, folder, uri);
+            dao.updateImageCover(imageUri, movie);
+        }
+        System.out.println("Done Crawling");
+    }
+
+    public static String formatDate(String mDate) {
+        //format date
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
+        Date date;
+        String result = null;
+        try {
+            date = sdf.parse(mDate);
+            sdf = new SimpleDateFormat("yyyy/MM/dd");
+            result = sdf.format(date);
+        } catch (ParseException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+
+    public Boolean printForFun() {
+        System.out.println("test 1");
+        return true;
     }
 
     @Override
     public void run() {
-        printForFun();
+//        printForFun();
 
     }
-    
-    
-    
 
 }

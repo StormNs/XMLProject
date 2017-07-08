@@ -76,12 +76,10 @@ public class LoginServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             String temp = (String) session.getAttribute("index");
-//            Ultilities ulti = new Ultilities();
-//            String realPath = request.getServletContext().getRealPath("/");
-//            String xmlMovies=ulti.MarshallMovies(realPath);
-//            String xmlMovies = ulti.TransMoviesForClient(realPath);
-//            request.setAttribute("xmlMovies", xmlMovies);
-            
+            Utilities ulti = new Utilities();
+            String realPath = request.getServletContext().getRealPath("/");
+            String xmlMovies = ulti.TransMoviesForClient(realPath);
+            request.setAttribute("xmlMovies", xmlMovies);
             Integer index = null;
             if (temp == null) {
                 index = 0;
@@ -93,7 +91,7 @@ public class LoginServlet extends HttpServlet {
 //            String realPath = request.getServletContext().getRealPath("/");
 //            ulti.MarshallMovies(realPath);
             
-//            DAO dao = new DAO();
+            DAO dao = new DAO();
 //            dao.persist(new AccountType("Cuong", "123", "cat@gmail.com"));
 //            List listAccounts = dao.findAccounts(email, username);
 //            AccountType account = (AccountType) listAccounts.get(0);
@@ -101,15 +99,24 @@ public class LoginServlet extends HttpServlet {
 //                url = mainPage;
 //                session.setAttribute("index", index.toString());
 //            }
+
+
 //            Crawler crawl = new Crawler();
 //            crawl.DownloadImage(this.getServletContext().getRealPath("") + "/../../");
 //                    crawl.crawlData();
 //            List<MovieType> list = crawl.getMovieList();
 //            Movies movies = new Movies();
 //            movies.setMovies(list);
-//            Ultilities ul = new Ultilities();
-//            ul.validateBeforeSavetoDB(this.getServletContext().getRealPath("/")+"schema/movies.xsd",
-//                    movies, this.getServletContext().getContextPath());
+            Utilities ul = new Utilities();
+//            ul.validateBeforeSavetoDB(this.getServletContext().getRealPath("/"),
+//                    movies);
+//            dao.getMovieByName("gam");
+//    MovieType movie = dao.getMovieByName("game1");
+//    Genres genre = dao.getGenreByName("Action");
+//    dao.createMappingMoiveGenre(movie, genre);
+
+    ul.CrawlDataAuto();
+//dao.movieCastingExisted(1, 1);
             
         } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);

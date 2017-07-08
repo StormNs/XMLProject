@@ -11,11 +11,14 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -35,7 +38,7 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
     @NamedQuery(name = "PersonType.findAll", query = "SELECT p FROM PersonType p")
     , @NamedQuery(name = "PersonType.findById", query = "SELECT p FROM PersonType p WHERE p.id = :id")
-    , @NamedQuery(name = "PersonType.findByName", query = "SELECT p FROM PersonType p WHERE p.name = :name")
+    , @NamedQuery(name = "PersonType.findByName", query = "SELECT p FROM PersonType p WHERE p.name Like :name")
     , @NamedQuery(name = "PersonType.findByAlternateName", query = "SELECT p FROM PersonType p WHERE p.alternateName = :alternateName")
     , @NamedQuery(name = "PersonType.findByHeight", query = "SELECT p FROM PersonType p WHERE p.height = :height")
     , @NamedQuery(name = "PersonType.findByBirthDate", query = "SELECT p FROM PersonType p WHERE p.birthDate = :birthDate")
@@ -47,6 +50,7 @@ public class PersonType implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @XmlTransient
     @Column(name = "Id")
     private Integer id;
@@ -84,6 +88,7 @@ public class PersonType implements Serializable {
     private Collection<Cast> castCollection;
 
     @XmlTransient
+    @Transient
     private String characterName;
 
     public String getCharacterName() {

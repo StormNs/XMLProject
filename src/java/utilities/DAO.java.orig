@@ -78,12 +78,20 @@ public class DAO implements Serializable {
         return listAccounts;
     }
 
+<<<<<<< HEAD
+    public int moviesIsExisted(MovieType movie) {
+        Query query = em.createNativeQuery("SELECT * FROM Movies WHERE"
+                + " Name = '" + movie.getName() + "' AND ReleaseDate = '" + movie.getReleaseDate() + "'", MovieType.class);
+
+        List<MovieType> list = (List<MovieType>) query.getResultList();
+=======
     //check Exist Function
     //<editor-fold>
     public Boolean personIsExisted(PersonType person) {
         Query query = em.createNamedQuery("PersonType.findByName");
         query.setParameter("name", "%" + person.getName() + "%");
         List<PersonType> list = (List<PersonType>) query.getResultList();
+>>>>>>> origin/dev-StormNs
         if (list.isEmpty()) {
             return false;
         } else {
@@ -93,7 +101,11 @@ public class DAO implements Serializable {
 
     public Boolean genresIsExisted(Genres genre) {
         Query query = em.createNamedQuery("Genres.findByName");
+<<<<<<< HEAD
+        query.setParameter("name", genre.getName());
+=======
         query.setParameter("name", "%" + genre.getName() + "%");
+>>>>>>> origin/dev-StormNs
         List<Genres> list = (List<Genres>) query.getResultList();
         if (list.isEmpty()) {
             return false;
@@ -102,11 +114,18 @@ public class DAO implements Serializable {
         }
     }
 
+<<<<<<< HEAD
+    public int personIsExisted(PersonType person) {
+        Query query = em.createNamedQuery("PersonType.findByName");
+        query.setParameter("name", person.getName());
+        List<PersonType> list = (List<PersonType>) query.getResultList();
+=======
     public Boolean movieGenreExisted(int movieId, int genreId) {
         Query query = em.createNativeQuery("SELECT * FROM MovieGenres WHERE"
                 + " MovieId = '" + movieId + "' AND GenreId = '" + genreId + "'", MovieGenres.class);
 
         List<MovieGenres> list = (List<MovieGenres>) query.getResultList();
+>>>>>>> origin/dev-StormNs
         if (list.isEmpty()) {
             return false;
         } else {
@@ -152,12 +171,15 @@ public class DAO implements Serializable {
         return query.getResultList();
     }
 
+<<<<<<< HEAD
     public List getMovieForSearch() {
         Query query = em.createNativeQuery("SELECT TOP(50) Name,Id,AlternateName,[Description],"
                 + "ImageCover FROM Movies ORDER BY ReleaseDate DESC", MovieType.class);
         return (List<MovieType>) query.getResultList();
     }
 
+    public int createMovie(MovieType movie) {
+=======
     public MovieType getMovieByName(String name) {
         Query query = em.createQuery("SELECT m FROM MovieType m WHERE m.name Like ?1", MovieType.class);
         query.setParameter(1, "%" + name + "%");
@@ -191,6 +213,7 @@ public class DAO implements Serializable {
     }
 
     public MovieType createMovie(MovieType movie) {
+>>>>>>> origin/dev-StormNs
 //        List<MovieType> list = movielist;
 //       for (MovieType object : list) {
 //           Query query =em.createQuery("INSERT INTO Movies (Name, AlternateName, Description, Country, Runtime, CategoryId, Language, ReleaseDate, Rating, ImageCover, TrailerUrl, Director)"
@@ -233,6 +256,29 @@ public class DAO implements Serializable {
         em.persist(person);
         em.flush();
         em.getTransaction().commit();
+<<<<<<< HEAD
+        return person.getId();
+    }
+
+    public void createMappingMoiveGenre(MovieType movie, Genres genre) {
+        int movieIdExist = moviesIsExisted(movie);
+        int genreIdExist = genresIsExisted(genre);
+        if (movieIdExist != -1 && genreIdExist != -1) {
+            if (movieGenreExisted(movieIdExist, genreIdExist) == -1) {
+                MovieGenres mapping = new MovieGenres();
+                Query query = em.createNamedQuery("Genres.findById");
+                query.setParameter("id", genreIdExist);
+                List<Genres> list = query.getResultList();
+                Query query2 = em.createNamedQuery("MovieType.findById");
+                query2.setParameter("id", movieIdExist);
+                List<MovieType> list2 = query2.getResultList();
+                mapping.setGenreId(list.get(0));
+                mapping.setMovieId(list2.get(0));
+                em.getTransaction().begin();
+                em.persist(mapping);
+                em.flush();
+                em.getTransaction().commit();
+=======
         return person;
     }
 
@@ -255,6 +301,7 @@ public class DAO implements Serializable {
                     em.getTransaction().commit();
                     result = true;
                 }
+>>>>>>> origin/dev-StormNs
             }
         } catch (Exception e) {
             e.printStackTrace();
