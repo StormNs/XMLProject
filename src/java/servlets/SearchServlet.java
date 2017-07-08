@@ -11,7 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import utilities.Ultilities;
+import utilities.Utilities;
 
 /**
  *
@@ -34,6 +34,7 @@ public class SearchServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String keyword = request.getParameter("search-bar");
+            
         }
     }
 
@@ -49,7 +50,7 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Ultilities ulti = new Ultilities();
+        Utilities ulti = new Utilities();
         String realPath = request.getServletContext().getRealPath("/");
         String xmlMovies = ulti.MarshallMovies(realPath);
 //            String xmlMovies = ulti.TransMoviesForClient(realPath);

@@ -131,7 +131,7 @@ public class Utilities implements Runnable{
             return sw.toString();
 
         } catch (JAXBException ex) {
-            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
 
@@ -150,7 +150,7 @@ public class Utilities implements Runnable{
             trans.transform(xmlFile, outStream);
             return sw.toString();
         } catch (TransformerException ex) {
-            Logger.getLogger(Ultilities.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
 
