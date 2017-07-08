@@ -76,10 +76,10 @@ public class LoginServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             String temp = (String) session.getAttribute("index");
-            Utilities ulti = new Utilities();
-            String realPath = request.getServletContext().getRealPath("/");
-            String xmlMovies = ulti.TransMoviesForClient(realPath);
-            request.setAttribute("xmlMovies", xmlMovies);
+//            Utilities ulti = new Utilities();
+//            String realPath = request.getServletContext().getRealPath("/");
+//            String xmlMovies = ulti.TransMoviesForClient(realPath);
+//            request.setAttribute("xmlMovies", xmlMovies);
             Integer index = null;
             if (temp == null) {
                 index = 0;

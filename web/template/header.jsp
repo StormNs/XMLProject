@@ -156,6 +156,9 @@
         padding: 15px 15px 0px 10px;
         z-index: 1000;
     }
+    #fast-result-container >a{
+        border-bottom: solid 1px #2f2d2d;
+    }
 </style>
 <header role="banner">
     <div id="menu">
@@ -185,7 +188,7 @@
                 <div class="fast-search-result">
                     <form action="SearchMovie" method="GET">
                         <input id="search-bar" name="search-bar" required="true" type="text" placeholder="Search..." oninput="fastSearch()"/>
-                        <button type="submit" value="search" class="search-btn"><i class="fa fa-search"></i></button>
+                        <button type="submit" id="search-btn" autocomplete="off" value="search" class="search-btn"><i class="fa fa-search"></i></button>
                     </form>
 
                     <!--FAST RESULT-->
@@ -273,29 +276,20 @@
                 var num = sibling.firstChild.nodeValue;
                 var sibling = sibling.nextSibling;
                 var sibling = sibling.nextSibling;
-                if (sibling !== null) {
+                if (sibling !== null && sibling.tagName === "alternateName") {
                     var alt = sibling.firstChild.nodeValue;
+                    sibling = sibling.nextSibling;
                 } else {
                     var alt = "";
                 }
-                if (sibling !== null) {
-                    var sibling = sibling.nextSibling;
-                }
-                if (sibling !== null) {
-                    var sibling = sibling.nextSibling;
-                }
-
-                if (sibling !== null) {
+                if (sibling !== null && sibling.tagName === "imageCover") {
                     var cover = sibling.firstChild.nodeValue;
                 } else {
                     var cover = "";
                 }
-                if (count < 4) {
+                if (count < 6) {
                     count++;
                     addResult(name, num, alt, cover, displayId);
-                } else {
-                    count = 0;
-                    return;
                 }
             }
         }
@@ -313,7 +307,7 @@
         resultDiv.className = 'movie-result-container';
         var resultImg = document.createElement('img');
         resultImg.className = 'movie-picture-result';
-        resultImg.src = cover;
+        resultImg.src = "FileServlet/" + cover;
         resultImg.alt = name + " cover";
         resultImg.title = name + " cover";
         var resultSpan1 = document.createElement('span');
@@ -362,14 +356,14 @@
         if (document.getElementById("fast-result-container").innerHTML === "") {
             var result = document.createElement('a');
             result.className = 'movie-link';
-            result.href = "#";
-            result.innerHTML = "No Result";
+            result.onclick = function () { document.getElementById('search-btn').click()};
+            result.innerHTML = "Press Enter for wide search.";
             document.getElementById("fast-result-container").appendChild(result);
         } else {
             var result = document.createElement('a');
             result.className = 'movie-link';
-            result.href = "#";
-            result.innerHTML = "More";
+            result.onclick = function () { document.getElementById('search-btn').click()};
+            result.innerHTML = "More result";
             document.getElementById("fast-result-container").appendChild(result);
         }
     }
@@ -388,6 +382,7 @@
     function fastSearch() {
         var x = document.getElementById("search-bar").value;
         if (x.length >= 1) {
+            count = 0;
             fastSearchMovies("fast-result-container", x);
             document.getElementById("fast-result-container").style.display = 'grid';
 

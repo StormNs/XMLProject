@@ -71,7 +71,7 @@ public class Crawler {
             String largeSequence = "._V1_.jpg";
            int eIndex = uri.lastIndexOf("@");
             uri = uri.substring(0, eIndex+1)+ largeSequence;
-            String path = "F:\\NetBean_Project\\XMLProj_Image";
+            String path = "D:\\NetBean_Project\\XMLProj_Image";
             folderName = folderName.replaceAll("[^\\p{IsAlphabetic}0-9]", "_");
             fileName = fileName.replaceAll("[^\\p{IsAlphabetic}0-9]", "_");
 //            uri = "https://images-na.ssl-images-amazon.com/images/M/MV5BMTk3OTI3MDk4N15BMl5BanBnXkFtZTgwNDg2ODIyMjI@._V1_SX261_CR0,0,261,383_AL_.jpg";
