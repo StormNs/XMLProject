@@ -135,12 +135,9 @@ public class DAO implements Serializable {
     }
 
     public List getMovieForSearch() {
-
         Query query = em.createNativeQuery("SELECT TOP(50) Name,Id,AlternateName,[Description],"
-                + "ImageCover FROM Movies ORDER BY Id DESC", MovieType.class);
-
+                + "ImageCover FROM Movies ORDER BY ReleaseDate DESC", MovieType.class);
         return (List<MovieType>) query.getResultList();
-
     }
 
     public int createMovie(MovieType movie) {

@@ -119,7 +119,7 @@
         font-size: 17px;
     }
     .fast-search-result{
-        display: -webkit-box;
+        display: inline;
         margin: 0;
         float: left;
         text-align: center;
@@ -223,6 +223,7 @@
     </div>
 </header>
 <script>
+    var count = 0;
     document.addEventListener("DOMContentLoaded", function () {
         loadMovies();
         if (sessionStorage.getItem("resetTime") === null || sessionStorage.getItem("resetTime") === "") {
@@ -289,7 +290,13 @@
                 } else {
                     var cover = "";
                 }
-                addResult(name, num, alt, cover, displayId);
+                if (count < 4) {
+                    count++;
+                    addResult(name, num, alt, cover, displayId);
+                } else {
+                    count = 0;
+                    return;
+                }
             }
         }
         var childs = node.childNodes;
