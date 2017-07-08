@@ -7,7 +7,6 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,15 +15,9 @@ import utilities.Ultilities;
 
 /**
  *
- * @author StormNs
+ * @author USER
  */
-public class DispatchServlet extends HttpServlet {
-
-    private final String loginPage = "login.html";
-    private final String mainPage = "main.jsp";
-    private final String loginServlet = "LoginServlet";
-    private final String searchServlet = "SearchServlet";
-//    private final String invalidPage = "invalid.html";
+public class SearchServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,31 +31,9 @@ public class DispatchServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String button = request.getParameter("btnAction");
-
-        String url = mainPage;
-        try {
-            if (button == null) {
-                //invalid
-
-            } else {
-                switch (button) {
-                    case "LOGIN":
-                        url = mainPage;
-                        break;
-                    case "search":
-                        url = searchServlet;
-                        break;
-                    default:
-                        break;
-                }
-            }// end of else
-
-        } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
-            out.close();
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            String keyword = request.getParameter("search-bar");
         }
     }
 
@@ -78,7 +49,15 @@ public class DispatchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        Ultilities ulti = new Ultilities();
+        String realPath = request.getServletContext().getRealPath("/");
+        String xmlMovies = ulti.MarshallMovies(realPath);
+//            String xmlMovies = ulti.TransMoviesForClient(realPath);
+//        request.setAttribute("xmlMovies", xmlMovies);
+        response.setContentType("text/xml");
+//        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(xmlMovies);
+//        processRequest(request, response);
     }
 
     /**

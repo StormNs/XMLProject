@@ -183,8 +183,11 @@
             <a>ABOUT</a>
             <div class="search-container">
                 <div class="fast-search-result">
-                    <input id="search-bar" type="text" placeholder="Search..." oninput="fastSearch()"/>
-                    <button class="search-btn"><i class="fa fa-search"></i></button>
+                    <form action="">
+                        <input id="search-bar" name="search-bar" required="true" type="text" placeholder="Search..." oninput="fastSearch()"/>
+                        <button type="submit" name="btnAction" value="search" class="search-btn"><i class="fa fa-search"></i></button>
+                    </form>
+
                     <!--FAST RESULT-->
                     <div id="fast-result-container" style="display: none">
                         <!--                        <a href="" class="movie-link"> 
@@ -222,7 +225,18 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         loadMovies();
+        if (sessionStorage.getItem("resetTime") === null || sessionStorage.getItem("resetTime") === "") {
+            startResetTime();
+        }
+        if (sessionStorage.getItem("list") === null || sessionStorage.getItem("list") === '') {
+            getMovieList();
+        }
     });
+    function startResetTime() {
+        var oneday = new Date();
+        oneday.setHours(oneday.getHours() + 6);
+        sessionStorage.setItem("resetTime", oneday);
+    }
     function loadMovies() {
 
         if (window.XMLHttpRequest)
@@ -234,7 +248,18 @@
         }
 
     }
-
+    function getMovieList() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'SearchServlet', false);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                sessionStorage.setItem("list", xhr.responseText);
+            } else {
+                alert('Request failed. Please try again later.');
+            }
+        };
+        xhr.send();
+    }
     function searchNode(node, searchVal, displayId) {
         if (node === null) {
             return;
@@ -303,17 +328,15 @@
 
     function fastSearchMovies(displayId, searchValue) {
         var container = document.getElementById(displayId);
+        if (sessionStorage.getItem("resetTime") === null || sessionStorage.getItem("resetTime") === "") {
+            startResetTime();
+        } else if (new Date(sessionStorage.getItem("resetTime")) < new Date()) {
+            sessionStorage.removeItem("list");
+            sessionStorage.removeItem("resetDate");
+            startResetTime();
+        }
         if (sessionStorage.getItem("list") === null || sessionStorage.getItem("list") === '') {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'DispatchServlet',false);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    sessionStorage.setItem("list", xhr.responseText);
-                } else {
-                    alert('Request failed');
-                }
-            };
-            xhr.send();
+            getMovieList();
             parser = new DOMParser();
             xmlDOM = parser.parseFromString(sessionStorage.getItem("list"), "text/xml");
 
