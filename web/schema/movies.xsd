@@ -7,27 +7,25 @@ and open the template in the editor.
 
 <xs:schema version="1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns="http://www.netbean.movie"
-           targetNamespace="http://www.netbean.movie"
            elementFormDefault="qualified">
     <xs:element name="movies" type="movieList"/>
     <xs:complexType name="movieList">
         <xs:sequence>
-            <xs:element name="movie" type="movieType" minOccurs="1"/>
+            <xs:element name="movie" type="movieType" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="movieType">
         <xs:sequence>
             <xs:element name="name" type="xs:string" minOccurs="1" />
             <xs:element name="alternateName" type="xs:string" minOccurs="0" />
-            <xs:element name="description" type="xs:string" minOccurs="1"  />
-            <xs:element name="country" type="xs:string" minOccurs="1" />
+            <xs:element name="description" type="xs:string" minOccurs="0"  />
+            <xs:element name="country" type="xs:string" minOccurs="0" />
             <xs:element name="runtime" type="xs:string" minOccurs="0" />
             <xs:element name="language" type="xs:string" minOccurs="0" />
             <xs:element name="releaseDate" type="xs:string" minOccurs="0" />
             <xs:element name="rating" type="xs:decimal" minOccurs="0" />
-            <xs:element name="imageCover" type="xs:string"  minOccurs="1"/>
-            <xs:element name="director" type="xs:string"  minOccurs="1"/>
+            <xs:element name="imageCover" type="xs:string"  minOccurs="0"/>
+            <xs:element name="director" type="xs:string"  minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>

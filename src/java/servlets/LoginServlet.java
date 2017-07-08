@@ -27,7 +27,7 @@ import javax.xml.bind.JAXBException;
 import utilities.Crawler;
 import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 import utilities.DAO;
-import utilities.Ultilities;
+import utilities.Utilities;
 
 /**
  *
@@ -89,7 +89,7 @@ public class LoginServlet extends HttpServlet {
                 index = Integer.parseInt((temp));
                 index++;
             }
-//            Ultilities ulti = new Ultilities();
+//            Utilities ulti = new Utilities();
 //            String realPath = request.getServletContext().getRealPath("/");
 //            ulti.MarshallMovies(realPath);
             
