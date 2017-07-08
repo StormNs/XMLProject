@@ -9,6 +9,7 @@ import entities.AccountType;
 import entities.Cast;
 import entities.Genres;
 import entities.MovieGenres;
+import entities.MovieImages;
 import entities.MovieType;
 import entities.PersonType;
 import java.io.Serializable;
@@ -77,53 +78,70 @@ public class DAO implements Serializable {
         return listAccounts;
     }
 
-    public int moviesIsExisted(MovieType movie) {
-        Query query = em.createNativeQuery("SELECT * FROM Movies WHERE"
-                + " Name = '" + movie.getName() + "' AND ReleaseDate = '" + movie.getReleaseDate() + "'",MovieType.class);
-
-        List<MovieType> list = (List<MovieType>)query.getResultList();
-        if (list.isEmpty()) {
-            return -1;
-        } else {
-            MovieType test = list.get(0);
-            return test.getId();
-        }
-    }
-
-    public int genresIsExisted(Genres genre) {
-        Query query = em.createNamedQuery("Genres.findByName");
-        query.setParameter("name", genre.getName());
-        List<Genres> list = (List<Genres>)query.getResultList();
-        if (list.isEmpty()) {
-            return -1;
-        } else {
-            return list.get(0).getId();
-        }
-    }
-
-    public int personIsExisted(PersonType person) {
+    //check Exist Function
+    //<editor-fold>
+    public Boolean personIsExisted(PersonType person) {
         Query query = em.createNamedQuery("PersonType.findByName");
-        query.setParameter("name", person.getName());
-        List<PersonType> list = (List<PersonType>)query.getResultList();
+        query.setParameter("name", "%" + person.getName() + "%");
+        List<PersonType> list = (List<PersonType>) query.getResultList();
         if (list.isEmpty()) {
-            return -1;
+            return false;
         } else {
-            return list.get(0).getId();
+            return true;
         }
     }
 
-    public int movieGenreExisted(int movieId, int genreId) {
+    public Boolean genresIsExisted(Genres genre) {
+        Query query = em.createNamedQuery("Genres.findByName");
+        query.setParameter("name", "%" + genre.getName() + "%");
+        List<Genres> list = (List<Genres>) query.getResultList();
+        if (list.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public Boolean movieGenreExisted(int movieId, int genreId) {
         Query query = em.createNativeQuery("SELECT * FROM MovieGenres WHERE"
-                + " MovieId = '" + movieId + "' AND GenreId = '" + genreId + "'");
+                + " MovieId = '" + movieId + "' AND GenreId = '" + genreId + "'", MovieGenres.class);
 
-        List<MovieType> list = (List<MovieType>)query.getResultList();
+        List<MovieGenres> list = (List<MovieGenres>) query.getResultList();
         if (list.isEmpty()) {
-            return -1;
+            return false;
         } else {
-            return list.get(0).getId();
+            return true;
         }
     }
 
+    public Boolean moviesExisted(MovieType movie) {
+        Query query = em.createNativeQuery("SELECT * FROM Movies WHERE"
+                + " Name = '" + movie.getName() + "' AND ReleaseDate = '" + movie.getReleaseDate() + "'", MovieType.class);
+
+        List<MovieType> list = (List<MovieType>) query.getResultList();
+        if (list.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public Boolean movieCastingExisted(int movieId, int personId) {
+        Query query = em.createQuery("SELECT c FROM Cast c WHERE c.movieId.id = ?1 AND c.actorId.id  = ?2", Cast.class);
+        query.setParameter(1, movieId);
+        query.setParameter(2, personId);
+
+        List<Cast> list = query.getResultList();
+        if (list.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    //</editor-fold> 
+
+    //get DTO function
+    //<editor-fold>
     public List getAllAccounts() {
         Query query = em.createNamedQuery("AccountType.findAll");
         return query.getResultList();
@@ -134,7 +152,39 @@ public class DAO implements Serializable {
         return query.getResultList();
     }
 
-    public int createMovie(MovieType movie) {
+    public MovieType getMovieByName(String name) {
+        Query query = em.createQuery("SELECT m FROM MovieType m WHERE m.name Like ?1", MovieType.class);
+        query.setParameter(1, "%" + name + "%");
+        return (MovieType) query.getResultList().get(0);
+    }
+
+    public Genres getGenreByName(String name) {
+        Query query = em.createQuery("SELECT g FROM Genres g WHERE g.name Like ?1", Genres.class);
+        query.setParameter(1, "%" + name + "%");
+        return (Genres) query.getResultList().get(0);
+    }
+
+    public PersonType getActorByName(String name) {
+        Query query = em.createQuery("SELECT a FROM PersonType a WHERE a.name Like ?1", PersonType.class);
+        query.setParameter(1, "%" + name + "%");
+        return (PersonType) query.getResultList().get(0);
+    }
+    //</editor-fold>
+
+    // Create and edit function 
+    //<editor-fold>
+    public void updateImageCover(String link, MovieType movie) {
+        try {
+            movie.setImageCover(link);
+            em.getTransaction().begin();
+            em.persist(movie);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public MovieType createMovie(MovieType movie) {
 //        List<MovieType> list = movielist;
 //       for (MovieType object : list) {
 //           Query query =em.createQuery("INSERT INTO Movies (Name, AlternateName, Description, Country, Runtime, CategoryId, Language, ReleaseDate, Rating, ImageCover, TrailerUrl, Director)"
@@ -142,79 +192,108 @@ public class DAO implements Serializable {
 //           query.getResultList();
 //       }
 //        for (MovieType object : list) {
-        if (moviesIsExisted(movie) != -1) {
-            return moviesIsExisted(movie);
+
+        if (moviesExisted(movie) == true) {
+            return null;
         }
         try {
-            //format date
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
-            Date date;
-            try {
-                date = sdf.parse(movie.getReleaseDate());
-                sdf = new SimpleDateFormat("yyyy/MM/dd");
-                movie.setReleaseDate(sdf.format(date));
-            } catch (ParseException ex) {
-                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
             em.getTransaction().begin();
             em.persist(movie);
-            em.flush();
             em.getTransaction().commit();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return movie.getId();
+        return movie;
 //        }
 
     }
 
-    public int createGenre(Genres genre) {
-        if (genresIsExisted(genre) != -1) {
-            return genresIsExisted(genre);
+    public Genres createGenre(Genres genre) {
+        if (genresIsExisted(genre) == true) {
+            return null;
         }
         em.getTransaction().begin();
         em.persist(genre);
-        em.flush();
         em.getTransaction().commit();
-        return genre.getId();
+        return genre;
     }
 
-    public int createPerson(PersonType person) {
-        if (personIsExisted(person) != -1) {
-            return personIsExisted(person);
+    public PersonType createPerson(PersonType person) {
+        if (personIsExisted(person) == true) {
+            return null;
         }
         em.getTransaction().begin();
         em.persist(person);
         em.flush();
         em.getTransaction().commit();
-        return person.getId();
+        return person;
     }
 
-    public void createMappingMoiveGenre(MovieType movie, Genres genre) {
-        int movieIdExist =moviesIsExisted(movie);
-        int genreIdExist = genresIsExisted(genre);
-        if (movieIdExist != -1 && genreIdExist != -1) {
-            if (movieGenreExisted(movieIdExist, genreIdExist) == -1) {
-                MovieGenres mapping = new MovieGenres();
-                Query query = em.createNamedQuery("Genres.findById");
-                query.setParameter("id", genreIdExist);
-                List<Genres> list = query.getResultList();
-                Query query2 = em.createNamedQuery("MovieType.findById");
-                query2.setParameter("id", movieIdExist);
-                List<MovieType> list2 = query2.getResultList();
-                mapping.setGenreId(list.get(0));
-                mapping.setMovieId(list2.get(0));
-                em.getTransaction().begin();
-                em.persist(mapping);
-                em.flush();
-                em.getTransaction().commit();
+    public Boolean createMappingMoiveGenre(MovieType movie, Genres genre) {
+        Integer movieIdExist = movie.getId();
+        Integer genreIdExist = genre.getId();
+        Boolean result = false;
+        try {
+
+            if (movieIdExist != null && genreIdExist != null) {
+                if (movieGenreExisted(movieIdExist, genreIdExist) == false) {
+                    MovieGenres mapping = new MovieGenres();
+
+                    //set foreign entities - key
+                    mapping.setGenreId(genre);
+                    mapping.setMovieId(movie);
+
+                    em.getTransaction().begin();
+                    em.persist(mapping);
+                    em.getTransaction().commit();
+                    result = true;
+                }
             }
-        } else {
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
+        return result;
     }
 
+    public Boolean createCast(MovieType movie, PersonType person, String character) {
+        if (character == null) {
+            return false;
+        }
+        Integer movieIdExist = movie.getId();
+        Integer personIdExist = person.getId();
+        Boolean result = false;
+        try {
+
+            if (movieIdExist != null && personIdExist != null && !character.isEmpty()) {
+                if (movieCastingExisted(movieIdExist, personIdExist) == false) {
+                    Cast casting = new Cast();
+
+                    casting.setCharacter(character);
+                    //set foreign entities - key
+                    casting.setActorId(person);
+                    casting.setMovieId(movie);
+
+                    em.getTransaction().begin();
+                    em.persist(casting);
+                    em.getTransaction().commit();
+                    result = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+//   public Boolean createMovieImage(MovieImages image){
+//       
+//       //still doing
+//       em.getTransaction().begin();
+//       em.persist(image);
+//       em.getTransaction().commit();
+//       return true;
+//   }
     public int createCast(Cast cast) {
         em.getTransaction().begin();
         em.persist(cast);
@@ -222,5 +301,6 @@ public class DAO implements Serializable {
         em.getTransaction().commit();
         return cast.getId();
     }
+    //</editor-fold>
 
 }

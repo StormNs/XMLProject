@@ -9,6 +9,7 @@ import entities.Genres;
 import entities.MovieType;
 import entities.PersonType;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -49,39 +50,57 @@ import javax.xml.stream.events.XMLEvent;
  */
 public class Crawler {
 
-    static ArrayList<MovieType> movieList = null;
+    private ArrayList<MovieType> movieList = null;
 
     public Crawler() {
         movieList = new ArrayList<>();
 
     }
 
-    public static ArrayList<MovieType> getMovieList() {
+    public ArrayList<MovieType> getMovieList() {
         return movieList;
     }
 
-    public static void setMovieList(ArrayList<MovieType> movieList) {
-        Crawler.movieList = movieList;
+    public void setMovieList(ArrayList<MovieType> movieList) {
+        this.movieList = movieList;
     }
-    
 
-    public static void DownloadImage(String fileName, String uri) {
+    public String DownloadImage(String fileName, String folderName, String uri) {
+        String filePath = null;
         try {
-            String path  = "F:\\NetBean_Project\\img\\";
-            uri = "https://images-na.ssl-images-amazon.com/images/M/MV5BMTk3OTI3MDk4N15BMl5BanBnXkFtZTgwNDg2ODIyMjI@._V1_SX261_CR0,0,261,383_AL_.jpg";
-            String filePath = path + fileName;
+            String largeSequence = "._V1_.jpg";
+           int eIndex = uri.lastIndexOf("@");
+            uri = uri.substring(0, eIndex+1)+ largeSequence;
+            String path = "F:\\NetBean_Project\\XMLProj_Image";
+            folderName = folderName.replaceAll("[^\\p{IsAlphabetic}0-9]", "_");
+            fileName = fileName.replaceAll("[^\\p{IsAlphabetic}0-9]", "_");
+//            uri = "https://images-na.ssl-images-amazon.com/images/M/MV5BMTk3OTI3MDk4N15BMl5BanBnXkFtZTgwNDg2ODIyMjI@._V1_SX261_CR0,0,261,383_AL_.jpg";
+            filePath = path + "/" + folderName + "/" + fileName + "_pic.jpg";
+            File f = new File(filePath);
+            if (!f.getParentFile().exists()) {
+                f.getParentFile().mkdir();
+            }
+
             URL url = new URL(uri);
+
+//            BufferedImage img = ImageIO.read(url); //Option 2
+//            ImageIO.write(img, "jpg", f);
             InputStream in = url.openStream();
             Files.copy(in, Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
-
         } catch (MalformedURLException ex) {
+            filePath = null;
             Logger.getLogger(Crawler.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            filePath = null;
             Logger.getLogger(Crawler.class.getName()).log(Level.SEVERE, null, ex);
         }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        return filePath;
     }
 
-    public static void crawlData() {
+    public void crawlData() {
 //        String uri3 = "http://www.imdb.com";
         String uri4 = "http://www.imdb.com/chart/moviemeter?ref_=nv_mv_mpm_8";
 
@@ -91,7 +110,7 @@ public class Crawler {
 
         System.out.println(link.size());
 //        String document = parseMovieHTML("http://www.imdb.com" + link.get(0));
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 10; i++) {
             System.out.println(i + 1 + ". ");
             String document = parseMovieHTML("http://www.imdb.com" + link.get(i));
             MovieType movie = StAXParserMovie(document);
@@ -101,7 +120,7 @@ public class Crawler {
 
     }
 
-    public static BufferedReader getUrlBufferReader(String uri) {
+    public BufferedReader getUrlBufferReader(String uri) {
         BufferedReader in = null;
         try {
             URL url = new URL(uri);
@@ -120,7 +139,7 @@ public class Crawler {
         return in;
     }
 
-    public static String parseMovieHTML(String uri) {
+    public String parseMovieHTML(String uri) {
 
         String document = "";
         try {
@@ -327,7 +346,7 @@ public class Crawler {
 
     }
 
-    public static MovieType StAXParserMovie(String document) {
+    public MovieType StAXParserMovie(String document) {
         MovieType movie = new MovieType();
         List<Genres> listGenre = new ArrayList<>();
         List<PersonType> listPerson = new ArrayList<>();
@@ -539,8 +558,10 @@ public class Crawler {
                     if (inMovieDate) { // need to fix date
                         if (event.isCharacters()) {
                             String t = event.asCharacters().getData().trim();
+                            String[] list = t.split(" ");
+                            String date = list[0] + " " + list[1] + " " + list[2];
 //                            System.out.println("Date: " + t);
-                            movie.setReleaseDate(t);
+                            movie.setReleaseDate(Utilities.formatDate(date));
                             inMovieDate = false;
                         }
                     }
@@ -651,7 +672,7 @@ public class Crawler {
         return movie;
     }
 
-    public static List<String> getLinkMovie(String uri) {
+    public List<String> getLinkMovie(String uri) {
         List<String> listLinkMovie = new ArrayList<>();
         List<String> listNameMovie = new ArrayList<>();
         try {
@@ -746,7 +767,7 @@ public class Crawler {
         return listLinkMovie;
     }
 
-    public static Map<String, String> getLinkCategoryMovie(String uri) {
+    public Map<String, String> getLinkCategoryMovie(String uri) {
         Map<String, String> listLinkCategory = new HashMap<String, String>();
         try {
             BufferedReader in = getUrlBufferReader(uri);

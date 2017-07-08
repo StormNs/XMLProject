@@ -24,7 +24,7 @@ public class BackgroundScheduler implements  ServletContextListener{
     public void contextInitialized(ServletContextEvent sce) {
         scheduler =  Executors.newSingleThreadScheduledExecutor();
         Utilities util = new Utilities();
-                scheduler.scheduleAtFixedRate(util, 0, 3, TimeUnit.MILLISECONDS);
+//                scheduler.scheduleAtFixedRate(util, 0, 3, TimeUnit.MILLISECONDS);
 
     }
 

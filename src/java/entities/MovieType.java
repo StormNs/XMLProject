@@ -20,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -130,9 +131,11 @@ public class MovieType implements Serializable {
     @XmlTransient
     private Collection<MovieUrl> movieUrlCollection;
 
+    @Transient
     @XmlTransient
     private Collection<PersonType> personTypeList;
 
+    @Transient
     @XmlTransient
     private Collection<Genres> genreList;
 

@@ -91,7 +91,7 @@ public class LoginServlet extends HttpServlet {
 //            String realPath = request.getServletContext().getRealPath("/");
 //            ulti.MarshallMovies(realPath);
             
-//            DAO dao = new DAO();
+            DAO dao = new DAO();
 //            dao.persist(new AccountType("Cuong", "123", "cat@gmail.com"));
 //            List listAccounts = dao.findAccounts(email, username);
 //            AccountType account = (AccountType) listAccounts.get(0);
@@ -99,15 +99,24 @@ public class LoginServlet extends HttpServlet {
 //                url = mainPage;
 //                session.setAttribute("index", index.toString());
 //            }
-            Crawler crawl = new Crawler();
+
+
+//            Crawler crawl = new Crawler();
 //            crawl.DownloadImage(this.getServletContext().getRealPath("") + "/../../");
-                    crawl.crawlData();
-            List<MovieType> list = crawl.getMovieList();
-            Movies movies = new Movies();
-            movies.setMovies(list);
+//                    crawl.crawlData();
+//            List<MovieType> list = crawl.getMovieList();
+//            Movies movies = new Movies();
+//            movies.setMovies(list);
             Utilities ul = new Utilities();
-            ul.validateBeforeSavetoDB(this.getServletContext().getRealPath("/"),
-                    movies);
+//            ul.validateBeforeSavetoDB(this.getServletContext().getRealPath("/"),
+//                    movies);
+//            dao.getMovieByName("gam");
+//    MovieType movie = dao.getMovieByName("game1");
+//    Genres genre = dao.getGenreByName("Action");
+//    dao.createMappingMoiveGenre(movie, genre);
+
+    ul.CrawlDataAuto();
+//dao.movieCastingExisted(1, 1);
             
         } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
