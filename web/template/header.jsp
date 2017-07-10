@@ -5,6 +5,7 @@
 --%>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/style.css"/>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <style>
     body{
         background-color: #afb4bb;
@@ -156,6 +157,9 @@
         padding: 15px 15px 0px 10px;
         z-index: 1000;
     }
+    .no-deco{
+        text-decoration: none;
+    }
 </style>
 <header role="banner">
     <div id="menu">
@@ -209,11 +213,15 @@
             </div>
         </div>
         <div id="menu-account">
-            <a>Sign up</a>
-            <a><i class="fa fa-user"></i> Login</a>
-            
-<!--            <a>Logout</a>
-            <span>Welcome <span style="color: lightseagreen">Danh</span></span>-->
+            <c:set var="accountName" value="${sessionScope.account_Name}"/>
+            <c:if test ="${not empty accountName}">
+                <a href="DispatchServlet?btnAction=LOGOUT">Logout</a>
+                <span>Welcome <span style="color: lightseagreen">${accountName}</span></span>
+            </c:if>
+            <c:if test="${empty accountName}">
+            <a class="no-deco" href="account.jsp"><i class="fa fa-user"></i> Login</a>
+            </c:if>
+
 
         </div>
     </div> 

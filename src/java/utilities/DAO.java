@@ -44,6 +44,12 @@ public class DAO implements Serializable {
         }
 
     }
+    
+    public void closeEM(){
+        if(em != null){
+            em.close();
+        }
+    }
 
     public boolean persist(Object object) {
         EntityTransaction tran = em.getTransaction();
