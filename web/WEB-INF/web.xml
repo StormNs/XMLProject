@@ -19,7 +19,9 @@
     <servlet>
         <servlet-name>SignupServlet</servlet-name>
         <servlet-class>servlets.SignupServlet</servlet-class>
-        <servlet-name>SearchServlet</servlet-name>
+    </servlet>
+    <servlet>
+         <servlet-name>SearchServlet</servlet-name>
         <servlet-class>servlets.SearchServlet</servlet-class>
     </servlet>
     <servlet>
@@ -57,6 +59,8 @@
     <servlet-mapping>
         <servlet-name>SignupServlet</servlet-name>
         <url-pattern>/SignupServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>SearchServlet</servlet-name>
         <url-pattern>/SearchServlet</url-pattern>
     </servlet-mapping>
