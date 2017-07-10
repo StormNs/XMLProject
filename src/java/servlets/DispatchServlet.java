@@ -24,6 +24,7 @@ public class DispatchServlet extends HttpServlet {
     private final String mainPage = "main.jsp";
     private final String loginServlet = "LoginServlet";
     private final String signUpServlet = "SignupServlet";
+    private final String logOutServlet = "LogoutServlet";
     private final String searchServlet = "SearchServlet";
     private final String mainServlet = "MainServlet";
 //    private final String invalidPage = "invalid.html";
@@ -45,11 +46,11 @@ public class DispatchServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String button = request.getParameter("btnAction");
         
-        String url = loginPage;
+        String url = null;
         try {
             if (button == null) {
                 //invalid
-                url = mainPage;
+                
             } else {
                 switch (button) {
                     case "LOGIN":
@@ -57,6 +58,9 @@ public class DispatchServlet extends HttpServlet {
                         break;
                     case "REGISTER":
                         url = signUpServlet;
+                        break;
+                    case "LOGOUT":
+                        url = logOutServlet;
                         break;
                     default:
                         url = loginPage;
