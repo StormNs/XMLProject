@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LogoutServlet extends HttpServlet {
 
-    private final String mainPage = "main.jsp";
+    private final String mainServlet = "MainServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,7 +40,7 @@ public class LogoutServlet extends HttpServlet {
             e.printStackTrace();
         }
         finally{
-            response.sendRedirect(mainPage);
+            response.sendRedirect(mainServlet);
         }
     }
 
