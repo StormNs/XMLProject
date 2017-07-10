@@ -18,7 +18,12 @@
     </head>
     <body onload="loadNewMovies()">
         <jsp:include page="template/header.jsp"/>
-        <div id="newMovieContainer"></div>
+        <div class="lastest-container">
+            <div class="header-row">
+                <span class="title-row">Newest Movie</span>
+            </div>
+            <div id="newMovieContainer"></div>
+        </div>
         <jsp:include page="template/footer.jsp"/>
     </body>
     <script>
@@ -42,8 +47,12 @@
                 startResetTime();
             } else if (new Date(sessionStorage.getItem("resetTime")) < new Date()) {
                 sessionStorage.removeItem("list");
+                essionStorage.removeItem("topMovie");
                 sessionStorage.removeItem("resetDate");
                 startResetTime();
+            }
+            if (sessionStorage.getItem("topMovie") === null || sessionStorage.getItem("topMovie") === '') {
+                getTopMovies();
             }
             if (sessionStorage.getItem("list") === null || sessionStorage.getItem("list") === '') {
                 getMovieList();

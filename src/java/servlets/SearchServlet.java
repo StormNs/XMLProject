@@ -84,7 +84,7 @@ public class SearchServlet extends HttpServlet {
 //        request.setAttribute("xmlMovies", xmlMovies);
         response.setContentType("text/xml");
 //        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(xmlMovies); 
+        response.getWriter().write(xmlMovies);
 //       processRequest(request, response);
     }
 

@@ -24,6 +24,7 @@ public class DispatchServlet extends HttpServlet {
     private final String mainPage = "main.jsp";
     private final String loginServlet = "LoginServlet";
     private final String searchServlet = "SearchServlet";
+    private final String mainServlet = "MainServlet";
 //    private final String invalidPage = "invalid.html";
 
     /**
@@ -47,7 +48,7 @@ public class DispatchServlet extends HttpServlet {
         try {
             if (button == null) {
                 //invalid
-                
+                url = mainPage;
             } else {
                 switch (button) {
                     case "LOGIN":

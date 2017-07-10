@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     <xsl:template match="/">
-        <div>
-            <div class="lastest-container">
-                <div class="header-row">
-                    <span class="title-row">Newest Movie</span>
-                </div>
                 <div class="lastest-row">
                     <xsl:for-each select="movies/movie">
                         <div class="movie-container">
@@ -33,8 +28,6 @@
                         </div>
                     </xsl:for-each>
                 </div>
-            </div>
-        </div>
     </xsl:template>
    
 </xsl:stylesheet>

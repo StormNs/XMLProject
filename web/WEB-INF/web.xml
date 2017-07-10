@@ -24,6 +24,14 @@
         <servlet-name>NewestServlet</servlet-name>
         <servlet-class>servlets.NewestServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TopServlet</servlet-name>
+        <servlet-class>servlets.TopServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MainServlet</servlet-name>
+        <servlet-class>servlets.MainServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DispatchServlet</servlet-name>
         <url-pattern>/DispatchServlet</url-pattern>
@@ -48,12 +56,20 @@
         <servlet-name>NewestServlet</servlet-name>
         <url-pattern>/NewestServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TopServlet</servlet-name>
+        <url-pattern>/TopServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/MainServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>login.jsp</welcome-file>
+        <welcome-file>TopServlet</welcome-file>
     </welcome-file-list>
 </web-app>

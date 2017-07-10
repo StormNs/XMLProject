@@ -19,8 +19,8 @@ import utilities.Utilities;
  *
  * @author USER
  */
-@WebServlet("/NewMovie")
-public class NewestServlet extends HttpServlet {
+@WebServlet("/Main")
+public class MainServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,13 +35,14 @@ public class NewestServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            if (request.getSession().getAttribute("username") != null && request.getSession().getAttribute("username") == "") {
-                request.setAttribute("username", request.getSession().getAttribute("username"));
-            }
             /* TODO output your page here. You may use following sample code. */
-            RequestDispatcher rd = request.getRequestDispatcher("newest.jsp");
+            Utilities uti = new Utilities();
+            String xmltop = uti.MarshallTopMovies();
+            String xmltext = uti.MarshallMovies();
+            request.setAttribute("xmltop", xmltop);
+            request.setAttribute("xmltext", xmltext);
+            RequestDispatcher rd = request.getRequestDispatcher("main.jsp");
             rd.forward(request, response);
-          
         }
     }
 
@@ -71,16 +72,7 @@ public class NewestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Utilities ulti = new Utilities();
-        String realPath = request.getServletContext().getRealPath("/");
-//        String xmlMovies = ulti.MarshallMovies(realPath);
-        String xslNew = ulti.getNewLayout(realPath);
-//            String xmlMovies = ulti.TransMoviesForClient(realPath);
-//        request.setAttribute("xmlMovies", xmlMovies);
-        response.setContentType("text/xsl");
-//        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(xslNew);
-//        processRequest(request, response);
+        processRequest(request, response);
     }
 
     /**

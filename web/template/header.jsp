@@ -111,11 +111,19 @@
         padding: 15px 15px 15px 10px;
         z-index: 1000;
     }
+    .sub-menu >a{
+        text-decoration: none;
+        color: lightgray;
+        margin: 4px;
+    }
+    .sub-menu >a:hover{
+        color: white;
+    }
     .submenu-container{
         display: -webkit-box;
         margin: 0;
         float: left;
-        text-align: center;
+        text-align: left;
         color: lightgray;
         padding: 20px 40px;
         font-size: 17px;
@@ -167,13 +175,12 @@
     <div id="menu">
         <div id="menu-container">
             <!--<img src="../XMLProject/asset/play.png" height="50px" width="50px" style="float: left;margin-top: 4px;margin-left: 15px;margin-right: 15px">-->
-            <a style="padding-bottom: 0px;"><i class="fa fa-play-circle brand-icon" style="color:lightgray"></i></a>
+            <a style="padding-bottom: 0px;" href="Main"><i class="fa fa-play-circle brand-icon" style="color:lightgray"></i></a>
             <div class="submenu-container" onmouseover="showSubMenu('moviessub')" onmouseout="hideSubMenu('moviessub')">
                 <a>MOVIES <span class="fa fa-caret-down"></span></a>
                 <div class="sub-menu" id="moviessub">
-                    <a>Test</a>
-                    <a>Test</a>
-                    <a>Test</a>
+                    <a href="TopMovie">Top Rated</a>
+                    <a href="NewMovie">Newest Entries</a>
                 </div>
             </div>
 
@@ -181,9 +188,7 @@
             <div class="submenu-container" onmouseover="showSubMenu('seriesssub')" onmouseout="hideSubMenu('seriesssub')">
                 <a>SERIES <span class="fa fa-caret-down"></span></a>
                 <div class="sub-menu" id="seriesssub">
-                    <a>Test</a>
-                    <a>Test</a>
-                    <a>Test</a>
+                    <a>Not available</a>
                 </div>
             </div>
             <a>ABOUT</a>
@@ -254,6 +259,18 @@
             xmlDOM = new ActiveXObject("Microsoft.XMLHTTP");
         }
 
+    }
+    function getTopMovies() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'TopMovie', false);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                sessionStorage.setItem("topMovie", xhr.responseText);
+            } else {
+                alert('Request failed. Please try again later.');
+            }
+        };
+        xhr.send();
     }
     function getMovieList() {
         var xhr = new XMLHttpRequest();
@@ -338,8 +355,12 @@
             startResetTime();
         } else if (new Date(sessionStorage.getItem("resetTime")) < new Date()) {
             sessionStorage.removeItem("list");
+            sessionStorage.removeItem("topMovie");
             sessionStorage.removeItem("resetDate");
             startResetTime();
+        }
+        if (sessionStorage.getItem("topMovie") === null || sessionStorage.getItem("topMovie") === '') {
+            getTopMovies();
         }
         if (sessionStorage.getItem("list") === null || sessionStorage.getItem("list") === '') {
             getMovieList();

@@ -144,8 +144,34 @@ public class Utilities implements Runnable {
         return null;
 
     }
+    public String MarshallTopMovies() {
+        try {
+            DAO dao = new DAO();
+            List<MovieType> list = dao.getTopMovie();
+            Movies movies = new Movies();
+            movies.setMovies(list);
 
-    public String getTopLayout(String realPath) {
+            JAXBContext jc = JAXBContext.newInstance(Movies.class);
+            Marshaller mar = jc.createMarshaller();
+//            mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+//            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+//            mar.setProperty("com.sun.xml.internal.bind.xmlHeaders",
+//                    "<?xml-stylesheet type=\"text/xsl\" href=\"clientMovies.xsl\"?>\n");
+//            File file = new File(realPath + "WEB-INF/movies.xml");
+//            FileWriter fw = new FileWriter(file);
+            StringWriter sw = new StringWriter();
+
+            mar.marshal(movies, sw);
+            return sw.toString();
+
+        } catch (JAXBException ex) {
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+
+    }
+
+    public String getNewLayout(String realPath) {
         try {
             StreamSource xsltFile = new StreamSource(realPath + "WEB-INF/newMovies.xsl");
             TransformerFactory tf = TransformerFactory.newInstance();
