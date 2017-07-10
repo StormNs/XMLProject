@@ -7,24 +7,19 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import utilities.Utilities;
+import utilities.DAO;
 
 /**
  *
  * @author StormNs
  */
-public class DispatchServlet extends HttpServlet {
+public class SignupServlet extends HttpServlet {
 
-    private final String loginPage = "account.jsp";
-    private final String mainPage = "main.jsp";
-    private final String loginServlet = "LoginServlet";
-    private final String signUpServlet = "SignupServlet";
-//    private final String invalidPage = "invalid.html";
+    private final String signUpPage = "account.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,37 +30,34 @@ public class DispatchServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String button = request.getParameter("btnAction");
-        
-        String url = null;
-        try {
-            if (button == null) {
-                //invalid
-                
-            } else {
-                switch (button) {
-                    case "LOGIN":
-                        url = loginServlet;
-                        break;
-                    case "REGISTER":
-                        url = signUpServlet;
-                        break;
-                    default:
-                        url = loginPage;
-                        break;
-                }
-            }// end of else
+        String username = request.getParameter("txtsgnUpUsername");
+        String password = request.getParameter("txtsgnPassword");
+        String email = request.getParameter("txtsgnEmail");
 
+        String url = signUpPage;
+
+        try {
+            DAO dao = new DAO();
+            Boolean exist = dao.accountIsExisted(username, email);
+            if (exist) {
+                request.setAttribute("Result", "existed");
+            } else {
+                Boolean check = dao.createAccounts(username, email, password);
+                if (!check) {
+                    request.setAttribute("Result", "invalidField");
+                } else {
+                    request.setAttribute("Result", "successed");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
-            out.close();
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

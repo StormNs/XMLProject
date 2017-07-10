@@ -35,7 +35,7 @@ import utilities.Utilities;
  */
 public class LoginServlet extends HttpServlet {
 
-    private final String loginPage = "login.jsp";
+    private final String loginPage = "account.jsp";
     private final String mainPage = "main.jsp";
 
     /**
@@ -51,21 +51,9 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-//        DAO dao = new DAO();
-//        MovieType movie = new MovieType();
-//        Genres genre = new Genres();
-//        genre.setName("Action");
-//        movie.setName("TEST3");
-//        movie.setReleaseDate("20 May 2016");
-//
-//        dao.createMovie(movie);
-//        dao.createGenre(genre);
-//        dao.createMappingMoiveGenre(movie, genre);
-        
-        
-        
-        String username = request.getParameter("txtUsername");
-        String password = request.getParameter("txtPassword");
+
+        String username = request.getParameter("txtUsername").trim();
+        String password = request.getParameter("txtPassword").trim();
         String email = "";
         if (username.contains("@")) {
             email = username;
@@ -73,51 +61,31 @@ public class LoginServlet extends HttpServlet {
         }
 
         String url = loginPage;
+        HttpSession session = request.getSession();
+        
+        String accountExist = (String) session.getAttribute("account_Name");
         try {
-            HttpSession session = request.getSession();
-            String temp = (String) session.getAttribute("index");
-            Utilities ulti = new Utilities();
-            String realPath = request.getServletContext().getRealPath("/");
-            String xmlMovies = ulti.TransMoviesForClient(realPath);
-            request.setAttribute("xmlMovies", xmlMovies);
-            Integer index = null;
-            if (temp == null) {
-                index = 0;
-            } else {
-                index = Integer.parseInt((temp));
-                index++;
-            }
-//            Utilities ulti = new Utilities();
-//            String realPath = request.getServletContext().getRealPath("/");
-//            ulti.MarshallMovies(realPath);
-            
             DAO dao = new DAO();
-//            dao.persist(new AccountType("Cuong", "123", "cat@gmail.com"));
-//            List listAccounts = dao.findAccounts(email, username);
-//            AccountType account = (AccountType) listAccounts.get(0);
-//            if (account.getPassword().equals(password)) {
-//                url = mainPage;
-//                session.setAttribute("index", index.toString());
-//            }
-
-
-//            Crawler crawl = new Crawler();
-//            crawl.DownloadImage(this.getServletContext().getRealPath("") + "/../../");
-//                    crawl.crawlData();
-//            List<MovieType> list = crawl.getMovieList();
-//            Movies movies = new Movies();
-//            movies.setMovies(list);
-            Utilities ul = new Utilities();
-//            ul.validateBeforeSavetoDB(this.getServletContext().getRealPath("/"),
-//                    movies);
-//            dao.getMovieByName("gam");
-//    MovieType movie = dao.getMovieByName("game1");
-//    Genres genre = dao.getGenreByName("Action");
-//    dao.createMappingMoiveGenre(movie, genre);
-
-    ul.CrawlDataAuto();
-//dao.movieCastingExisted(1, 1);
+            List<AccountType> list = dao.findAccounts(email, username);
+            if (list.isEmpty()) {
+                request.setAttribute("Result", "Wrong_field");
+            }
+            AccountType acc = list.get(0);
+            if (acc.getPassword().equals(password)) {;
+                url = mainPage;
+                session.setAttribute("account_Name", acc.getUsername());
+            } else {
+                request.setAttribute("Result", "Wrong_field");
+            }
             
+            
+            String temp = (String) session.getAttribute("index");
+
+//           
+//            DAO dao = new DAO();
+            Utilities ul = new Utilities();
+            ul.CrawlDataAuto();
+//           
         } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

@@ -189,6 +189,7 @@ public class Utilities implements Runnable {
         List<MovieType> listMovie = crawler.getMovieList(); //contain both Actors and Genres
 //        validateBeforeSavetoDB(realPath, movies); // does not work in background thread - still finding way to resolve
         DAO dao = new DAO();
+        int i = 0;
         for (MovieType mItem : listMovie) {
             MovieType movie = null;
             MovieType mValue = dao.createMovie(mItem);
@@ -223,13 +224,19 @@ public class Utilities implements Runnable {
                 }
 
                 Boolean check = dao.createCast(movie, actor, aItem.getCharacterName());
-
+                
+                String aImgName = actor.getName();
+                String aFolder= actor.getName();
+                String aUri = aItem.getImageUrl();
+                String aImgUri = crawler.DownloadImage(aImgName, aFolder, aUri, Enum.ACTOR_IMG);
+                dao.updateActorImageCover(aImgUri, actor);
             }
             String imageName = movie.getName();
             String folder = movie.getName();
             String uri = mItem.getImageCover();
-            String imageUri = crawler.DownloadImage(imageName, folder, uri);
-            dao.updateImageCover(imageUri, movie);
+            String imageUri = crawler.DownloadImage(imageName, folder, uri, Enum.MOVIE_IMG);
+            dao.updateMovieImageCover(imageUri, movie);
+            System.out.println("Done ."+(i++));
         }
         System.out.println("Done Crawling");
     }
@@ -257,7 +264,7 @@ public class Utilities implements Runnable {
     @Override
     public void run() {
 //        printForFun();
-
+//    CrawlDataAuto();
     }
 
 }

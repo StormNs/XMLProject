@@ -65,16 +65,23 @@ public class Crawler {
         this.movieList = movieList;
     }
 
-    public String DownloadImage(String fileName, String folderName, String uri) {
+    public String DownloadImage(String fileName, String folderName, String uri, Enum e) {
         String filePath = null;
+        String path = null;
+        if (e.equals(Enum.MOVIE_IMG)) {
+            path = "F:/NetBean_Project/XMLProj_Image";
+        }
+        if (e.equals(Enum.ACTOR_IMG)) {
+            path = "F:/NetBean_Project/XMLProj_Actor_Img";
+        }
         try {
-            String largeSequence = "._V1_.jpg";
-           int eIndex = uri.lastIndexOf("@");
-            uri = uri.substring(0, eIndex+1)+ largeSequence;
-            String path = "F:\\NetBean_Project\\XMLProj_Image";
+            if(uri == null){
+                return null;
+            }
+            int eIndex = uri.lastIndexOf(Enum.TOKEN.getText());
+            uri = uri.substring(0, eIndex) + Enum.LARGE_SEQUENCE.getText();
             folderName = folderName.replaceAll("[^\\p{IsAlphabetic}0-9]", "_");
             fileName = fileName.replaceAll("[^\\p{IsAlphabetic}0-9]", "_");
-//            uri = "https://images-na.ssl-images-amazon.com/images/M/MV5BMTk3OTI3MDk4N15BMl5BanBnXkFtZTgwNDg2ODIyMjI@._V1_SX261_CR0,0,261,383_AL_.jpg";
             filePath = path + "/" + folderName + "/" + fileName + "_pic.jpg";
             File f = new File(filePath);
             if (!f.getParentFile().exists()) {
@@ -550,7 +557,7 @@ public class Crawler {
                     if (inMovieName) {
                         if (event.isCharacters()) {
                             String t = event.asCharacters().getData().trim();
-//                            System.out.println("Name: " + t);
+                            System.out.println("Name: " + t);
                             movie.setName(t);
                             inMovieName = false;
                         }
@@ -568,7 +575,7 @@ public class Crawler {
                     if (inDescription) {
                         if (event.isCharacters()) {
                             String t = event.asCharacters().getData().trim();
-                            System.out.println("Description: " + t);
+//                            System.out.println("Description: " + t);
                             movie.setDescription(t);
                             inDescription = false;
                         }
@@ -576,7 +583,7 @@ public class Crawler {
                     if (inRuntime) {
                         if (event.isCharacters()) {
                             String t = event.asCharacters().getData().trim();
-                            System.out.println("Runtime: " + t);
+//                            System.out.println("Runtime: " + t);
                             movie.setRuntime(t);
                             inRuntime = false;
                         }
@@ -584,7 +591,7 @@ public class Crawler {
                     if (inGenre) {
                         if (event.isCharacters()) {
                             String t = event.asCharacters().getData().trim();
-                            System.out.println("Genre: " + t);
+//                            System.out.println("Genre: " + t);
                             listGenre.add(new Genres(t));
                             inGenre = false;
                         }
@@ -592,7 +599,7 @@ public class Crawler {
                     if (inCountry) {
                         if (event.isCharacters()) {
                             String t = event.asCharacters().getData().trim();
-                            System.out.println("Country: " + t);
+//                            System.out.println("Country: " + t);
                             if (movie.getCountry() == null) {
                                 movie.setCountry(t);
                             } else {
@@ -604,7 +611,7 @@ public class Crawler {
                     if (inLanguage) {
                         if (event.isCharacters()) {
                             String t = event.asCharacters().getData().trim();
-                            System.out.println("Language: " + t);
+//                            System.out.println("Language: " + t);
                             movie.setLanguage(t);
                             inLanguage = false;
                             isDone = true;
@@ -613,7 +620,7 @@ public class Crawler {
                     if (inRating) {
                         if (event.isCharacters()) {
                             String t = event.asCharacters().getData().trim();
-                            System.out.println("Rating: " + t);
+//                            System.out.println("Rating: " + t);
                             movie.setRating(Double.parseDouble(t));
                             inRating = false;
                         }
@@ -621,7 +628,7 @@ public class Crawler {
                     if (inOriginalName) {
                         if (event.isCharacters()) {
                             String t = event.asCharacters().getData().trim();
-                            System.out.println("Orignal Title: " + t);
+//                            System.out.println("Orignal Title: " + t);
                             movie.setAlternateName(t);
                             inOriginalName = false;
                         }
@@ -629,7 +636,7 @@ public class Crawler {
                     if (inActorName) {
                         if (event.isCharacters()) {
                             String t = event.asCharacters().getData().trim();
-                            System.out.println("Actor: " + t);
+//                            System.out.println("Actor: " + t);
                             actor.setName(t);
                             inActorName = false;
                             inActor = false;
@@ -638,7 +645,7 @@ public class Crawler {
                     if (inCharacterName) {
                         if (event.isCharacters()) {
                             String t = event.asCharacters().getData().trim();
-                            System.out.println("Chracter: " + t);
+//                            System.out.println("Chracter: " + t);
                             actor.setCharacterName(t);
                             listPerson.add(actor);
                             inCharacterName = false;
@@ -648,7 +655,7 @@ public class Crawler {
                     if (inDirector) {
                         if (event.isCharacters()) {
                             String t = event.asCharacters().getData().trim();
-                            System.out.println("Director: " + t);
+//                            System.out.println("Director: " + t);
                             movie.setDirector(t);
                             inDirector = false;
                         }

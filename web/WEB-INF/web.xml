@@ -16,6 +16,10 @@
         <servlet-name>FileServlet</servlet-name>
         <servlet-class>servlets.FileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SignupServlet</servlet-name>
+        <servlet-class>servlets.SignupServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DispatchServlet</servlet-name>
         <url-pattern>/DispatchServlet</url-pattern>
@@ -32,12 +36,16 @@
         <servlet-name>FileServlet</servlet-name>
         <url-pattern>/FileServlet/*</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignupServlet</servlet-name>
+        <url-pattern>/SignupServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>login.jsp</welcome-file>
+        <welcome-file>account.jsp</welcome-file>
     </welcome-file-list>
 </web-app>
