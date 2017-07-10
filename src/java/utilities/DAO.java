@@ -44,9 +44,9 @@ public class DAO implements Serializable {
         }
 
     }
-    
-    public void closeEM(){
-        if(em != null){
+
+    public void closeEM() {
+        if (em != null) {
             em.close();
         }
     }
@@ -62,6 +62,8 @@ public class DAO implements Serializable {
             tran.rollback();
             e.printStackTrace();
             return false;
+        } finally {
+            em.close();
         }
         return true;
     }
@@ -80,6 +82,8 @@ public class DAO implements Serializable {
             listAccounts = query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            em.close();
         }
         return listAccounts;
     }
@@ -90,6 +94,7 @@ public class DAO implements Serializable {
         Query query = em.createNamedQuery("PersonType.findByName");
         query.setParameter("name", "%" + person.getName() + "%");
         List<PersonType> list = (List<PersonType>) query.getResultList();
+        em.close();
         if (list.isEmpty()) {
             return false;
         } else {
@@ -103,6 +108,7 @@ public class DAO implements Serializable {
         query.setParameter(1, email);
         query.setParameter(2, username);
         List<AccountType> list = query.getResultList();
+        em.close();
         if (list.isEmpty()) {
             return false;
         }
@@ -113,6 +119,7 @@ public class DAO implements Serializable {
         Query query = em.createNamedQuery("Genres.findByName");
         query.setParameter("name", "%" + genre.getName() + "%");
         List<Genres> list = (List<Genres>) query.getResultList();
+        em.close();
         if (list.isEmpty()) {
             return false;
         } else {
@@ -125,6 +132,7 @@ public class DAO implements Serializable {
                 + " MovieId = '" + movieId + "' AND GenreId = '" + genreId + "'", MovieGenres.class);
 
         List<MovieGenres> list = (List<MovieGenres>) query.getResultList();
+        em.close();
         if (list.isEmpty()) {
             return false;
         } else {
@@ -137,6 +145,7 @@ public class DAO implements Serializable {
                 + " Name = '" + movie.getName() + "' AND ReleaseDate = '" + movie.getReleaseDate() + "'", MovieType.class);
 
         List<MovieType> list = (List<MovieType>) query.getResultList();
+        em.close();
         if (list.isEmpty()) {
             return false;
         } else {
@@ -201,6 +210,9 @@ public class DAO implements Serializable {
             em.getTransaction().rollback();
             ex.printStackTrace();
         }
+        finally{
+            em.close();
+        }
     }
 
     public void updateActorImageCover(String link, PersonType person) {
@@ -212,6 +224,9 @@ public class DAO implements Serializable {
         } catch (Exception ex) {
             em.getTransaction().rollback();
             ex.printStackTrace();
+        }
+        finally{
+            em.close();
         }
     }
 
@@ -225,6 +240,8 @@ public class DAO implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }finally{
+            em.close();
         }
         return true;
     }
@@ -248,6 +265,8 @@ public class DAO implements Serializable {
             em.getTransaction().commit();
         } catch (Exception ex) {
             ex.printStackTrace();
+        } finally {
+            em.close();
         }
         return movie;
 //        }
@@ -258,9 +277,16 @@ public class DAO implements Serializable {
         if (genresIsExisted(genre) == true) {
             return null;
         }
-        em.getTransaction().begin();
-        em.persist(genre);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.persist(genre);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
         return genre;
     }
 
@@ -268,10 +294,17 @@ public class DAO implements Serializable {
         if (personIsExisted(person) == true) {
             return null;
         }
-        em.getTransaction().begin();
-        em.persist(person);
-        em.flush();
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.persist(person);
+            em.flush();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
         return person;
     }
 
@@ -297,6 +330,8 @@ public class DAO implements Serializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            em.close();
         }
         return result;
     }
@@ -327,6 +362,8 @@ public class DAO implements Serializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            em.close();
         }
         return result;
     }
@@ -340,10 +377,17 @@ public class DAO implements Serializable {
 //       return true;
 //   }
     public int createCast(Cast cast) {
-        em.getTransaction().begin();
-        em.persist(cast);
-        em.flush();
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            em.persist(cast);
+            em.flush();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
         return cast.getId();
     }
     //</editor-fold>

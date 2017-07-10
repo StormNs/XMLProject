@@ -117,7 +117,7 @@ public class Crawler {
 
         System.out.println(link.size());
 //        String document = parseMovieHTML("http://www.imdb.com" + link.get(0));
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 50; i++) {
             System.out.println(i + 1 + ". ");
             String document = parseMovieHTML("http://www.imdb.com" + link.get(i));
             MovieType movie = StAXParserMovie(document);
