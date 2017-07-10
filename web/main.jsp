@@ -5,14 +5,15 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Main</title>
     </head>
-    <body style="margin:0px" onload="getMovies()">
+    <body style="margin:0px">
         <jsp:include page="template/header.jsp" />
         <!--container-->
         <div class="grid-container">
@@ -68,7 +69,8 @@
                             After being told of conflict in the outside world, 
                             she decides to leave home to fight 
                             a war that can end all wars.
-                        </div><br>
+                        </div>
+                        <br>
                         <div><span class="genre-tag">Action</span><span class="genre-tag">Action</span><span class="genre-tag">Super Heroes</span><span class="genre-tag">Action</span><span class="genre-tag">Action</span></div>
                         <form>
                             <input class="watch-btn" type="button" value="Watch" name="btnAction">
@@ -76,102 +78,59 @@
                     </div>
                 </div>
             </div>
+            <x:parse xml = "${requestScope.xmltext}" var = "newest"/>
             <div class="lastest-container">
                 <div class="header-row">
                     <span class="title-row">New  ❯ </span>
                 </div>
                 <div class="lastest-row">
-                    <div class="movie-container">
-                        <a href="movie.jsp"> 
-                            <img class="movie-picture" alt="Wonder Woman Poster" title="Wonder Woman Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                            <div class="movie-title-overlay">Wonder Woman</div>
-                        </a>
+                    <x:forEach select = "$newest/movies/movie" var = "newitem" begin="0" end="5">
+                       <div class="movie-container">
+                            <a href="<x:out select = "$newitem/id" />"> 
+                                <img class="movie-picture" alt="<x:out select = '$newitem/alternateName' /> Poster" title="<x:out select = "$newitem/name" /> Poster" src="FileServlet/<x:out select = "$newitem/imageCover" />">
+                                <div class="movie-title-overlay"><x:out select = "$newitem/name" /></div>
+                            </a>
 
-                    </div>
-                    <div class="movie-container">
-                        <a href="#"> 
-                            <img class="movie-picture" alt="The Mummy Poster" title="The Mummy Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMjM5NzM5NTgxN15BMl5BanBnXkFtZTgwNDEyNTk4MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                            <div class="movie-title-overlay">The Mummy</div>
-                        </a>
-                    </div>
-                    <div class="movie-container">
-                        <a href="#"> 
-                            <img class="movie-picture" alt="Pirates of the Caribbean: Dead Men Tell No Tales Poster" title="Pirates of the Caribbean: Dead Men Tell No Tales Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTYyMTcxNzc5M15BMl5BanBnXkFtZTgwOTg2ODE2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                            <div class="movie-title-overlay">Pirates of the Caribbean: Dead Men Tell No Tales</div>
-                        </a>
-                    </div>
-                    <div class="movie-container">
-                        <a href="#"> 
-                            <img class="movie-picture" alt="Guardians of the Galaxy Vol. 2 Poster" title="Guardians of the Galaxy Vol. 2 Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTg2MzI1MTg3OF5BMl5BanBnXkFtZTgwNTU3NDA2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                            <div class="movie-title-overlay">Guardians of the Galaxy Vol. 2</div>
-                        </a>
-                    </div>
+                        </div>
+                    </x:forEach>
                 </div>
             </div>
+            <x:parse xml = "${requestScope.xmltop}" var = "top"/>
             <div class="lastest-container">
                 <div class="header-row">
                     <span class="title-row">Top Rated  ❯ </span>
                 </div>
                 <div class="lastest-row">
-                    <div class="movie-container">
-                        <a href="#"> 
-                            <img class="movie-picture" alt="Wonder Woman Poster" title="Wonder Woman Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                            <div class="movie-title-overlay">Wonder Woman</div>
-                        </a>
+                    <x:forEach select = "$top/movies/movie" var = "item" begin="0" end="5">
+                        <div class="movie-container">
+                            <a href="<x:out select = "$item/id" />"> 
+                                <img class="movie-picture" alt="<x:out select = '$item/alternateName' /> Poster" title="<x:out select = "$item/name" /> Poster" src="FileServlet/<x:out select = "$item/imageCover" />">
+                                <div class="movie-title-overlay"><x:out select = "$item/name" /></div>
+                            </a>
 
-                    </div>
-                    <div class="movie-container">
-                        <a href="#"> 
-                            <img class="movie-picture" alt="The Mummy Poster" title="The Mummy Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMjM5NzM5NTgxN15BMl5BanBnXkFtZTgwNDEyNTk4MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                            <div class="movie-title-overlay">The Mummy</div>
-                        </a>
-                    </div>
-                    <div class="movie-container">
-                        <a href="#"> 
-                            <img class="movie-picture" alt="Pirates of the Caribbean: Dead Men Tell No Tales Poster" title="Pirates of the Caribbean: Dead Men Tell No Tales Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTYyMTcxNzc5M15BMl5BanBnXkFtZTgwOTg2ODE2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                            <div class="movie-title-overlay">Pirates of the Caribbean: Dead Men Tell No Tales</div>
-                        </a>
-                    </div>
-                    <div class="movie-container">
-                        <a href="#"> 
-                            <img class="movie-picture" alt="Guardians of the Galaxy Vol. 2 Poster" title="Guardians of the Galaxy Vol. 2 Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTg2MzI1MTg3OF5BMl5BanBnXkFtZTgwNTU3NDA2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                            <div class="movie-title-overlay">Guardians of the Galaxy Vol. 2</div>
-                        </a>
-                    </div>
+                        </div>
+                    </x:forEach>
+                    <!--                    <div class="movie-container">
+                                            <a href="#"> 
+                                                <img class="movie-picture" alt="The Mummy Poster" title="The Mummy Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMjM5NzM5NTgxN15BMl5BanBnXkFtZTgwNDEyNTk4MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                                                <div class="movie-title-overlay">The Mummy</div>
+                                            </a>
+                                        </div>
+                                        <div class="movie-container">
+                                            <a href="#"> 
+                                                <img class="movie-picture" alt="Pirates of the Caribbean: Dead Men Tell No Tales Poster" title="Pirates of the Caribbean: Dead Men Tell No Tales Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTYyMTcxNzc5M15BMl5BanBnXkFtZTgwOTg2ODE2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                                                <div class="movie-title-overlay">Pirates of the Caribbean: Dead Men Tell No Tales</div>
+                                            </a>
+                                        </div>
+                                        <div class="movie-container">
+                                            <a href="#"> 
+                                                <img class="movie-picture" alt="Guardians of the Galaxy Vol. 2 Poster" title="Guardians of the Galaxy Vol. 2 Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTg2MzI1MTg3OF5BMl5BanBnXkFtZTgwNTU3NDA2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
+                                                <div class="movie-title-overlay">Guardians of the Galaxy Vol. 2</div>
+                                            </a>
+                                        </div>-->
                 </div>
             </div>
-            <div class="lastest-container">
-                <div class="header-row">
-                    <span class="title-row">Series  ❯ </span>
-                </div>
-                <div class="lastest-row">
-                    <div class="movie-container">
-                        <a href="#"> 
-                            <img class="movie-picture" alt="Wonder Woman Poster" title="Wonder Woman Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BNDFmZjgyMTEtYTk5MC00NmY0LWJhZjktOWY2MzI5YjkzODNlXkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                            <div class="movie-title-overlay">Wonder Woman</div>
-                        </a>
 
-                    </div>
-                    <div class="movie-container">
-                        <a href="#"> 
-                            <img class="movie-picture" alt="The Mummy Poster" title="The Mummy Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMjM5NzM5NTgxN15BMl5BanBnXkFtZTgwNDEyNTk4MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                            <div class="movie-title-overlay">The Mummy</div>
-                        </a>
-                    </div>
-                    <div class="movie-container">
-                        <a href="#"> 
-                            <img class="movie-picture" alt="Pirates of the Caribbean: Dead Men Tell No Tales Poster" title="Pirates of the Caribbean: Dead Men Tell No Tales Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTYyMTcxNzc5M15BMl5BanBnXkFtZTgwOTg2ODE2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                            <div class="movie-title-overlay">Pirates of the Caribbean: Dead Men Tell No Tales</div>
-                        </a>
-                    </div>
-                    <div class="movie-container">
-                        <a href="#"> 
-                            <img class="movie-picture" alt="Guardians of the Galaxy Vol. 2 Poster" title="Guardians of the Galaxy Vol. 2 Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTg2MzI1MTg3OF5BMl5BanBnXkFtZTgwNTU3NDA2MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">
-                            <div class="movie-title-overlay">Guardians of the Galaxy Vol. 2</div>
-                        </a>
-                    </div>
-                </div>
-            </div>
         </div>
         <jsp:include page="template/footer.jsp"/>
     </body>
@@ -182,11 +141,10 @@
         var slideBadge = 0;
         document.addEventListener("DOMContentLoaded", function () {
             slideImage(slideIndex);
+            getTopMovies();
+            getMovieList();
         });
 
-        function getMovies() {
-            localStorage.setItem("movies", ${requestScope.xmlMovies});
-        }
 
         function nextSlide(n) {
             clearTimeout(slideTime);
@@ -276,8 +234,18 @@
             slideBadge = slideIndex;
             slideTime = window.setTimeout(nextSlide, 4000);
         }
-
-
+        function getTopMovies() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'TopMovie', false);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    sessionStorage.setItem("topMovie", xhr.responseText);
+                } else {
+                    alert('Request failed. Please try again later.');
+                }
+            };
+            xhr.send();
+        }
     </script>
 
 </html>

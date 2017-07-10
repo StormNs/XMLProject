@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,18 +17,10 @@ import utilities.Utilities;
 
 /**
  *
- * @author StormNs
+ * @author USER
  */
-public class DispatchServlet extends HttpServlet {
-
-    private final String loginPage = "account.jsp";
-    private final String mainPage = "main.jsp";
-    private final String loginServlet = "LoginServlet";
-    private final String signUpServlet = "SignupServlet";
-    private final String logOutServlet = "LogoutServlet";
-    private final String searchServlet = "SearchServlet";
-    private final String mainServlet = "MainServlet";
-//    private final String invalidPage = "invalid.html";
+@WebServlet("/Main")
+public class MainServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,40 +31,18 @@ public class DispatchServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String button = request.getParameter("btnAction");
-        
-        String url = null;
-        try {
-            if (button == null) {
-                //invalid
-                
-            } else {
-                switch (button) {
-                    case "LOGIN":
-                        url = loginServlet;
-                        break;
-                    case "REGISTER":
-                        url = signUpServlet;
-                        break;
-                    case "LOGOUT":
-                        url = logOutServlet;
-                        break;
-                    default:
-                        url = loginPage;
-                        break;
-                }
-            }// end of else
-
-        } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            Utilities uti = new Utilities();
+            String xmltop = uti.MarshallTopMovies();
+            String xmltext = uti.MarshallMovies();
+            request.setAttribute("xmltop", xmltop);
+            request.setAttribute("xmltext", xmltext);
+            RequestDispatcher rd = request.getRequestDispatcher("main.jsp");
             rd.forward(request, response);
-            out.close();
         }
     }
 

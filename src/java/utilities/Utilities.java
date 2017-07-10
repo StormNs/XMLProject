@@ -5,6 +5,7 @@
  */
 package utilities;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Template;
 import entities.AccountType;
 import entities.Accounts;
 import entities.Genres;
@@ -12,6 +13,7 @@ import entities.Movies;
 import entities.MovieType;
 import entities.PersonType;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -31,8 +33,10 @@ import javax.xml.bind.util.JAXBSource;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
+import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -114,39 +118,89 @@ public class Utilities implements Runnable {
         }
     }
 
-    public static void MarshallMovies(String realPath) {
+    public String MarshallMovies() {
         try {
             DAO dao = new DAO();
-            List<MovieType> list = dao.getAllMovie();
+            List<MovieType> list = dao.getMovieForSearch();
             Movies movies = new Movies();
             movies.setMovies(list);
 
             JAXBContext jc = JAXBContext.newInstance(Movies.class);
             Marshaller mar = jc.createMarshaller();
-            mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            File f = new File(realPath + "WEB-INF/movies.xml");
-            f.createNewFile();
-            mar.marshal(movies, f);
+//            mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+//            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+//            mar.setProperty("com.sun.xml.internal.bind.xmlHeaders",
+//                    "<?xml-stylesheet type=\"text/xsl\" href=\"clientMovies.xsl\"?>\n");
+//            File file = new File(realPath + "WEB-INF/movies.xml");
+//            FileWriter fw = new FileWriter(file);
+            StringWriter sw = new StringWriter();
+
+            mar.marshal(movies, sw);
+            return sw.toString();
 
         } catch (JAXBException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        }
+        return null;
+
+    }
+    public String MarshallTopMovies() {
+        try {
+            DAO dao = new DAO();
+            List<MovieType> list = dao.getTopMovie();
+            Movies movies = new Movies();
+            movies.setMovies(list);
+
+            JAXBContext jc = JAXBContext.newInstance(Movies.class);
+            Marshaller mar = jc.createMarshaller();
+//            mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+//            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+//            mar.setProperty("com.sun.xml.internal.bind.xmlHeaders",
+//                    "<?xml-stylesheet type=\"text/xsl\" href=\"clientMovies.xsl\"?>\n");
+//            File file = new File(realPath + "WEB-INF/movies.xml");
+//            FileWriter fw = new FileWriter(file);
+            StringWriter sw = new StringWriter();
+
+            mar.marshal(movies, sw);
+            return sw.toString();
+
+        } catch (JAXBException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        return null;
+        return null;
 
+    }
+
+    public String getNewLayout(String realPath) {
+        try {
+            StreamSource xsltFile = new StreamSource(realPath + "WEB-INF/newMovies.xsl");
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer trans = tf.newTransformer();
+            StringWriter sw = new StringWriter();
+            StreamResult outStream = new StreamResult(sw);
+            trans.transform(xsltFile, outStream);
+//            trans.setOutputProperty(OutputKeys.METHOD, "xml");
+//            trans.setOutputProperty(OutputKeys.INDENT, "no");
+            return sw.toString();
+        } catch (TransformerConfigurationException ex) {
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException ex) {
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     public String TransMoviesForClient(String realPath) {
         try {
-            File f = new File(realPath + "WEB-INF/movies.xml");
-            TransformerFactory tf = TransformerFactory.newInstance();
+//            File f = new File(realPath + "WEB-INF/movies.xml");
             StreamSource xsltFile = new StreamSource(realPath + "WEB-INF/clientMovies.xsl");
-            Transformer trans = tf.newTransformer(xsltFile);
+            TransformerFactory tf = TransformerFactory.newInstance();
+            StreamSource xmlFile = new StreamSource(realPath + "WEB-INF/movies.xml");
+            Templates template = tf.newTemplates(xsltFile);
+            Transformer trans = template.newTransformer();
             StringWriter sw = new StringWriter();
-            StreamResult xmlFile = new StreamResult(sw);
-            trans.transform(xsltFile, xmlFile);
+            StreamResult outStream = new StreamResult(sw);
+            trans.transform(xmlFile, outStream);
             return sw.toString();
         } catch (TransformerException ex) {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);

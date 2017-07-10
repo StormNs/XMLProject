@@ -168,10 +168,13 @@
         padding: 15px 15px 0px 10px;
         z-index: 1000;
     }
+<<<<<<< HEAD
     #fast-result-container >a{
         border-bottom: solid 1px #2f2d2d;
+=======
     .no-deco{
         text-decoration: none;
+>>>>>>> origin/dev-StormNs
     }
 </style>
 <header role="banner">
@@ -227,6 +230,13 @@
             </div>
         </div>
         <div id="menu-account">
+<<<<<<< HEAD
+            <a>Sign up</a>
+            <a><i class="fa fa-user"></i> Login</a>
+
+            <!--            <a>Logout</a>
+                        <span>Welcome <span style="color: lightseagreen">Danh</span></span>-->
+=======
             <c:set var="accountName" value="${sessionScope.account_Name}"/>
             <c:if test ="${not empty accountName}">
                 <a href="DispatchServlet?btnAction=LOGOUT">Logout</a>
@@ -236,11 +246,10 @@
             <a class="no-deco" href="account.jsp"><i class="fa fa-user"></i> Login</a>
             </c:if>
 
-            <!--            <a>Logout</a>
-                        <span>Welcome <span style="color: lightseagreen">Danh</span></span>-->
+>>>>>>> origin/dev-StormNs
 
         </div>
-    </div> 
+    </div>
 </header>
 <script>
     var count = 0;

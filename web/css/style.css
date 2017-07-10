@@ -7,7 +7,10 @@ and open the template in the editor.
     Created on : Jun 27, 2017, 9:26:53 PM
     Author     : USER
 */
-
+.movie-picture{
+    width: 182px;
+    height: 268px;
+}
 .grid-container{
     display: inline-grid;
 }
@@ -19,6 +22,7 @@ and open the template in the editor.
 .lastest-container{
     margin-bottom: 20px;
     background-color: #191818;
+    margin-top: 20px;
 }
 .header-row{
     width: 100%;
@@ -45,6 +49,7 @@ and open the template in the editor.
     margin-right: 24px;
     box-shadow: 2px 5px 8px 0px black;
     border: solid 1px #888888;
+    border-radius: 4px;
 }
 .movie-title-overlay{
     position: absolute;

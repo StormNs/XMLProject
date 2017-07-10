@@ -5,29 +5,38 @@
  */
 package servlets;
 
+import entities.AccountType;
+import entities.Genres;
+import entities.MovieType;
+import entities.Movies;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.xml.bind.JAXBException;
+import utilities.Crawler;
+import org.eclipse.persistence.jpa.jpql.parser.DateTime;
+import utilities.DAO;
 import utilities.Utilities;
 
 /**
  *
  * @author StormNs
  */
-public class DispatchServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
     private final String loginPage = "account.jsp";
     private final String mainPage = "main.jsp";
-    private final String loginServlet = "LoginServlet";
-    private final String signUpServlet = "SignupServlet";
-    private final String logOutServlet = "LogoutServlet";
-    private final String searchServlet = "SearchServlet";
-    private final String mainServlet = "MainServlet";
-//    private final String invalidPage = "invalid.html";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,36 +47,59 @@ public class DispatchServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String button = request.getParameter("btnAction");
-        
-        String url = null;
-        try {
-            if (button == null) {
-                //invalid
-                
-            } else {
-                switch (button) {
-                    case "LOGIN":
-                        url = loginServlet;
-                        break;
-                    case "REGISTER":
-                        url = signUpServlet;
-                        break;
-                    case "LOGOUT":
-                        url = logOutServlet;
-                        break;
-                    default:
-                        url = loginPage;
-                        break;
-                }
-            }// end of else
 
+        String username = request.getParameter("txtUsername").trim();
+        String password = request.getParameter("txtPassword").trim();
+        String email = "";
+        if (username.contains("@")) {
+            email = username;
+            username = "";
+        }
+
+        String url = loginPage;
+        HttpSession session = request.getSession();
+        
+        String accountExist = (String) session.getAttribute("account_Name");
+        try {
+<<<<<<< HEAD
+            HttpSession session = request.getSession();
+            String temp = (String) session.getAttribute("index");
+//            Utilities ulti = new Utilities();
+//            String realPath = request.getServletContext().getRealPath("/");
+//            String xmlMovies = ulti.TransMoviesForClient(realPath);
+//            request.setAttribute("xmlMovies", xmlMovies);
+            Integer index = null;
+            if (temp == null) {
+                index = 0;
+=======
+            DAO dao = new DAO();
+            List<AccountType> list = dao.findAccounts(email, username);
+            if (list.isEmpty()) {
+                request.setAttribute("Result", "Wrong_field");
+            }
+            AccountType acc = list.get(0);
+            if (acc.getPassword().equals(password)) {;
+                url = mainPage;
+                session.setAttribute("account_Name", acc.getUsername());
+>>>>>>> origin/dev-StormNs
+            } else {
+                request.setAttribute("Result", "Wrong_field");
+            }
+            
+            
+            String temp = (String) session.getAttribute("index");
+
+//           
+//            DAO dao = new DAO();
+            Utilities ul = new Utilities();
+            ul.CrawlDataAuto();
+//           
+        } catch (Exception ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

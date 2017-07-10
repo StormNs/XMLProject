@@ -39,6 +39,7 @@ public class DAO implements Serializable {
         try {
             emf = Persistence.createEntityManagerFactory("XMLProjectPU");
             em = emf.createEntityManager();
+            em.clear();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,6 +81,7 @@ public class DAO implements Serializable {
                 query.setParameter("username", username);
             }
             listAccounts = query.getResultList();
+            em.clear();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -94,7 +96,7 @@ public class DAO implements Serializable {
         Query query = em.createNamedQuery("PersonType.findByName");
         query.setParameter("name", "%" + person.getName() + "%");
         List<PersonType> list = (List<PersonType>) query.getResultList();
-        em.close();
+
         if (list.isEmpty()) {
             return false;
         } else {
@@ -119,7 +121,7 @@ public class DAO implements Serializable {
         Query query = em.createNamedQuery("Genres.findByName");
         query.setParameter("name", "%" + genre.getName() + "%");
         List<Genres> list = (List<Genres>) query.getResultList();
-        em.close();
+
         if (list.isEmpty()) {
             return false;
         } else {
@@ -132,7 +134,7 @@ public class DAO implements Serializable {
                 + " MovieId = '" + movieId + "' AND GenreId = '" + genreId + "'", MovieGenres.class);
 
         List<MovieGenres> list = (List<MovieGenres>) query.getResultList();
-        em.close();
+
         if (list.isEmpty()) {
             return false;
         } else {
@@ -142,8 +144,10 @@ public class DAO implements Serializable {
 
     public Boolean moviesExisted(MovieType movie) {
         Query query = em.createNativeQuery("SELECT * FROM Movies WHERE"
-                + " Name = '" + movie.getName() + "' AND ReleaseDate = '" + movie.getReleaseDate() + "'", MovieType.class);
-
+                + " Name = ?name AND ReleaseDate = ?date", MovieType.class);
+        query.setParameter("name", movie.getName());
+        query.setParameter("date", movie.getReleaseDate());
+        em.clear();
         List<MovieType> list = (List<MovieType>) query.getResultList();
         em.close();
         if (list.isEmpty()) {
@@ -157,7 +161,7 @@ public class DAO implements Serializable {
         Query query = em.createQuery("SELECT c FROM Cast c WHERE c.movieId.id = ?1 AND c.actorId.id  = ?2", Cast.class);
         query.setParameter(1, movieId);
         query.setParameter(2, personId);
-
+        em.clear();
         List<Cast> list = query.getResultList();
         if (list.isEmpty()) {
             return false;
@@ -171,29 +175,52 @@ public class DAO implements Serializable {
     //<editor-fold>
     public List getAllAccounts() {
         Query query = em.createNamedQuery("AccountType.findAll");
+        em.clear();
         return query.getResultList();
     }
 
     public List getAllMovie() {
         Query query = em.createNamedQuery("MovieType.findAll");
+        em.clear();
         return query.getResultList();
+    }
+
+    public List getMovieForSearch() {
+        Query query = em.createNativeQuery("SELECT TOP(50) Id, Name, AlternateName, "
+                + "ImageCover FROM Movies ORDER BY ReleaseDate DESC", MovieType.class);
+        
+        List list = query.getResultList();
+        em.close();
+        return list;
+    }
+
+    public List getTopMovie() {
+        Query query2 = em.createNativeQuery("SELECT TOP(20) Id, Name, AlternateName, "
+                + "ImageCover FROM Movies ORDER BY Rating DESC", MovieType.class);
+//Query query = em.createQuery("SELECT m FROM MovieType a WHERE a.id, a.alternateName");
+        List list2 = query2.getResultList();
+        em.close();
+        return list2;
     }
 
     public MovieType getMovieByName(String name) {
         Query query = em.createQuery("SELECT m FROM MovieType m WHERE m.name Like ?1", MovieType.class);
         query.setParameter(1, "%" + name + "%");
+        em.clear();
         return (MovieType) query.getResultList().get(0);
     }
 
     public Genres getGenreByName(String name) {
         Query query = em.createQuery("SELECT g FROM Genres g WHERE g.name Like ?1", Genres.class);
         query.setParameter(1, "%" + name + "%");
+        em.clear();
         return (Genres) query.getResultList().get(0);
     }
 
     public PersonType getActorByName(String name) {
         Query query = em.createQuery("SELECT a FROM PersonType a WHERE a.name Like ?1", PersonType.class);
         query.setParameter(1, "%" + name + "%");
+        em.clear();
         return (PersonType) query.getResultList().get(0);
     }
     //</editor-fold>
@@ -392,4 +419,10 @@ public class DAO implements Serializable {
     }
     //</editor-fold>
 
+    public List searchMoviesByName(String keyword) {
+        Query query = em.createNativeQuery("SELECT Name,Id,AlternateName,"
+                + "ImageCover FROM Movies WHERE Name Like ?keyword ORDER BY ReleaseDate DESC", MovieType.class);
+        query.setParameter("keyword", "%" + keyword + "%");
+        return (List<MovieType>) query.getResultList();
+    }
 }

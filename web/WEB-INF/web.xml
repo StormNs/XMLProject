@@ -19,6 +19,20 @@
     <servlet>
         <servlet-name>SignupServlet</servlet-name>
         <servlet-class>servlets.SignupServlet</servlet-class>
+        <servlet-name>SearchServlet</servlet-name>
+        <servlet-class>servlets.SearchServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewestServlet</servlet-name>
+        <servlet-class>servlets.NewestServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TopServlet</servlet-name>
+        <servlet-class>servlets.TopServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MainServlet</servlet-name>
+        <servlet-class>servlets.MainServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
@@ -43,6 +57,20 @@
     <servlet-mapping>
         <servlet-name>SignupServlet</servlet-name>
         <url-pattern>/SignupServlet</url-pattern>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/SearchServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewestServlet</servlet-name>
+        <url-pattern>/NewestServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TopServlet</servlet-name>
+        <url-pattern>/TopServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/MainServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
