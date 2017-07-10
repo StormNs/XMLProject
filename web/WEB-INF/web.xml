@@ -20,6 +20,10 @@
         <servlet-name>SearchServlet</servlet-name>
         <servlet-class>servlets.SearchServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NewestServlet</servlet-name>
+        <servlet-class>servlets.NewestServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DispatchServlet</servlet-name>
         <url-pattern>/DispatchServlet</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>SearchServlet</servlet-name>
         <url-pattern>/SearchServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewestServlet</servlet-name>
+        <url-pattern>/NewestServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

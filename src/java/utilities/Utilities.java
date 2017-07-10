@@ -33,6 +33,7 @@ import javax.xml.bind.util.JAXBSource;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Templates;
@@ -117,7 +118,7 @@ public class Utilities implements Runnable {
         }
     }
 
-    public String MarshallMovies(String realPath) {
+    public String MarshallMovies() {
         try {
             DAO dao = new DAO();
             List<MovieType> list = dao.getMovieForSearch();
@@ -142,6 +143,25 @@ public class Utilities implements Runnable {
         }
         return null;
 
+    }
+
+    public String getTopLayout(String realPath) {
+        try {
+            StreamSource xsltFile = new StreamSource(realPath + "WEB-INF/newMovies.xsl");
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer trans = tf.newTransformer();
+            StringWriter sw = new StringWriter();
+            StreamResult outStream = new StreamResult(sw);
+            trans.transform(xsltFile, outStream);
+//            trans.setOutputProperty(OutputKeys.METHOD, "xml");
+//            trans.setOutputProperty(OutputKeys.INDENT, "no");
+            return sw.toString();
+        } catch (TransformerConfigurationException ex) {
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException ex) {
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     public String TransMoviesForClient(String realPath) {

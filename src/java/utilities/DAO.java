@@ -116,8 +116,9 @@ public class DAO implements Serializable {
 
     public Boolean moviesExisted(MovieType movie) {
         Query query = em.createNativeQuery("SELECT * FROM Movies WHERE"
-                + " Name = '" + movie.getName() + "' AND ReleaseDate = '" + movie.getReleaseDate() + "'", MovieType.class);
-
+                + " Name = ?name AND ReleaseDate = ?date", MovieType.class);
+        query.setParameter("name", movie.getName());
+        query.setParameter("date", movie.getReleaseDate());
         List<MovieType> list = (List<MovieType>) query.getResultList();
         if (list.isEmpty()) {
             return false;
@@ -310,8 +311,9 @@ public class DAO implements Serializable {
     //</editor-fold>
 
     public List searchMoviesByName(String keyword) {
-        Query query = em.createNativeQuery("SELECT Name,Id,AlternateName,[Description],"
-                + "ImageCover FROM Movies WHERE Name Like '%"+keyword+"%' ORDER BY ReleaseDate DESC", MovieType.class);
+        Query query = em.createNativeQuery("SELECT Name,Id,AlternateName,"
+                + "ImageCover FROM Movies WHERE Name Like ?keyword ORDER BY ReleaseDate DESC", MovieType.class);
+        query.setParameter("keyword", "%"+keyword+"%");
         return (List<MovieType>) query.getResultList();
     }
 }

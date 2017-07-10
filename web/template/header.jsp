@@ -22,6 +22,7 @@
         -webkit-box-shadow:0px 9px 21px 0px #505050;
         -moz-box-shadow:0px 9px 21px 0px #505050;
         box-shadow:0px 9px 21px 0px #505050;
+        text-shadow: 4px 3px 3px black;
     }
     #menu-container >a{
         float:left;
@@ -60,6 +61,7 @@
     #menu-account{
         margin-left: auto;
         margin-right:auto;
+        text-shadow: 4px 3px 3px black;
     }
     a i{
         padding-right: 10px;
@@ -124,6 +126,7 @@
         float: left;
         text-align: center;
         color: lightgray;
+        box-shadow: 0px 1px 5px 1px black;
     }
     .movie-picture-result{
         float: left;
@@ -187,8 +190,8 @@
             <div class="search-container">
                 <div class="fast-search-result">
                     <form action="SearchMovie" method="GET">
-                        <input id="search-bar" name="search-bar" required="true" type="text" placeholder="Search..." oninput="fastSearch()"/>
-                        <button type="submit" id="search-btn" autocomplete="off" value="search" class="search-btn"><i class="fa fa-search"></i></button>
+                        <input id="search-bar" name="search-bar" required="true" type="text" autocomplete="off" placeholder="Search..." oninput="fastSearch()"/>
+                        <button type="submit" id="search-btn" value="search" class="search-btn"><i class="fa fa-search"></i></button>
                     </form>
 
                     <!--FAST RESULT-->
@@ -270,7 +273,9 @@
         }
         if (node.tagName === "name") {
             var tmp = node.firstChild.nodeValue.toLowerCase();
-            if (tmp.indexOf(searchVal.toLowerCase(), 0) > -1) {
+            var checkSibling = node.nextSibling;
+            if (tmp.indexOf(searchVal.toLowerCase(), 0) > -1 || (checkSibling.tagName === "alternateName"
+                    && checkSibling.firstChild.nodeValue.toLowerCase().indexOf(searchVal.toLowerCase(), 0) > -1)) {
                 var name = node.firstChild.nodeValue;
                 var sibling = node.previousSibling;
                 var num = sibling.firstChild.nodeValue;
@@ -338,31 +343,24 @@
         }
         if (sessionStorage.getItem("list") === null || sessionStorage.getItem("list") === '') {
             getMovieList();
-            parser = new DOMParser();
-            xmlDOM = parser.parseFromString(sessionStorage.getItem("list"), "text/xml");
-
-            container.innerHTML = "";
-            searchNode(xmlDOM, searchValue, displayId);
         } else {
 //            xmlDOM.async = false;
 //            xmlDOM.loadXML(localStorage.getItem("list"));
-            parser = new DOMParser();
-            xmlDOM = parser.parseFromString(sessionStorage.getItem("list"), "text/xml");
-
-            container.innerHTML = "";
-            searchNode(xmlDOM, searchValue, displayId);
-
         }
+        parser = new DOMParser();
+        xmlDOM = parser.parseFromString(sessionStorage.getItem("list"), "text/xml");
+
+        container.innerHTML = "";
+        searchNode(xmlDOM, searchValue, displayId);
+        var result = document.createElement('a');
+        result.className = 'movie-link';
+        result.onclick = function () {
+            document.getElementById('search-btn').click();
+        };
         if (document.getElementById("fast-result-container").innerHTML === "") {
-            var result = document.createElement('a');
-            result.className = 'movie-link';
-            result.onclick = function () { document.getElementById('search-btn').click()};
             result.innerHTML = "Press Enter for wide search.";
             document.getElementById("fast-result-container").appendChild(result);
         } else {
-            var result = document.createElement('a');
-            result.className = 'movie-link';
-            result.onclick = function () { document.getElementById('search-btn').click()};
             result.innerHTML = "More result";
             document.getElementById("fast-result-container").appendChild(result);
         }

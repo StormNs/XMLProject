@@ -21,7 +21,7 @@
             margin-right: 21px;
         }
         .lastest-container{
-            margin: 20px 0px;
+            margin: 20px 7.0px;
             min-height: 600px;
         }
     </style>
