@@ -53,6 +53,7 @@ public class SignupServlet extends HttpServlet {
                     request.setAttribute("Result", "successed");
                 }
             }
+            dao.closeEM();
 
         } catch (Exception e) {
             e.printStackTrace();

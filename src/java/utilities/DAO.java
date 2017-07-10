@@ -64,7 +64,7 @@ public class DAO implements Serializable {
             e.printStackTrace();
             return false;
         } finally {
-            em.close();
+            
         }
         return true;
     }
@@ -85,7 +85,7 @@ public class DAO implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            em.close();
+            
         }
         return listAccounts;
     }
@@ -110,7 +110,7 @@ public class DAO implements Serializable {
         query.setParameter(1, email);
         query.setParameter(2, username);
         List<AccountType> list = query.getResultList();
-        em.close();
+        
         if (list.isEmpty()) {
             return false;
         }
@@ -149,7 +149,7 @@ public class DAO implements Serializable {
         query.setParameter("date", movie.getReleaseDate());
         em.clear();
         List<MovieType> list = (List<MovieType>) query.getResultList();
-        em.close();
+        
         if (list.isEmpty()) {
             return false;
         } else {
@@ -190,7 +190,7 @@ public class DAO implements Serializable {
                 + "ImageCover FROM Movies ORDER BY ReleaseDate DESC", MovieType.class);
         
         List list = query.getResultList();
-        em.close();
+        
         return list;
     }
 
@@ -199,7 +199,7 @@ public class DAO implements Serializable {
                 + "ImageCover FROM Movies ORDER BY Rating DESC", MovieType.class);
 //Query query = em.createQuery("SELECT m FROM MovieType a WHERE a.id, a.alternateName");
         List list2 = query2.getResultList();
-        em.close();
+        
         return list2;
     }
 
@@ -238,7 +238,7 @@ public class DAO implements Serializable {
             ex.printStackTrace();
         }
         finally{
-            em.close();
+            
         }
     }
 
@@ -253,7 +253,7 @@ public class DAO implements Serializable {
             ex.printStackTrace();
         }
         finally{
-            em.close();
+            
         }
     }
 
@@ -268,7 +268,7 @@ public class DAO implements Serializable {
             e.printStackTrace();
             return false;
         }finally{
-            em.close();
+            
         }
         return true;
     }
@@ -293,7 +293,7 @@ public class DAO implements Serializable {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            em.close();
+            
         }
         return movie;
 //        }
@@ -312,7 +312,7 @@ public class DAO implements Serializable {
             em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            em.close();
+            
         }
         return genre;
     }
@@ -330,7 +330,7 @@ public class DAO implements Serializable {
             em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            em.close();
+            
         }
         return person;
     }
@@ -358,7 +358,7 @@ public class DAO implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            em.close();
+            
         }
         return result;
     }
@@ -390,7 +390,7 @@ public class DAO implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            em.close();
+            
         }
         return result;
     }
@@ -413,7 +413,7 @@ public class DAO implements Serializable {
             em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            em.close();
+            
         }
         return cast.getId();
     }

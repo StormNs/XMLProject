@@ -122,13 +122,13 @@
                         <a class="snUpLink" 
                            onclick="SignUp()">Create an account</a></p>
                 </form>
-                <div class="success hid-form" id="success">
+                <div class="success" id="success" style="display: none;">
                     <span class="btn_close" onclick="this.parentElement.style.display = 'none'">&times;</span>
                     <div id="success_message">Sign Up Successed</div>
                 </div>
 
             </div>
-            <div class="Form hid-form" id="SignUp_F">
+            <div class="Form" id="SignUp_F" style="display: none;">
                 <form action="DispatchServlet" method="POST">
                     <p> <input class="lgIn-field" required="true" type="text" value="" 
                                name="txtsgnUpUsername" placeholder="Username"/></p>
@@ -140,7 +140,7 @@
                               value="REGISTER" name="btnAction" /> </p>
                     <p class="regis"><a onclick="LogIn()" class="snUpLink">Already have an account?</a></p>
                 </form>
-                <div class="alert hid-form" id="error">
+                <div class="alert" id="error" style="display: none;">
                     <span class="btn_close" onclick="this.parentElement.style.display = 'none'">&times;</span>
                     <div id="error_message">Username or Email already existed!</div>
                 </div>
@@ -157,15 +157,15 @@
             function LogIn() {
                 var logI = document.getElementById('LogIn_F');
                 var sign = document.getElementById('SignUp_F');
-                logI.className = logI.className.replace("hid-form", "");
-                sign.className += " hid-form";
+                logI.style.display = "block";
+                sign.style.display = "none";
             }
 
             function SignUp() {
                 var logI = document.getElementById('LogIn_F');
                 var sign = document.getElementById('SignUp_F');
-                logI.className += " hid-form";
-                sign.className = sign.className.replace("hid-form", "");
+                logI.style.display = "none";
+                sign.style.display = "block";
             }
 
             function checkResult() {
@@ -176,22 +176,22 @@
                 var success_mess = document.getElementById('success_message');
                 if (result === "existed") {
                     error.innerHTML = "Username or Email already existed!";
-                    eContain.className = eContain.className.replace("hid-form", " ");
+                    eContain.style.display = "block";
                     SignUp();
                 } else if (result === "invalidField") {
                     error.innerHTML = "Error";
-                    eContain.className = eContain.className.replace("hid-form", " ");
+                    eContain.style.display = "block";
                     SignUp();
                 } else if (result === "successed") {
                     LogIn();
                     success_mess.innerHTML = "Successed";
                     success.className = success.className.replace("alert", " success")
-                    success.className = success.className.replace("hid-form", " ");
+                    success.style.display = "block";
                 } else if (result === "Wrong_field") {
                     LogIn();
                     success_mess.innerHTML = "Wrong username/email or password";
                     success.className = success.className.replace("success", " alert")
-                    success.className = success.className.replace("hid-form", " ");
+                    success.style.display = "block";
                 }
             }
         </script>
