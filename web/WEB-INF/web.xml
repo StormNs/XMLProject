@@ -17,6 +17,8 @@
         <servlet-class>servlets.FileServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>SignupServlet</servlet-name>
+        <servlet-class>servlets.SignupServlet</servlet-class>
         <servlet-name>SearchServlet</servlet-name>
         <servlet-class>servlets.SearchServlet</servlet-class>
     </servlet>
@@ -49,6 +51,8 @@
         <url-pattern>/FileServlet/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>SignupServlet</servlet-name>
+        <url-pattern>/SignupServlet</url-pattern>
         <servlet-name>SearchServlet</servlet-name>
         <url-pattern>/SearchServlet</url-pattern>
     </servlet-mapping>
@@ -70,6 +74,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>TopServlet</welcome-file>
+        <welcome-file>account.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

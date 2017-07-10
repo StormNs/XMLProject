@@ -94,6 +94,18 @@ public class DAO implements Serializable {
         }
     }
 
+    public Boolean accountIsExisted(String username, String email) {
+        Query query = em.createQuery("SELECT acc FROM AccountType acc"
+                + " WHERE acc.email = ?1 OR acc.username = ?2", AccountType.class);
+        query.setParameter(1, email);
+        query.setParameter(2, username);
+        List<AccountType> list = query.getResultList();
+        if (list.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
     public Boolean genresIsExisted(Genres genre) {
         Query query = em.createNamedQuery("Genres.findByName");
         query.setParameter("name", "%" + genre.getName() + "%");
@@ -203,15 +215,42 @@ public class DAO implements Serializable {
 
     // Create and edit function 
     //<editor-fold>
-    public void updateImageCover(String link, MovieType movie) {
+    public void updateMovieImageCover(String link, MovieType movie) {
         try {
             movie.setImageCover(link);
             em.getTransaction().begin();
             em.persist(movie);
             em.getTransaction().commit();
         } catch (Exception ex) {
+            em.getTransaction().rollback();
             ex.printStackTrace();
         }
+    }
+
+    public void updateActorImageCover(String link, PersonType person) {
+        try {
+            person.setImageUrl(link);
+            em.getTransaction().begin();
+            em.persist(person);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            em.getTransaction().rollback();
+            ex.printStackTrace();
+        }
+    }
+
+    public Boolean createAccounts(String username, String email, String password) {
+        try {
+
+            AccountType acc = new AccountType(username, password, email);
+            em.getTransaction().begin();
+            em.persist(acc);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public MovieType createMovie(MovieType movie) {
