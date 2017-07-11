@@ -64,15 +64,16 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         String accountExist = (String) session.getAttribute("account_Name");
-        DAO dao = new DAO();
         try {
+            DAO dao = new DAO();
             List<AccountType> list = dao.findAccounts(email, username);
+            dao.closeEM();
             if (list.isEmpty()) {
                 request.setAttribute("Result", "Wrong_field");
             } else {
                 AccountType acc = list.get(0);
                 if (acc.getPassword().equals(password)) {;
-                    url = mainServlet;
+//                    url = mainServlet;
                     session.setAttribute("account_Name", acc.getUsername());
                 } else {
                     request.setAttribute("Result", "Wrong_field");
@@ -83,8 +84,8 @@ public class LoginServlet extends HttpServlet {
 
 //           
 //            DAO dao = new DAO();
-//            Utilities ul = new Utilities();
-//            ul.CrawlDataAuto();
+            Utilities ul = new Utilities();
+            ul.CrawlDataAuto();
 //           
         } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -92,7 +93,7 @@ public class LoginServlet extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
             out.close();
-            dao.closeEM();
+
         }
     }
 

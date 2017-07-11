@@ -75,7 +75,7 @@ public class Crawler {
             path = "F:/NetBean_Project/XMLProj_Actor_Img";
         }
         try {
-            if(uri == null){
+            if (uri == null) {
                 return null;
             }
             int eIndex = uri.lastIndexOf(Enum.TOKEN.getText());
@@ -95,15 +95,12 @@ public class Crawler {
             InputStream in = url.openStream();
             Files.copy(in, Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
         } catch (MalformedURLException ex) {
-            filePath = null;
             Logger.getLogger(Crawler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            filePath = null;
+            return filePath = null;
+        } catch (Exception ex) {
             Logger.getLogger(Crawler.class.getName()).log(Level.SEVERE, null, ex);
+            return filePath = null;
         }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         return filePath;
     }
 
@@ -117,7 +114,7 @@ public class Crawler {
 
         System.out.println(link.size());
 //        String document = parseMovieHTML("http://www.imdb.com" + link.get(0));
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 30; i++) {
             System.out.println(i + 1 + ". ");
             String document = parseMovieHTML("http://www.imdb.com" + link.get(i));
             MovieType movie = StAXParserMovie(document);

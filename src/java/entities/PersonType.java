@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
     @NamedQuery(name = "PersonType.findAll", query = "SELECT p FROM PersonType p")
     , @NamedQuery(name = "PersonType.findById", query = "SELECT p FROM PersonType p WHERE p.id = :id")
-    , @NamedQuery(name = "PersonType.findByName", query = "SELECT p FROM PersonType p WHERE p.name Like :name")
+    , @NamedQuery(name = "PersonType.findByName", query = "SELECT p FROM PersonType p WHERE p.name = :name")
     , @NamedQuery(name = "PersonType.findByAlternateName", query = "SELECT p FROM PersonType p WHERE p.alternateName = :alternateName")
     , @NamedQuery(name = "PersonType.findByHeight", query = "SELECT p FROM PersonType p WHERE p.height = :height")
     , @NamedQuery(name = "PersonType.findByBirthDate", query = "SELECT p FROM PersonType p WHERE p.birthDate = :birthDate")

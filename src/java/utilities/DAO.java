@@ -94,7 +94,7 @@ public class DAO implements Serializable {
     //<editor-fold>
     public Boolean personIsExisted(PersonType person) {
         Query query = em.createNamedQuery("PersonType.findByName");
-        query.setParameter("name", "%" + person.getName() + "%");
+        query.setParameter("name", person.getName());
         List<PersonType> list = (List<PersonType>) query.getResultList();
 
         if (list.isEmpty()) {
@@ -218,9 +218,8 @@ public class DAO implements Serializable {
     }
 
     public PersonType getActorByName(String name) {
-        Query query = em.createQuery("SELECT a FROM PersonType a WHERE a.name Like ?1", PersonType.class);
+        Query query = em.createQuery("SELECT a FROM PersonType a WHERE a.name = ?1", PersonType.class);
         query.setParameter(1, "%" + name + "%");
-        em.clear();
         return (PersonType) query.getResultList().get(0);
     }
     //</editor-fold>
