@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/xml" prefix="x"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -44,7 +46,9 @@
     <body>
         <jsp:include page="template/header.jsp"/>
         <div>
+            <x:parse xml = "${requestScope.mo}" var = "mo"/>
             <div class="lastest-container">
+                <input hidden type="text" value="<x:out select = "$mo/movie/id" />"/>
                 <div class="movie-watching-container">
                     <div style="    width: 1015px;
                          margin: 0 auto; padding-bottom: 20px">
@@ -56,17 +60,26 @@
                     <div class="movie-detail">
                         <div class="movie-container">
 
-                            <img class="movie-picture" alt="${requestScope.MovieName} Poster" title="/${requestScope.MovieName} Poster" src="FileServlet/${requestScope.MovieImageCover}">
+                            <img class="movie-picture" alt="<x:out select = "$mo/movie/name" /> Poster" title="<x:out select = "$mo/movie/name" /> Poster" src="FileServlet/<x:out select = "$mo/movie/imageCover" />">
                             <div class="movie-title-overlay"> 
-                                ${requestScope.MovieName}
+                                <x:out select = "$mo/movie/name" />
                             </div>
 
 
                         </div>
                         <div class="movie-text">
-                            <p class="title-desc">${requestScope.MovieName}<br>${requestScope.MovieAltName}</p>
+                            <div>
+                            <p class="title-desc"><x:out select = "$mo/movie/name" /><br><x:out select = "$mo/movie/alternateName" /></p>
+                            </div>
+                            <div>
+                                <p><span style="color: #78a7e1;">Country:</span> <x:out select = "$mo/movie/country" /></p>
+                            <p><span style="color: #78a7e1;">Language:</span> <x:out select = "$mo/movie/language" /></p>
+                            <p><span style="color: #78a7e1;">Release date:</span> <x:out select = "$mo/movie/releaseDate" /></p>
+                            <p><span style="color: #78a7e1;">Director:</span> <x:out select = "$mo/movie/director" /></p>
+                            </div>
+                            <p><span style="color: #78a7e1;">Description:</span></p>
+                            <p><x:out select = "$mo/movie/description" /></p>
 
-                            <p>${requestScope.MovieDescription}</p>
                         </div>
                     </div>
                 </div>
