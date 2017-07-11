@@ -96,10 +96,10 @@ public class Crawler {
             Files.copy(in, Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
         } catch (MalformedURLException ex) {
             Logger.getLogger(Crawler.class.getName()).log(Level.SEVERE, null, ex);
-            return filePath = null;
+            return filePath;
         } catch (Exception ex) {
             Logger.getLogger(Crawler.class.getName()).log(Level.SEVERE, null, ex);
-            return filePath = null;
+            return filePath;
         }
         return filePath;
     }
