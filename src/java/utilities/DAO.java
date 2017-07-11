@@ -254,12 +254,10 @@ public class DAO implements Serializable {
     //<editor-fold>
     public void updateMovieImageCover(String link, MovieType movie) {
         try {
-            movie.setImageCover(link);
-            em.getTransaction().begin();
-            em.persist(movie);
-            em.getTransaction().commit();
+            MovieType p = em.find(MovieType.class, movie.getId());
+            p.setImageCover(link);
+            em.merge(p);
         } catch (Exception ex) {
-            em.getTransaction().rollback();
             ex.printStackTrace();
         } finally {
 
@@ -267,13 +265,10 @@ public class DAO implements Serializable {
     }
 
     public void updateActorImageCover(String link, PersonType person) {
-        try {
-            person.setImageUrl(link);
-            em.getTransaction().begin();
-            em.persist(person);
-            em.getTransaction().commit();
+         try {
+            PersonType p = em.find(PersonType.class, person.getId());
+            p.setImageUrl(link);
         } catch (Exception ex) {
-            em.getTransaction().rollback();
             ex.printStackTrace();
         } finally {
 
@@ -330,9 +325,10 @@ public class DAO implements Serializable {
         try {
             em.getTransaction().begin();
             em.persist(genre);
+
             em.getTransaction().commit();
         } catch (Exception e) {
-            em.getTransaction().rollback();
+//            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
 
@@ -347,10 +343,10 @@ public class DAO implements Serializable {
         try {
             em.getTransaction().begin();
             em.persist(person);
-            em.flush();
+
             em.getTransaction().commit();
         } catch (Exception e) {
-            em.getTransaction().rollback();
+//            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
 
@@ -374,6 +370,8 @@ public class DAO implements Serializable {
 
                     em.getTransaction().begin();
                     em.persist(mapping);
+                                em.flush();
+
                     em.getTransaction().commit();
                     result = true;
                 }
@@ -406,6 +404,7 @@ public class DAO implements Serializable {
 
                     em.getTransaction().begin();
                     em.persist(casting);
+
                     em.getTransaction().commit();
                     result = true;
                 }
@@ -430,7 +429,6 @@ public class DAO implements Serializable {
         try {
             em.getTransaction().begin();
             em.persist(cast);
-            em.flush();
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();

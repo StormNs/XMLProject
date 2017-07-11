@@ -289,6 +289,7 @@ public class Utilities implements Runnable {
 //                    String aImgUri = crawler.DownloadImage(aImgName, aFolder, aUri, Enum.ACTOR_IMG);
 //                    dao.updateActorImageCover(aImgUri, actor);
                 }
+                
                 String imageName = movie.getName();
                 String folder = movie.getName();
                 String uri = mItem.getImageCover();

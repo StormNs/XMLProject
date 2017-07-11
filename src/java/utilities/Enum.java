@@ -10,7 +10,7 @@ package utilities;
  * @author StormNs
  */
 public enum Enum {
-     MOVIE_IMG("movie_img"), ACTOR_IMG("actor_img"), LARGE_SEQUENCE("@._V1__.jpg"), TOKEN("._V1");
+     MOVIE_IMG("movie_img"), ACTOR_IMG("actor_img"), LARGE_SEQUENCE("._V1__.jpg"), TOKEN("._V1");
     private String text;
 
     private Enum(String text) {

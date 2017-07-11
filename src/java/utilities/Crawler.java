@@ -69,10 +69,10 @@ public class Crawler {
         String filePath = null;
         String path = null;
         if (e.equals(Enum.MOVIE_IMG)) {
-            path = "F:/NetBean_Project/XMLProj_Image";
+            path = "D:/NetBean_Project/XMLProj_Image";
         }
         if (e.equals(Enum.ACTOR_IMG)) {
-            path = "F:/NetBean_Project/XMLProj_Actor_Img";
+            path = "D:/NetBean_Project/XMLProj_Actor_Img";
         }
         try {
             if (uri == null) {
@@ -114,7 +114,7 @@ public class Crawler {
 
         System.out.println(link.size());
 //        String document = parseMovieHTML("http://www.imdb.com" + link.get(0));
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 41; i++) {
             System.out.println(i + 1 + ". ");
             String document = parseMovieHTML("http://www.imdb.com" + link.get(i));
             MovieType movie = StAXParserMovie(document);
