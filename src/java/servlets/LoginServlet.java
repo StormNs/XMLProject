@@ -84,8 +84,8 @@ public class LoginServlet extends HttpServlet {
 
 //           
 //            DAO dao = new DAO();
-//            Utilities ul = new Utilities();
-//            ul.CrawlDataAuto();
+            Utilities ul = new Utilities();
+            ul.CrawlDataAuto();
 //           
         } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);

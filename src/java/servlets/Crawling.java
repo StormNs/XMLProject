@@ -35,8 +35,8 @@ public class Crawling extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            Utilities uti = new Utilities();
-            uti.CrawlDataAuto();
+//            Utilities uti = new Utilities();
+//            uti.CrawlDataAuto();
         }
     }
 

@@ -194,10 +194,11 @@ public class DAO implements Serializable {
 
     public List getMovieById(int id) {
         Query query = em.createNamedQuery("MovieType.findById");
-        query.setParameter("id",id);
+        query.setParameter("id", id);
         em.clear();
         return query.getResultList();
     }
+
     public List getMovieForSearch() {
         Query query = em.createNativeQuery("SELECT TOP(50) Id, Name, AlternateName, "
                 + "ImageCover FROM Movies ORDER BY ReleaseDate DESC", MovieType.class);
@@ -238,7 +239,7 @@ public class DAO implements Serializable {
 
     public Genres getGenreByName(String name) {
         Query query = em.createQuery("SELECT g FROM Genres g WHERE g.name = ?1", Genres.class);
-        query.setParameter(1, name );
+        query.setParameter(1, name);
         em.clear();
         return (Genres) query.getResultList().get(0);
     }
@@ -254,12 +255,10 @@ public class DAO implements Serializable {
     //<editor-fold>
     public void updateMovieImageCover(String link, MovieType movie) {
         try {
-            movie.setImageCover(link);
-            em.getTransaction().begin();
-            em.persist(movie);
-            em.getTransaction().commit();
+            MovieType m = em.find(MovieType.class, movie.getId());
+            m.setImageCover(link);
+            em.merge(m);
         } catch (Exception ex) {
-            em.getTransaction().rollback();
             ex.printStackTrace();
         } finally {
 
@@ -268,12 +267,10 @@ public class DAO implements Serializable {
 
     public void updateActorImageCover(String link, PersonType person) {
         try {
-            person.setImageUrl(link);
-            em.getTransaction().begin();
-            em.persist(person);
-            em.getTransaction().commit();
+            PersonType p = em.find(PersonType.class, person.getId());
+            p.setImageUrl(link);
+            em.merge(p);
         } catch (Exception ex) {
-            em.getTransaction().rollback();
             ex.printStackTrace();
         } finally {
 
