@@ -193,8 +193,8 @@ public class DAO implements Serializable {
     }
 
     public List getMovieById(int id) {
-        Query query4 = em.createNamedQuery("MovieType.findById");
-        query4.setParameter("id", id);
+        Query query4 = em.createNativeQuery("SELECT * FROM Movies WHERE"
+                + " Id = "+id);
         em.clear();
         return query4.getResultList();
     }

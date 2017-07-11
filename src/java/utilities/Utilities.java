@@ -58,7 +58,7 @@ import servlets.LoginServlet;
  */
 public class Utilities implements Runnable {
 
-   private static String rPath;
+    private static String rPath;
 
     public static String getrPath() {
         return rPath;
@@ -108,8 +108,8 @@ public class Utilities implements Runnable {
             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-     public String MarshallMovies() {
+
+    public String MarshallMovies() {
         try {
             DAO dao = new DAO();
             List<MovieType> list = dao.getMovieForSearch();
@@ -140,8 +140,8 @@ public class Utilities implements Runnable {
     public String MarshallWatchMovie(int id) {
         try {
             DAO dao = new DAO();
-            MovieType movie = (MovieType)dao.getMovieById(id).get(0);
-            
+            Object[] object = dao.getMovieById(id).toArray();
+            MovieType movie = setObjectToMovieType((Object[]) object[0]);
 
             JAXBContext jc = JAXBContext.newInstance(MovieType.class);
             Marshaller mar = jc.createMarshaller();
@@ -163,8 +163,6 @@ public class Utilities implements Runnable {
         return null;
 
     }
-    
-    
 
     public String MarshallTopMovies() {
         try {
@@ -192,6 +190,41 @@ public class Utilities implements Runnable {
         }
         return null;
 
+    }
+
+    public MovieType setObjectToMovieType(Object[] object) {
+        MovieType movie = new MovieType();
+        String test = object[0].toString();
+        movie.setId(Integer.parseInt(object[0].toString()));
+        movie.setName(object[1].toString());
+        if (object[2] != null) {
+            movie.setAlternateName(object[2].toString());
+        }
+        if (object[3] != null) {
+            movie.setDescription(object[3].toString());
+        }
+        if (object[4] != null) {
+            movie.setCountry(object[4].toString());
+        }
+        if (object[5] != null) {
+            movie.setRuntime(object[5].toString());
+        }
+        if (object[6] != null) {
+            movie.setLanguage(object[6].toString());
+        }
+        if (object[7] != null) {
+            movie.setReleaseDate(object[7].toString());
+        }
+        if (object[8] != null) {
+            movie.setRating(Double.parseDouble(object[8].toString()));
+        }
+        if (object[9] != null) {
+            movie.setImageCover(object[9].toString());
+        }
+        if (object[11] != null) {
+            movie.setDirector(object[11].toString());
+        }
+        return movie;
     }
 
     public String getNewLayout(String realPath) {
@@ -235,7 +268,7 @@ public class Utilities implements Runnable {
     public Boolean validateBeforeSavetoDB(Movies movies, String schemaFile) {
         Boolean result = false;
         String realPath = rPath;
-        if(rPath == null | rPath.isEmpty()){
+        if (rPath == null | rPath.isEmpty()) {
             return false;
         }
         try {

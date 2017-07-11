@@ -13,6 +13,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>movie title</title>
     </head>
+    <x:parse xml = "${requestScope.mo}" var = "mo"/>
+
     <style>
         .movie-watching-container{
             padding: 20px 0;
@@ -29,7 +31,7 @@
             border-radius: 5px;
         }
         .video-player{
-            background-color: black;
+            background-image: url('FileServlet/<x:out select = "$mo/movie/imageCover" />');
         }
         .movie-text{
             color: lightgray;
@@ -46,7 +48,7 @@
     <body>
         <jsp:include page="template/header.jsp"/>
         <div>
-            <x:parse xml = "${requestScope.mo}" var = "mo"/>
+
             <div class="lastest-container">
                 <input hidden type="text" value="<x:out select = "$mo/movie/id" />"/>
                 <div class="movie-watching-container">
@@ -69,13 +71,21 @@
                         </div>
                         <div class="movie-text">
                             <div>
-                            <p class="title-desc"><x:out select = "$mo/movie/name" /><br><x:out select = "$mo/movie/alternateName" /></p>
+                                <p class="title-desc"><x:out select = "$mo/movie/name" /><br><x:out select = "$mo/movie/alternateName" /></p>
                             </div>
                             <div>
+                                <p><span style="color: #78a7e1;">IMDB Rating:</span> <x:choose>
+                                        <x:when select = "$mo/movie//rating">
+                                          <i class="fa fa-star" style="color: yellow"></i>  <x:out select = "$mo/movie/rating" />/10 
+                                        </x:when>
+                                        <x:otherwise>
+                                            N/A
+                                        </x:otherwise>
+                                    </x:choose></p>
                                 <p><span style="color: #78a7e1;">Country:</span> <x:out select = "$mo/movie/country" /></p>
-                            <p><span style="color: #78a7e1;">Language:</span> <x:out select = "$mo/movie/language" /></p>
-                            <p><span style="color: #78a7e1;">Release date:</span> <x:out select = "$mo/movie/releaseDate" /></p>
-                            <p><span style="color: #78a7e1;">Director:</span> <x:out select = "$mo/movie/director" /></p>
+                                <p><span style="color: #78a7e1;">Language:</span> <x:out select = "$mo/movie/language" /></p>
+                                <p><span style="color: #78a7e1;">Release date:</span> <x:out select = "$mo/movie/releaseDate" /></p>
+                                <p><span style="color: #78a7e1;">Director:</span> <x:out select = "$mo/movie/director" /></p>
                             </div>
                             <p><span style="color: #78a7e1;">Description:</span></p>
                             <p><x:out select = "$mo/movie/description" /></p>
