@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "movieType", propOrder = {"id", "name", "alternateName",
     "description", "country", "runtime", "language", "releaseDate", "rating", "imageCover", "director"})
-@XmlRootElement
+@XmlRootElement(name="movie")
 @NamedQueries({
     @NamedQuery(name = "MovieType.findAll", query = "SELECT m FROM MovieType m")
     , @NamedQuery(name = "MovieType.findById", query = "SELECT m FROM MovieType m WHERE m.id = :id")
@@ -46,7 +46,6 @@ import javax.xml.bind.annotation.XmlType;
     , @NamedQuery(name = "MovieType.findByDescription", query = "SELECT m FROM MovieType m WHERE m.description = :description")
     , @NamedQuery(name = "MovieType.findByCountry", query = "SELECT m FROM MovieType m WHERE m.country = :country")
     , @NamedQuery(name = "MovieType.findByRuntime", query = "SELECT m FROM MovieType m WHERE m.runtime = :runtime")
-//    , @NamedQuery(name = "MovieType.findByCategoryId", query = "SELECT m FROM MovieType m WHERE m.categoryId = :categoryId")
     , @NamedQuery(name = "MovieType.findByLanguage", query = "SELECT m FROM MovieType m WHERE m.language = :language")
     , @NamedQuery(name = "MovieType.findByReleaseDate", query = "SELECT m FROM MovieType m WHERE m.releaseDate = :releaseDate")
     , @NamedQuery(name = "MovieType.findByRating", query = "SELECT m FROM MovieType m WHERE m.rating = :rating")
@@ -210,13 +209,6 @@ public class MovieType implements Serializable {
         this.runtime = runtime;
     }
 
-//    public Integer getCategoryId() {
-//        return categoryId;
-//    }
-//
-//    public void setCategoryId(Integer categoryId) {
-//        this.categoryId = categoryId;
-//    }
     public String getLanguage() {
         return language;
     }

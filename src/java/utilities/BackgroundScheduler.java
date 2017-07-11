@@ -17,14 +17,16 @@ import javax.servlet.annotation.WebListener;
  * @author StormNs
  */
 @WebListener
-public class BackgroundScheduler implements  ServletContextListener{
+public class BackgroundScheduler implements ServletContextListener {
 
-    private ScheduledExecutorService scheduler ;
+    private ScheduledExecutorService scheduler;
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        scheduler =  Executors.newSingleThreadScheduledExecutor();
+        scheduler = Executors.newSingleThreadScheduledExecutor();
         Utilities util = new Utilities();
-//                scheduler.scheduleAtFixedRate(util, 0, 3, TimeUnit.MILLISECONDS);
+        util.setrPath(sce.getServletContext().getRealPath("/"));
+        scheduler.scheduleAtFixedRate(util, 0, 3, TimeUnit.HOURS);
 
     }
 
@@ -32,5 +34,5 @@ public class BackgroundScheduler implements  ServletContextListener{
     public void contextDestroyed(ServletContextEvent sce) {
         scheduler.shutdownNow();
     }
-    
+
 }

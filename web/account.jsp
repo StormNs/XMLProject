@@ -98,13 +98,10 @@
                 font-weight: bold;
             }
         </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     </head>
     <body style="margin: 0px; margin-top:20px" class="sUpbackgr">
-        <div style="display: none;">
-
-            <jsp:include page="template/header.jsp"/>
-        </div>
         <div>
             <div class="icon-lgIn">
                 <a class="fa fa-play-circle brand-icon rotate-icon" href="main.jsp"

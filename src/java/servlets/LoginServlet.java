@@ -37,6 +37,7 @@ public class LoginServlet extends HttpServlet {
 
     private final String loginPage = "account.jsp";
     private final String mainPage = "Main";
+    private final String mainServlet = "MainServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -73,7 +74,7 @@ public class LoginServlet extends HttpServlet {
             } else {
                 AccountType acc = list.get(0);
                 if (acc.getPassword().equals(password)) {;
-                    url = mainPage;
+                    url = loginPage;
                     session.setAttribute("account_Name", acc.getUsername());
                 } else {
                     request.setAttribute("Result", "Wrong_field");
@@ -82,10 +83,13 @@ public class LoginServlet extends HttpServlet {
 
             String temp = (String) session.getAttribute("index");
 
-//           
-//            DAO dao = new DAO();
-//            Utilities ul = new Utilities();
-//            ul.CrawlDataAuto();
+//           List list1 = dao.getTopMovie();
+//           List<MovieType> list2  =list1;
+//           MovieType m = (MovieType) dao.getMovieById(1001).get(0);
+//           dao.updateMovieImageCover("haha", m);
+//           dao.closeEM();
+            Utilities ul = new Utilities();
+            ul.CrawlDataAuto();
 //           
         } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
