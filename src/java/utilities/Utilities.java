@@ -281,11 +281,11 @@ public class Utilities implements Runnable {
 
                     Boolean check = dao.createCast(movie, actor, aItem.getCharacterName());
 
-                    String aImgName = actor.getName();
-                    String aFolder = actor.getName();
-                    String aUri = aItem.getImageUrl();
-                    String aImgUri = crawler.DownloadImage(aImgName, aFolder, aUri, Enum.ACTOR_IMG);
-                    dao.updateActorImageCover(aImgUri, actor);
+//                    String aImgName = actor.getName();
+//                    String aFolder = actor.getName();
+//                    String aUri = aItem.getImageUrl();
+//                    String aImgUri = crawler.DownloadImage(aImgName, aFolder, aUri, Enum.ACTOR_IMG);
+//                    dao.updateActorImageCover(aImgUri, actor);
                 }
                 String imageName = movie.getName();
                 String folder = movie.getName();
