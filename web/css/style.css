@@ -25,6 +25,7 @@ and open the template in the editor.
     margin-top: 20px;
 }
 .header-row{
+    padding: 8px;
     width: 100%;
     background-color: #232121;
 }

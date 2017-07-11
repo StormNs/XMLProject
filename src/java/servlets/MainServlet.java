@@ -39,8 +39,9 @@ public class MainServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             Utilities uti = new Utilities();
-            String xmltop = uti.MarshallTopMovies();
+
             String xmltext = uti.MarshallMovies();
+            String xmltop = uti.MarshallTopMovies();
             request.setAttribute("xmltop", xmltop);
             request.setAttribute("xmltext", xmltext);
             DAO dao = new DAO();
@@ -49,7 +50,7 @@ public class MainServlet extends HttpServlet {
             request.setAttribute("firstName", firstMovie.getName());
             request.setAttribute("firstAltName", firstMovie.getAlternateName());
             request.setAttribute("firstDescription", firstMovie.getDescription());
-            request.setAttribute("firstGenre", firstMovie.getGenreList());
+            request.setAttribute("firstGenre", firstMovie.getGenreList().toArray());
             RequestDispatcher rd = request.getRequestDispatcher("main.jsp");
             dao.closeEM();
             rd.forward(request, response);

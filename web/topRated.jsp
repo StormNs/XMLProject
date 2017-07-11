@@ -52,10 +52,7 @@
             sessionStorage.removeItem("resetDate");
             startResetTime();
         }
-        if (sessionStorage.getItem("topMovie") === null || sessionStorage.getItem("topMovie") === '') {
-            getTopMovies();
-        }
-        if (sessionStorage.getItem("list") === null || sessionStorage.getItem("list") === '') {
+        if (sessionStorage.getItem("list") === null || sessionStorage.getItem("list") === ''||sessionStorage.getItem("topMovie") === null || sessionStorage.getItem("topMovie") === '') {
             getMovieList();
         } else {
 //            xmlDOM.async = false;

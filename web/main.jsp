@@ -20,7 +20,7 @@
             <div class="slide-panel">
                 <div class="slideshow-contain container">
                     <div class="container Slider">
-                        <img src="https://a.ltrbxd.com/resized/sm/upload/i8/h2/et/9l/baby-driver-1200-1200-675-675-crop-000000.jpg?k=074a673576"
+                        <img src="https://static.slickdealscdn.com/attachment/8/6/6/3/0/5700268.attach"
                              alt="Image1" class="picture slideshow-image-1"/>
                         <div class="slide-description">
                             <c:set var="firstName" value="${requestScope.firstName}"/>
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="container Slider">
-                        <img src="https://images.theskinny.co.uk/assets/production/000/127/032/127032_widescreen.jpg"
+                        <img src="http://static.srcdn.com/wp-content/uploads/2017/05/Caesar-from-War-for-the-Planet-of-the-Apes.jpg"
                              alt="Image2" class="picture slideshow-image-1"/>
                         <div class="slide-description">
                             <c:set var="firstName" value="${requestScope.firstName}"/>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="container Slider">
-                        <img src="http://static.srcdn.com/wp-content/uploads/2017/02/Baby-Driver-Movie-Banner-Cropped.jpg"
+                        <img src="http://static.srcdn.com/wp-content/uploads/2016/12/War-for-the-Planet-of-the-Apes-Caesar-holding-a-gun.jpg"
                              alt="Image3" class="picture slideshow-image-1"/>
                         <div class="slide-description">
                             <c:set var="firstName" value="${requestScope.firstName}"/>
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <div class="container Slider">
-                        <img src="http://static.srcdn.com/wp-content/uploads/2017/04/Baby-Driver-movie-cast.jpg"
+                        <img src="http://static.srcdn.com/wp-content/uploads/War-of-the-Planet-of-the-Apes-Caesar.jpg"
                              alt="Image4" class="picture slideshow-image-1"/>
                         <div class="slide-description">
                             <c:set var="firstName" value="${requestScope.firstName}"/>
@@ -98,10 +98,10 @@
                             <c:if test="${empty firstName}">
                             </c:if></p>
                         <hr style="border-color: #292626;">
-                        <div class="movie-description">After being coerced into working for a crime boss, a young getaway driver finds himself taking part in a heist doomed to fail.
+                        <div class="movie-description">${firstDescription}
                         </div>
                         <br>
-                        <div><span class="genre-tag">Action</span><span class="genre-tag">Mystery</span><span class="genre-tag">Drama</span></div>
+                        <div><span class="genre-tag">Action</span><span class="genre-tag">Sci-fi</span><span class="genre-tag">Drama</span></div>
                         <form action="Watch">
                             <input name="mo" hidden="" value="${firstId}" />
                             <input class="watch-btn" type="submit" value="Watch" name="btnAction">
@@ -112,7 +112,7 @@
             <x:parse xml = "${requestScope.xmltext}" var = "newest"/>
             <div class="lastest-container">
                 <div class="header-row">
-                    <span class="title-row">New  ❯ </span>
+                    <span class="title-row">Lastest  ❯ </span>
                 </div>
                 <div class="lastest-row">
                     <x:forEach select = "$newest/movies/movie" var = "newitem" begin="0" end="5">
@@ -138,7 +138,6 @@
                                 <img class="movie-picture" alt="<x:out select = '$item/alternateName' /> Poster" title="<x:out select = "$item/name" /> Poster" src="FileServlet/<x:out select = "$item/imageCover" />">
                                 <div class="movie-title-overlay"><x:out select = "$item/name" /></div>
                             </a>
-
                         </div>
                     </x:forEach>
                     <!--                    <div class="movie-container">
@@ -172,8 +171,8 @@
         var slideBadge = 0;
         document.addEventListener("DOMContentLoaded", function () {
             slideImage(slideIndex);
-            getTopMovies();
-            getMovieList();
+//            getTopMovies();
+//            getMovieList();
         });
 
 
@@ -265,18 +264,7 @@
             slideBadge = slideIndex;
             slideTime = window.setTimeout(nextSlide, 4000);
         }
-        function getTopMovies() {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'TopMovie', false);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    sessionStorage.setItem("topMovie", xhr.responseText);
-                } else {
-                    alert('Request failed. Please try again later.');
-                }
-            };
-            xhr.send();
-        }
+       
     </script>
 
 </html>

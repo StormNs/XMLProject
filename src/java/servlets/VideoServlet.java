@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import utilities.DAO;
+import utilities.Utilities;
 
 /**
  *
@@ -40,15 +41,17 @@ public class VideoServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String movieID = request.getParameter("mo");
-        DAO dao = new DAO();
-        MovieType mo = (MovieType)dao.getMovieById(Integer.parseInt(movieID)).get(0);
-        request.setAttribute("MovieName", mo.getName());
-        request.setAttribute("MovieAltName", mo.getAlternateName());
-        request.setAttribute("MovieDescription", mo.getDescription());
-        request.setAttribute("MovieImageCover", mo.getImageCover());
-//        request.setAttribute("MovieGenre", mo.getGenreList().toArray());
-//        request.setAttribute("MovieCast", mo.getCastCollection().toArray());
-//         request.setAttribute("MovieCast", mo.getPersonTypeList().toArray());
+        Utilities uti = new Utilities();
+        String mo = uti.MarshallWatchMovie(Integer.parseInt(movieID));
+        request.setAttribute("mo", mo);
+//        DAO dao = new DAO();
+//        MovieType mo = (MovieType)dao.getMovieById(Integer.parseInt(movieID)).get(0);
+//        request.setAttribute("MovieName", mo.getName());
+//        request.setAttribute("MovieAltName", mo.getAlternateName());
+//        request.setAttribute("MovieDescription", mo.getDescription());
+//        request.setAttribute("MovieImageCover", mo.getImageCover());
+
+
         /* TODO output your page here. You may use following sample code. */
 
 //        String realPath = request.getServletContext().getRealPath("/");

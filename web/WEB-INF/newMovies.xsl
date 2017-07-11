@@ -2,7 +2,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     <xsl:template match="/">
                 <div class="lastest-row">
-                    <xsl:for-each select="movies/movie">
+                    <xsl:for-each select="movies/movie[position() &lt; 31]">
                         <div class="movie-container">
                             <xsl:element name="a">
                                 <xsl:attribute name="href">
