@@ -136,6 +136,7 @@ public class Utilities implements Runnable {
             StringWriter sw = new StringWriter();
 
             mar.marshal(movies, sw);
+            dao.closeEM();
             return sw.toString();
 
         } catch (JAXBException ex) {
@@ -163,6 +164,7 @@ public class Utilities implements Runnable {
             StringWriter sw = new StringWriter();
 
             mar.marshal(movies, sw);
+            dao.closeEM();
             return sw.toString();
 
         } catch (JAXBException ex) {

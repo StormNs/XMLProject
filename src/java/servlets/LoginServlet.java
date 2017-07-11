@@ -36,7 +36,7 @@ import utilities.Utilities;
 public class LoginServlet extends HttpServlet {
 
     private final String loginPage = "account.jsp";
-    private final String mainServlet = "MainServlet";
+    private final String mainPage = "Main";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -73,7 +73,7 @@ public class LoginServlet extends HttpServlet {
             } else {
                 AccountType acc = list.get(0);
                 if (acc.getPassword().equals(password)) {;
-//                    url = mainServlet;
+                    url = mainPage;
                     session.setAttribute("account_Name", acc.getUsername());
                 } else {
                     request.setAttribute("Result", "Wrong_field");
@@ -84,8 +84,8 @@ public class LoginServlet extends HttpServlet {
 
 //           
 //            DAO dao = new DAO();
-            Utilities ul = new Utilities();
-            ul.CrawlDataAuto();
+//            Utilities ul = new Utilities();
+//            ul.CrawlDataAuto();
 //           
         } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);

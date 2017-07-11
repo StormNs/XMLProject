@@ -38,7 +38,7 @@
                         <c:when test= "${check!=''}">
                             <c:forEach items="${requestScope.result}" var="result">
                                 <div class="movie-container">
-                                    <a href="<c:out value="${result.id}"/>"> 
+                                    <a href="Watch?mo=<c:out value="${result.id}"/>"> 
                                         <img class="movie-picture" alt="<c:out value="${result.alternateName}"/>" title="${result.name} Poster" src="FileServlet/${result.imageCover}">
                                         <div class="movie-title-overlay"><c:out value="${result.name}"/></div>
                                     </a>

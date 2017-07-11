@@ -20,31 +20,55 @@
             <div class="slide-panel">
                 <div class="slideshow-contain container">
                     <div class="container Slider">
-                        <img src="https://www.w3schools.com/w3css/img_fjords_wide.jpg"
+                        <img src="https://a.ltrbxd.com/resized/sm/upload/i8/h2/et/9l/baby-driver-1200-1200-675-675-crop-000000.jpg?k=074a673576"
                              alt="Image1" class="picture slideshow-image-1"/>
                         <div class="slide-description">
-                            Wonder Woman 1
+                            <c:set var="firstName" value="${requestScope.firstName}"/>
+                            <c:if test ="${not empty firstName}">
+                                ${firstName}
+                            </c:if>
+                            <c:if test="${empty firstName}">
+                                ${firstName}
+                            </c:if>
                         </div>
                     </div>
                     <div class="container Slider">
-                        <img src="https://www.w3schools.com/w3css/img_lights_wide.jpg"
+                        <img src="https://images.theskinny.co.uk/assets/production/000/127/032/127032_widescreen.jpg"
                              alt="Image2" class="picture slideshow-image-1"/>
                         <div class="slide-description">
-                            Wonder Woman 2
+                            <c:set var="firstName" value="${requestScope.firstName}"/>
+                            <c:if test ="${not empty firstName}">
+                                ${firstName}
+                            </c:if>
+                            <c:if test="${empty firstName}">
+                                ${firstName}
+                            </c:if>
                         </div>
                     </div>
                     <div class="container Slider">
-                        <img src="https://www.w3schools.com/w3css/img_mountains_wide.jpg"
+                        <img src="http://static.srcdn.com/wp-content/uploads/2017/02/Baby-Driver-Movie-Banner-Cropped.jpg"
                              alt="Image3" class="picture slideshow-image-1"/>
                         <div class="slide-description">
-                            Wonder Woman 3
+                            <c:set var="firstName" value="${requestScope.firstName}"/>
+                            <c:if test ="${not empty firstName}">
+                                ${firstName}
+                            </c:if>
+                            <c:if test="${empty firstName}">
+                                ${firstName}
+                            </c:if>
                         </div>
                     </div>
                     <div class="container Slider">
-                        <img src="https://www.w3schools.com/w3css/img_forest.jpg"
+                        <img src="http://static.srcdn.com/wp-content/uploads/2017/04/Baby-Driver-movie-cast.jpg"
                              alt="Image4" class="picture slideshow-image-1"/>
                         <div class="slide-description">
-                            Wonder Woman 4
+                            <c:set var="firstName" value="${requestScope.firstName}"/>
+                            <c:if test ="${not empty firstName}">
+                                ${firstName}
+                            </c:if>
+                            <c:if test="${empty firstName}">
+                                ${firstName}
+                            </c:if>
                         </div>
                     </div>
 
@@ -61,19 +85,26 @@
                 </div>
                 <div class="movie-inform">
                     <div class="m-inform-content">
-                        <p class="title-desc">Wonder Woman<br>Nguoi dep Amazon</p>
+                        <p class="title-desc"><c:set var="firstName" value="${requestScope.firstName}"/>
+                            <c:if test ="${not empty firstName}">
+                                ${firstName}
+                            </c:if>
+                            <c:if test="${empty firstName}">
+                                ${firstName}
+                            </c:if><br><c:set var="firstAltName" value="${requestScope.firstAltName}"/>
+                            <c:if test ="${not empty firstAltName}">
+                                ${firstAltName}
+                            </c:if>
+                            <c:if test="${empty firstName}">
+                            </c:if></p>
                         <hr style="border-color: #292626;">
-                        <div class="movie-description">Amazon princess
-                            Diana finds her idyllic life 
-                            interrupted when a pilot crash-lands nearby. 
-                            After being told of conflict in the outside world, 
-                            she decides to leave home to fight 
-                            a war that can end all wars.
+                        <div class="movie-description">After being coerced into working for a crime boss, a young getaway driver finds himself taking part in a heist doomed to fail.
                         </div>
                         <br>
-                        <div><span class="genre-tag">Action</span><span class="genre-tag">Action</span><span class="genre-tag">Super Heroes</span><span class="genre-tag">Action</span><span class="genre-tag">Action</span></div>
-                        <form>
-                            <input class="watch-btn" type="button" value="Watch" name="btnAction">
+                        <div><span class="genre-tag">Action</span><span class="genre-tag">Mystery</span><span class="genre-tag">Drama</span></div>
+                        <form action="Watch">
+                            <input name="mo" hidden="" value="${firstId}" />
+                            <input class="watch-btn" type="submit" value="Watch" name="btnAction">
                         </form>
                     </div>
                 </div>
@@ -85,8 +116,8 @@
                 </div>
                 <div class="lastest-row">
                     <x:forEach select = "$newest/movies/movie" var = "newitem" begin="0" end="5">
-                       <div class="movie-container">
-                            <a href="<x:out select = "$newitem/id" />"> 
+                        <div class="movie-container">
+                            <a href="Watch?mo=<x:out select = "$newitem/id" />"> 
                                 <img class="movie-picture" alt="<x:out select = '$newitem/alternateName' /> Poster" title="<x:out select = "$newitem/name" /> Poster" src="FileServlet/<x:out select = "$newitem/imageCover" />">
                                 <div class="movie-title-overlay"><x:out select = "$newitem/name" /></div>
                             </a>
@@ -103,7 +134,7 @@
                 <div class="lastest-row">
                     <x:forEach select = "$top/movies/movie" var = "item" begin="0" end="5">
                         <div class="movie-container">
-                            <a href="<x:out select = "$item/id" />"> 
+                            <a href="Watch?mo=<x:out select = "$item/id" />"> 
                                 <img class="movie-picture" alt="<x:out select = '$item/alternateName' /> Poster" title="<x:out select = "$item/name" /> Poster" src="FileServlet/<x:out select = "$item/imageCover" />">
                                 <div class="movie-title-overlay"><x:out select = "$item/name" /></div>
                             </a>

@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import entities.MovieType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -13,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utilities.DAO;
 import utilities.Utilities;
 
 /**
@@ -41,7 +43,15 @@ public class MainServlet extends HttpServlet {
             String xmltext = uti.MarshallMovies();
             request.setAttribute("xmltop", xmltop);
             request.setAttribute("xmltext", xmltext);
+            DAO dao = new DAO();
+            MovieType firstMovie=dao.get1stMovie();
+             request.setAttribute("firstId", firstMovie.getId());
+            request.setAttribute("firstName", firstMovie.getName());
+            request.setAttribute("firstAltName", firstMovie.getAlternateName());
+            request.setAttribute("firstDescription", firstMovie.getDescription());
+            request.setAttribute("firstGenre", firstMovie.getGenreList());
             RequestDispatcher rd = request.getRequestDispatcher("main.jsp");
+            dao.closeEM();
             rd.forward(request, response);
         }
     }
