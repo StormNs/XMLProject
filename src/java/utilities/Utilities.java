@@ -290,7 +290,6 @@ public class Utilities implements Runnable {
 //                    dao.updateActorImageCover(aImgUri, actor);
                 }
                 
-                
                 String imageName = movie.getName();
                 String folder = movie.getName();
                 String uri = mItem.getImageCover();
