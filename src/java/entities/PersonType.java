@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 @Table(name = "Persons")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {"name", "imageUrl"})
-@XmlRootElement
+@XmlRootElement(name="person")
 @NamedQueries({
     @NamedQuery(name = "PersonType.findAll", query = "SELECT p FROM PersonType p")
     , @NamedQuery(name = "PersonType.findById", query = "SELECT p FROM PersonType p WHERE p.id = :id")

@@ -264,7 +264,7 @@ public class DAO implements Serializable {
             t.commit();
         } catch (Exception ex) {
             t.rollback();
-            ex.printStackTrace();
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
         }
@@ -281,7 +281,7 @@ public class DAO implements Serializable {
             t.commit();
         } catch (Exception ex) {
             t.rollback();
-            ex.printStackTrace();
+             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
         }
@@ -297,7 +297,7 @@ public class DAO implements Serializable {
             t.commit();
         } catch (Exception e) {
             t.rollback();
-            e.printStackTrace();
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, e);
             return false;
         } finally {
 
@@ -319,7 +319,7 @@ public class DAO implements Serializable {
             t.commit();
         } catch (Exception ex) {
             t.rollback();
-            ex.printStackTrace();
+           Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
         }
@@ -339,7 +339,7 @@ public class DAO implements Serializable {
             t.commit();
         } catch (Exception e) {
             t.rollback();
-            e.printStackTrace();
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, e);
         } finally {
 
         }
@@ -358,7 +358,7 @@ public class DAO implements Serializable {
             t.commit();
         } catch (Exception e) {
             t.rollback();
-            e.printStackTrace();
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, e);
         } finally {
 
         }
@@ -389,7 +389,7 @@ public class DAO implements Serializable {
             }
         } catch (Exception e) {
             t.rollback();
-            e.printStackTrace();
+           Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, e);
         } finally {
 
         }
@@ -424,7 +424,7 @@ public class DAO implements Serializable {
             }
         } catch (Exception e) {
             t.rollback();
-            e.printStackTrace();
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, e);
         } finally {
 
         }
@@ -448,7 +448,7 @@ public class DAO implements Serializable {
             t.commit();
         } catch (Exception e) {
             t.rollback();
-            e.printStackTrace();
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, e);
         } finally {
 
         }

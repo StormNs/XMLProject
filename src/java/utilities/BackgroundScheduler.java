@@ -26,7 +26,7 @@ public class BackgroundScheduler implements ServletContextListener {
         scheduler = Executors.newSingleThreadScheduledExecutor();
         Utilities util = new Utilities();
         util.setrPath(sce.getServletContext().getRealPath("/"));
-        scheduler.scheduleAtFixedRate(util, 0, 3, TimeUnit.HOURS);
+//        scheduler.scheduleAtFixedRate(util, 0, 3, TimeUnit.HOURS); //uncommand to run
 
     }
 

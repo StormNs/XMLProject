@@ -18,8 +18,12 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -27,7 +31,9 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "Genres")
-@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "", propOrder = {"name"})
+@XmlRootElement(name = "genre")
 @NamedQueries({
     @NamedQuery(name = "Genres.findAll", query = "SELECT g FROM Genres g")
     , @NamedQuery(name = "Genres.findById", query = "SELECT g FROM Genres g WHERE g.id = :id")
@@ -38,10 +44,14 @@ public class Genres implements Serializable {
     @Id
     @Basic(optional = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @XmlTransient
     @Column(name = "Id")
     private Integer id;
+    
+    @XmlElement(required = true)
     @Column(name = "Name")
     private String name;
+    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "genreId")
     private Collection<MovieGenres> movieGenresCollection;
 

@@ -58,7 +58,7 @@ import servlets.LoginServlet;
  */
 public class Utilities implements Runnable {
 
-   private static String rPath;
+    private static String rPath;
 
     public static String getrPath() {
         return rPath;
@@ -203,15 +203,15 @@ public class Utilities implements Runnable {
 
     }
 
-    public Boolean validateBeforeSavetoDB(Movies movies, String schemaFile) {
+    public Boolean validateBeforeSavetoDB(Class<?> type, String schemaFile, Object obj) {
         Boolean result = false;
         String realPath = rPath;
-        if(rPath == null | rPath.isEmpty()){
+        if (rPath == null | rPath.isEmpty()) {
             return false;
         }
         try {
 
-            JAXBContext jc = JAXBContext.newInstance(Movies.class);
+            JAXBContext jc = JAXBContext.newInstance(type);
 
             SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             Schema schema = sf.newSchema(new File(realPath + schemaFile));
@@ -219,7 +219,7 @@ public class Utilities implements Runnable {
 
             Marshaller mar = jc.createMarshaller();
             mar.setSchema(schema);
-            mar.marshal(movies, new DefaultHandler());
+            mar.marshal(obj, new DefaultHandler());
 
 //            File xmlFile = new File(contextPath+"/web/schema/movies.xml");
 //            mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
@@ -241,60 +241,68 @@ public class Utilities implements Runnable {
         List<MovieType> listMovie = crawler.getMovieList(); //contain both Actors and Genres
         Movies movies = new Movies();
         movies.setMovies(listMovie);
-        validateBeforeSavetoDB(movies, "schema/movies.xsd"); // does not work in background thread - still finding way to resolve
+//        validateBeforeSavetoDB(movies.getClass(), "schema/movies.xsd", movies); // does not work in background thread - still finding way to resolve
         DAO dao = new DAO();
         int i = 0;
         for (MovieType mItem : listMovie) {
-            try {
-                MovieType movie = null;
-                MovieType mValue = dao.createMovie(mItem);
-                if (mValue != null) { // movie insert successed
-                    movie = mValue;
-                } else { // find exist movie
-                    movie = dao.getMovieByName(mItem.getName());
-                }
-
-                ArrayList<Genres> listGenre = new ArrayList<>(mItem.getGenreList());
-                for (Genres gItem : listGenre) {
-                    Genres genre = null;
-                    Genres genValue = dao.createGenre(gItem);
-                    if (genValue != null) { // genre insert successed
-                        genre = gItem;
-                    } else { // find exist genre
-                        genre = dao.getGenreByName(gItem.getName());
+            Boolean valFilm = validateBeforeSavetoDB(mItem.getClass(), "schema/movie.xsd", mItem);
+            if (valFilm) {
+                try {
+                    MovieType movie = null;
+                    MovieType mValue = dao.createMovie(mItem);
+                    if (mValue != null) { // movie insert successed
+                        movie = mValue;
+                    } else { // find exist movie
+                        movie = dao.getMovieByName(mItem.getName());
                     }
 
-                    Boolean check = dao.createMappingMoiveGenre(movie, genre);
+                    ArrayList<Genres> listGenre = new ArrayList<>(mItem.getGenreList());
+                    for (Genres gItem : listGenre) {
+                        Boolean valGen = validateBeforeSavetoDB(gItem.getClass(), "schema/genre.xsd", gItem);
+                        if (valGen) {
+                            Genres genre = null;
+                            Genres genValue = dao.createGenre(gItem);
+                            if (genValue != null) { // genre insert successed
+                                genre = gItem;
+                            } else { // find exist genre
+                                genre = dao.getGenreByName(gItem.getName());
+                            }
 
-                }
-
-                ArrayList<PersonType> listActor = new ArrayList<>(mItem.getPersonTypeList());
-                for (PersonType aItem : listActor) {
-                    PersonType actor = null;
-                    PersonType aValue = dao.createPerson(aItem);
-                    if (aValue != null) { // actor insert successed
-                        actor = aValue;
-                    } else { // find exist actor
-                        actor = dao.getActorByName(aItem.getName());
+                            Boolean check = dao.createMappingMoiveGenre(movie, genre);
+                        }
                     }
 
-                    Boolean check = dao.createCast(movie, actor, aItem.getCharacterName());
+                    ArrayList<PersonType> listActor = new ArrayList<>(mItem.getPersonTypeList());
+                    for (PersonType aItem : listActor) {
+                        Boolean valActor = validateBeforeSavetoDB(aItem.getClass(), "schema/actor.xsd", aItem);
+                        if (valActor) {
+                            PersonType actor = null;
+                            PersonType aValue = dao.createPerson(aItem);
+                            if (aValue != null) { // actor insert successed
+                                actor = aValue;
+                            } else { // find exist actor
+                                actor = dao.getActorByName(aItem.getName());
+                            }
 
-//                    String aImgName = actor.getName();
-//                    String aFolder = actor.getName();
-//                    String aUri = aItem.getImageUrl();
-//                    String aImgUri = crawler.DownloadImage(aImgName, aFolder, aUri, Enum.ACTOR_IMG);
-//                    dao.updateActorImageCover(aImgUri, actor);
+                            Boolean check = dao.createCast(movie, actor, aItem.getCharacterName());
+
+//                            String aImgName = actor.getName();
+//                            String aFolder = actor.getName();
+//                            String aUri = aItem.getImageUrl();
+//                            String aImgUri = crawler.DownloadImage(aImgName, aFolder, aUri, Enum.ACTOR_IMG);
+//                            dao.updateActorImageCover(aImgUri, actor);
+                        }
+                    }
+
+                    String imageName = movie.getName();
+                    String folder = movie.getName();
+                    String uri = mItem.getImageCover();
+                    String imageUri = crawler.DownloadImage(imageName, folder, uri, Enum.MOVIE_IMG);
+                    dao.updateMovieImageCover(imageUri, movie);
+                    System.out.println("Done ." + (i++));
+                } catch (Exception e) {
+                    Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, e);
                 }
-
-                String imageName = movie.getName();
-                String folder = movie.getName();
-                String uri = mItem.getImageCover();
-                String imageUri = crawler.DownloadImage(imageName, folder, uri, Enum.MOVIE_IMG);
-                dao.updateMovieImageCover(imageUri, movie);
-                System.out.println("Done ." + (i++));
-            } catch (Exception e) {
-                e.printStackTrace();
             }
 //            break;
         }
