@@ -98,7 +98,7 @@
                             <c:if test="${empty firstName}">
                             </c:if></p>
                         <hr style="border-color: #292626;">
-                        <div class="movie-description">After being coerced into working for a crime boss, a young getaway driver finds himself taking part in a heist doomed to fail.
+                        <div class="movie-description">${firstDescription}
                         </div>
                         <br>
                         <div><span class="genre-tag">Action</span><span class="genre-tag">Mystery</span><span class="genre-tag">Drama</span></div>
@@ -172,8 +172,8 @@
         var slideBadge = 0;
         document.addEventListener("DOMContentLoaded", function () {
             slideImage(slideIndex);
-            getTopMovies();
-            getMovieList();
+//            getTopMovies();
+//            getMovieList();
         });
 
 
@@ -265,18 +265,7 @@
             slideBadge = slideIndex;
             slideTime = window.setTimeout(nextSlide, 4000);
         }
-        function getTopMovies() {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'TopMovie', false);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    sessionStorage.setItem("topMovie", xhr.responseText);
-                } else {
-                    alert('Request failed. Please try again later.');
-                }
-            };
-            xhr.send();
-        }
+       
     </script>
 
 </html>

@@ -51,11 +51,8 @@
                 sessionStorage.removeItem("resetDate");
                 startResetTime();
             }
-            if (sessionStorage.getItem("topMovie") === null || sessionStorage.getItem("topMovie") === '') {
+            if (sessionStorage.getItem("list") === null || sessionStorage.getItem("list") === ''||sessionStorage.getItem("topMovie") === null || sessionStorage.getItem("topMovie") === '') {
                 getTopMovies();
-            }
-            if (sessionStorage.getItem("list") === null || sessionStorage.getItem("list") === '') {
-                getMovieList();
             } else {
 //            xmlDOM.async = false;
 //            xmlDOM.loadXML(localStorage.getItem("list"));

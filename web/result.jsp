@@ -16,9 +16,9 @@
     </head>
     <style>
         .movie-container{
-            animation: slide-right 1.5s;
+/*            animation: slide-right 1.5s;*/
             margin-bottom: 20px;
-            margin-right: 21px;
+            margin-right: 20px!important;
         }
         .lastest-container{
             margin: 20px 7.0px;
