@@ -64,9 +64,10 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         String accountExist = (String) session.getAttribute("account_Name");
-        DAO dao = new DAO();
         try {
+            DAO dao = new DAO();
             List<AccountType> list = dao.findAccounts(email, username);
+            dao.closeEM();
             if (list.isEmpty()) {
                 request.setAttribute("Result", "Wrong_field");
             } else {
@@ -92,7 +93,7 @@ public class LoginServlet extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
             out.close();
-            dao.closeEM();
+
         }
     }
 

@@ -162,6 +162,7 @@ public class Utilities implements Runnable {
 //            File file = new File(realPath + "WEB-INF/movies.xml");
 //            FileWriter fw = new FileWriter(file);
             StringWriter sw = new StringWriter();
+
             mar.marshal(movies, sw);
             dao.closeEM();
             return sw.toString();
@@ -247,54 +248,60 @@ public class Utilities implements Runnable {
         DAO dao = new DAO();
         int i = 0;
         for (MovieType mItem : listMovie) {
-            MovieType movie = null;
-            MovieType mValue = dao.createMovie(mItem);
-            if (mValue != null) { // movie insert successed
-                movie = mValue;
-            } else { // find exist movie
-                movie = dao.getMovieByName(mItem.getName());
-            }
-
-            ArrayList<Genres> listGenre = new ArrayList<>(mItem.getGenreList());
-            for (Genres gItem : listGenre) {
-                Genres genre = null;
-                Genres genValue = dao.createGenre(gItem);
-                if (genValue != null) { // genre insert successed
-                    genre = gItem;
-                } else { // find exist genre
-                    genre = dao.getGenreByName(gItem.getName());
+            try {
+                MovieType movie = null;
+                MovieType mValue = dao.createMovie(mItem);
+                if (mValue != null) { // movie insert successed
+                    movie = mValue;
+                } else { // find exist movie
+                    movie = dao.getMovieByName(mItem.getName());
                 }
 
-                Boolean check = dao.createMappingMoiveGenre(movie, genre);
+                ArrayList<Genres> listGenre = new ArrayList<>(mItem.getGenreList());
+                for (Genres gItem : listGenre) {
+                    Genres genre = null;
+                    Genres genValue = dao.createGenre(gItem);
+                    if (genValue != null) { // genre insert successed
+                        genre = gItem;
+                    } else { // find exist genre
+                        genre = dao.getGenreByName(gItem.getName());
+                    }
 
-            }
+                    Boolean check = dao.createMappingMoiveGenre(movie, genre);
 
-            ArrayList<PersonType> listActor = new ArrayList<>(mItem.getPersonTypeList());
-            for (PersonType aItem : listActor) {
-                PersonType actor = null;
-                PersonType aValue = dao.createPerson(aItem);
-                if (aValue != null) { // actor insert successed
-                    actor = aValue;
-                } else { // find exist actor
-                    actor = dao.getActorByName(aItem.getName());
                 }
 
-                Boolean check = dao.createCast(movie, actor, aItem.getCharacterName());
+                ArrayList<PersonType> listActor = new ArrayList<>(mItem.getPersonTypeList());
+                for (PersonType aItem : listActor) {
+                    PersonType actor = null;
+                    PersonType aValue = dao.createPerson(aItem);
+                    if (aValue != null) { // actor insert successed
+                        actor = aValue;
+                    } else { // find exist actor
+                        actor = dao.getActorByName(aItem.getName());
+                    }
 
-                String aImgName = actor.getName();
-                String aFolder = actor.getName();
-                String aUri = aItem.getImageUrl();
-//                String aImgUri = crawler.DownloadImage(aImgName, aFolder, aUri, Enum.ACTOR_IMG);
-                dao.updateActorImageCover(aUri, actor);
+                    Boolean check = dao.createCast(movie, actor, aItem.getCharacterName());
+
+                    String aImgName = actor.getName();
+                    String aFolder = actor.getName();
+                    String aUri = aItem.getImageUrl();
+                    String aImgUri = crawler.DownloadImage(aImgName, aFolder, aUri, Enum.ACTOR_IMG);
+                    dao.updateActorImageCover(aImgUri, actor);
+                }
+                String imageName = movie.getName();
+                String folder = movie.getName();
+                String uri = mItem.getImageCover();
+                String imageUri = crawler.DownloadImage(imageName, folder, uri, Enum.MOVIE_IMG);
+                dao.updateMovieImageCover(imageUri, movie);
+                System.out.println("Done ." + (i++));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            String imageName = movie.getName();
-            String folder = movie.getName();
-            String uri = mItem.getImageCover();
-            String imageUri = crawler.DownloadImage(imageName, folder, uri, Enum.MOVIE_IMG);
-            dao.updateMovieImageCover(imageUri, movie);
-            System.out.println("Done ." + (i++));
+//            break;
         }
         System.out.println("Done Crawling");
+        dao.closeEM();
     }
 
     public static String formatDate(String mDate) {

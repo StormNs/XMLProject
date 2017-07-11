@@ -95,7 +95,7 @@ public class DAO implements Serializable {
     //<editor-fold>
     public Boolean personIsExisted(PersonType person) {
         Query query = em.createNamedQuery("PersonType.findByName");
-        query.setParameter("name", "%" + person.getName() + "%");
+        query.setParameter("name", person.getName());
         List<PersonType> list = (List<PersonType>) query.getResultList();
 
         if (list.isEmpty()) {
@@ -152,10 +152,9 @@ public class DAO implements Serializable {
 
     public Boolean moviesExisted(MovieType movie) {
         Query query = em.createNativeQuery("SELECT * FROM Movies WHERE"
-                + " Name = ?name AND ReleaseDate = ?date", MovieType.class);
-        query.setParameter("name", movie.getName());
-        query.setParameter("date", movie.getReleaseDate());
-        em.clear();
+                + " Name = ?1 AND ReleaseDate = ?2", MovieType.class);
+        query.setParameter(1, movie.getName());
+        query.setParameter(2, movie.getReleaseDate());
         List<MovieType> list = (List<MovieType>) query.getResultList();
 
         if (list.isEmpty()) {
@@ -231,23 +230,22 @@ public class DAO implements Serializable {
     }
 
     public MovieType getMovieByName(String name) {
-        Query query = em.createQuery("SELECT m FROM MovieType m WHERE m.name Like ?1", MovieType.class);
-        query.setParameter(1, "%" + name + "%");
+        Query query = em.createQuery("SELECT m FROM MovieType m WHERE m.name = ?1", MovieType.class);
+        query.setParameter(1, name);
         em.clear();
         return (MovieType) query.getResultList().get(0);
     }
 
     public Genres getGenreByName(String name) {
-        Query query = em.createQuery("SELECT g FROM Genres g WHERE g.name Like ?1", Genres.class);
-        query.setParameter(1, "%" + name + "%");
+        Query query = em.createQuery("SELECT g FROM Genres g WHERE g.name = ?1", Genres.class);
+        query.setParameter(1, name );
         em.clear();
         return (Genres) query.getResultList().get(0);
     }
 
     public PersonType getActorByName(String name) {
-        Query query = em.createQuery("SELECT a FROM PersonType a WHERE a.name Like ?1", PersonType.class);
-        query.setParameter(1, "%" + name + "%");
-        em.clear();
+        Query query = em.createQuery("SELECT a FROM PersonType a WHERE a.name = ?1", PersonType.class);
+        query.setParameter(1, name);
         return (PersonType) query.getResultList().get(0);
     }
     //</editor-fold>
