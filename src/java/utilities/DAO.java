@@ -40,7 +40,7 @@ public class DAO implements Serializable {
         try {
             emf = Persistence.createEntityManagerFactory("XMLProjectPU");
             em = emf.createEntityManager();
-            em.clear();
+//            em.clear();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -194,13 +194,14 @@ public class DAO implements Serializable {
 
     public List getMovieById(int id) {
         Query query = em.createNamedQuery("MovieType.findById");
-        query.setParameter("id",id);
+        query.setParameter("id", id);
         em.clear();
         return query.getResultList();
     }
+
     public List getMovieForSearch() {
         Query query = em.createNativeQuery("SELECT TOP(50) Id, Name, AlternateName, "
-                + "ImageCover FROM Movies ORDER BY ReleaseDate DESC", MovieType.class);
+                + "ImageCover FROM Movies ORDER BY ReleaseDate DESC");
 
         List list = query.getResultList();
 
@@ -208,8 +209,8 @@ public class DAO implements Serializable {
     }
 
     public List getTopMovie() {
-        Query query2 = em.createNativeQuery("SELECT TOP(20) Id, Name, AlternateName, "
-                + "ImageCover FROM Movies ORDER BY Rating DESC", MovieType.class);
+        Query query2 = em.createNativeQuery("SELECT TOP(20) Id, Name, AlternateName, Description,"
+                + "ImageCover FROM Movies ORDER BY Rating DESC");
 //Query query = em.createQuery("SELECT m FROM MovieType a WHERE a.id, a.alternateName");
         List list2 = query2.getResultList();
 
@@ -238,7 +239,7 @@ public class DAO implements Serializable {
 
     public Genres getGenreByName(String name) {
         Query query = em.createQuery("SELECT g FROM Genres g WHERE g.name = ?1", Genres.class);
-        query.setParameter(1, name );
+        query.setParameter(1, name);
         em.clear();
         return (Genres) query.getResultList().get(0);
     }
@@ -253,11 +254,16 @@ public class DAO implements Serializable {
     // Create and edit function 
     //<editor-fold>
     public void updateMovieImageCover(String link, MovieType movie) {
+        EntityTransaction t = em.getTransaction();
         try {
-            MovieType p = em.find(MovieType.class, movie.getId());
-            p.setImageCover(link);
-            em.merge(p);
+            MovieType m = em.find(MovieType.class, movie.getId());
+            m.setImageCover(link);
+            t.begin();
+            em.merge(m);
+            em.flush();
+            t.commit();
         } catch (Exception ex) {
+            t.rollback();
             ex.printStackTrace();
         } finally {
 
@@ -265,10 +271,16 @@ public class DAO implements Serializable {
     }
 
     public void updateActorImageCover(String link, PersonType person) {
-         try {
+        EntityTransaction t = em.getTransaction();
+        try {
             PersonType p = em.find(PersonType.class, person.getId());
             p.setImageUrl(link);
+            t.begin();
+            em.merge(p);
+            em.flush();
+            t.commit();
         } catch (Exception ex) {
+            t.rollback();
             ex.printStackTrace();
         } finally {
 
@@ -276,13 +288,15 @@ public class DAO implements Serializable {
     }
 
     public Boolean createAccounts(String username, String email, String password) {
+        EntityTransaction t = em.getTransaction();
         try {
-
             AccountType acc = new AccountType(username, password, email);
-            em.getTransaction().begin();
+            t.begin();
             em.persist(acc);
-            em.getTransaction().commit();
+            em.flush();
+            t.commit();
         } catch (Exception e) {
+            t.rollback();
             e.printStackTrace();
             return false;
         } finally {
@@ -292,29 +306,24 @@ public class DAO implements Serializable {
     }
 
     public MovieType createMovie(MovieType movie) {
-//        List<MovieType> list = movielist;
-//       for (MovieType object : list) {
-//           Query query =em.createQuery("INSERT INTO Movies (Name, AlternateName, Description, Country, Runtime, CategoryId, Language, ReleaseDate, Rating, ImageCover, TrailerUrl, Director)"
-//                   + " VALUES ("+object.getName()+", "+object.getAlternateName()+", "+object.getDescription()+", "+object.getCountry()+", "+object.getRuntime()+", NULL, "+object.getLanguage()+", "+object.getReleaseDate()+", "+object.getRating()+", "+object.getImageCover()+", NULL, "+object.getDirector()+");");
-//           query.getResultList();
-//       }
-//        for (MovieType object : list) {
 
         if (moviesExisted(movie) == true) {
             return null;
         }
+        EntityTransaction t = em.getTransaction();
         try {
 
-            em.getTransaction().begin();
+            t.begin();
             em.persist(movie);
-            em.getTransaction().commit();
+            em.flush();
+            t.commit();
         } catch (Exception ex) {
+            t.rollback();
             ex.printStackTrace();
         } finally {
 
         }
         return movie;
-//        }
 
     }
 
@@ -322,13 +331,14 @@ public class DAO implements Serializable {
         if (genresIsExisted(genre) == true) {
             return null;
         }
+        EntityTransaction t = em.getTransaction();
         try {
-            em.getTransaction().begin();
+            t.begin();
             em.persist(genre);
-
-            em.getTransaction().commit();
+            em.flush();
+            t.commit();
         } catch (Exception e) {
-//            em.getTransaction().rollback();
+            t.rollback();
             e.printStackTrace();
         } finally {
 
@@ -340,13 +350,14 @@ public class DAO implements Serializable {
         if (personIsExisted(person) == true) {
             return null;
         }
+        EntityTransaction t = em.getTransaction();
         try {
-            em.getTransaction().begin();
+            t.begin();
             em.persist(person);
-
-            em.getTransaction().commit();
+            em.flush();
+            t.commit();
         } catch (Exception e) {
-//            em.getTransaction().rollback();
+            t.rollback();
             e.printStackTrace();
         } finally {
 
@@ -358,6 +369,7 @@ public class DAO implements Serializable {
         Integer movieIdExist = movie.getId();
         Integer genreIdExist = genre.getId();
         Boolean result = false;
+        EntityTransaction t = em.getTransaction();
         try {
 
             if (movieIdExist != null && genreIdExist != null) {
@@ -368,15 +380,15 @@ public class DAO implements Serializable {
                     mapping.setGenreId(genre);
                     mapping.setMovieId(movie);
 
-                    em.getTransaction().begin();
+                    t.begin();
                     em.persist(mapping);
-                                em.flush();
-
-                    em.getTransaction().commit();
+                    em.flush();
+                    t.commit();
                     result = true;
                 }
             }
         } catch (Exception e) {
+            t.rollback();
             e.printStackTrace();
         } finally {
 
@@ -391,6 +403,7 @@ public class DAO implements Serializable {
         Integer movieIdExist = movie.getId();
         Integer personIdExist = person.getId();
         Boolean result = false;
+        EntityTransaction t = em.getTransaction();
         try {
 
             if (movieIdExist != null && personIdExist != null && !character.isEmpty()) {
@@ -402,14 +415,15 @@ public class DAO implements Serializable {
                     casting.setActorId(person);
                     casting.setMovieId(movie);
 
-                    em.getTransaction().begin();
+                    t.begin();
                     em.persist(casting);
-
-                    em.getTransaction().commit();
+                    em.flush();
+                    t.commit();
                     result = true;
                 }
             }
         } catch (Exception e) {
+            t.rollback();
             e.printStackTrace();
         } finally {
 
@@ -426,12 +440,14 @@ public class DAO implements Serializable {
 //       return true;
 //   }
     public int createCast(Cast cast) {
+        EntityTransaction t = em.getTransaction();
         try {
-            em.getTransaction().begin();
+            t.begin();
             em.persist(cast);
-            em.getTransaction().commit();
+            em.flush();
+            t.commit();
         } catch (Exception e) {
-            em.getTransaction().rollback();
+            t.rollback();
             e.printStackTrace();
         } finally {
 

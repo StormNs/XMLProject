@@ -44,8 +44,8 @@ public class MainServlet extends HttpServlet {
             request.setAttribute("xmltop", xmltop);
             request.setAttribute("xmltext", xmltext);
             DAO dao = new DAO();
-            MovieType firstMovie=dao.get1stMovie();
-             request.setAttribute("firstId", firstMovie.getId());
+            MovieType firstMovie = dao.get1stMovie();
+            request.setAttribute("firstId", firstMovie.getId());
             request.setAttribute("firstName", firstMovie.getName());
             request.setAttribute("firstAltName", firstMovie.getAlternateName());
             request.setAttribute("firstDescription", firstMovie.getDescription());

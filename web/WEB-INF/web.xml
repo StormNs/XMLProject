@@ -95,6 +95,5 @@
     </session-config>
     <welcome-file-list>
         <welcome-file>account.jsp</welcome-file>
-        <welcome-file>Main</welcome-file>
     </welcome-file-list>
 </web-app>

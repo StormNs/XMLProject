@@ -58,23 +58,14 @@ import servlets.LoginServlet;
  */
 public class Utilities implements Runnable {
 
-    public static void transformDOMToStream(Node node, String xmlOutputFile)
-            throws TransformerException {
-        Source src = new DOMSource(node);
-        File file = new File(xmlOutputFile);
-        Result result = new StreamResult(file);
+   private static String rPath;
 
-        TransformerFactory factory = TransformerFactory.newInstance();
-        Transformer transformer = factory.newTransformer();
-
-        transformer.transform(src, result);
+    public static String getrPath() {
+        return rPath;
     }
 
-    public static XMLStreamReader parseFileToStAXCursor(InputStream is)
-            throws XMLStreamException {
-        XMLInputFactory factory = XMLInputFactory.newFactory();
-        XMLStreamReader reader = factory.createXMLStreamReader(is);
-        return reader;
+    public static void setrPath(String rPath) {
+        Utilities.rPath = rPath;
     }
 
     public static void UnMarshallAccounts(String realPath) throws JAXBException {
@@ -212,14 +203,18 @@ public class Utilities implements Runnable {
 
     }
 
-    public Boolean validateBeforeSavetoDB(String realPath, Movies movies) {
+    public Boolean validateBeforeSavetoDB(Movies movies, String schemaFile) {
         Boolean result = false;
+        String realPath = rPath;
+        if(rPath == null | rPath.isEmpty()){
+            return false;
+        }
         try {
 
             JAXBContext jc = JAXBContext.newInstance(Movies.class);
 
             SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema = sf.newSchema(new File(realPath + "schema/movies.xsd"));
+            Schema schema = sf.newSchema(new File(realPath + schemaFile));
 //            Schema schema = sf.newSchema(new File(test));
 
             Marshaller mar = jc.createMarshaller();
@@ -244,7 +239,9 @@ public class Utilities implements Runnable {
         Crawler crawler = new Crawler();
         crawler.crawlData(); // arrayList will exist after crawl
         List<MovieType> listMovie = crawler.getMovieList(); //contain both Actors and Genres
-//        validateBeforeSavetoDB(realPath, movies); // does not work in background thread - still finding way to resolve
+        Movies movies = new Movies();
+        movies.setMovies(listMovie);
+        validateBeforeSavetoDB(movies, "schema/movies.xsd"); // does not work in background thread - still finding way to resolve
         DAO dao = new DAO();
         int i = 0;
         for (MovieType mItem : listMovie) {
@@ -289,7 +286,7 @@ public class Utilities implements Runnable {
 //                    String aImgUri = crawler.DownloadImage(aImgName, aFolder, aUri, Enum.ACTOR_IMG);
 //                    dao.updateActorImageCover(aImgUri, actor);
                 }
-                
+
                 String imageName = movie.getName();
                 String folder = movie.getName();
                 String uri = mItem.getImageCover();
@@ -327,8 +324,8 @@ public class Utilities implements Runnable {
 
     @Override
     public void run() {
-//        printForFun();
-//    CrawlDataAuto();
+        printForFun();
+        CrawlDataAuto();
     }
 
 }
