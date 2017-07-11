@@ -136,6 +136,7 @@ public class Utilities implements Runnable {
             StringWriter sw = new StringWriter();
 
             mar.marshal(movies, sw);
+            dao.closeEM();
             return sw.toString();
 
         } catch (JAXBException ex) {
@@ -144,6 +145,7 @@ public class Utilities implements Runnable {
         return null;
 
     }
+
     public String MarshallTopMovies() {
         try {
             DAO dao = new DAO();
@@ -160,8 +162,8 @@ public class Utilities implements Runnable {
 //            File file = new File(realPath + "WEB-INF/movies.xml");
 //            FileWriter fw = new FileWriter(file);
             StringWriter sw = new StringWriter();
-
             mar.marshal(movies, sw);
+            dao.closeEM();
             return sw.toString();
 
         } catch (JAXBException ex) {
@@ -278,19 +280,19 @@ public class Utilities implements Runnable {
                 }
 
                 Boolean check = dao.createCast(movie, actor, aItem.getCharacterName());
-                
+
                 String aImgName = actor.getName();
-                String aFolder= actor.getName();
+                String aFolder = actor.getName();
                 String aUri = aItem.getImageUrl();
-                String aImgUri = crawler.DownloadImage(aImgName, aFolder, aUri, Enum.ACTOR_IMG);
-                dao.updateActorImageCover(aImgUri, actor);
+//                String aImgUri = crawler.DownloadImage(aImgName, aFolder, aUri, Enum.ACTOR_IMG);
+                dao.updateActorImageCover(aUri, actor);
             }
             String imageName = movie.getName();
             String folder = movie.getName();
             String uri = mItem.getImageCover();
             String imageUri = crawler.DownloadImage(imageName, folder, uri, Enum.MOVIE_IMG);
             dao.updateMovieImageCover(imageUri, movie);
-            System.out.println("Done ."+(i++));
+            System.out.println("Done ." + (i++));
         }
         System.out.println("Done Crawling");
     }

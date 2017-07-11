@@ -6,7 +6,7 @@
                         <div class="movie-container">
                             <xsl:element name="a">
                                 <xsl:attribute name="href">
-                                    <xsl:value-of select="id"/>
+                                    Watch?mo=<xsl:value-of select="id"/>
                                 </xsl:attribute>
                                 <xsl:element name="img">
                                     <xsl:attribute name="class">movie-picture</xsl:attribute>

@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import entities.MovieType;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,14 +13,17 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utilities.DAO;
 
 /**
  *
  * @author USER
  */
+@WebServlet("/Watch")
 public class VideoServlet extends HttpServlet {
 
     /**
@@ -35,8 +39,18 @@ public class VideoServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        String movieID = request.getParameter("mo");
+        DAO dao = new DAO();
+        MovieType mo = (MovieType)dao.getMovieById(Integer.parseInt(movieID)).get(0);
+        request.setAttribute("MovieName", mo.getName());
+        request.setAttribute("MovieAltName", mo.getAlternateName());
+        request.setAttribute("MovieDescription", mo.getDescription());
+        request.setAttribute("MovieImageCover", mo.getImageCover());
+//        request.setAttribute("MovieGenre", mo.getGenreList().toArray());
+//        request.setAttribute("MovieCast", mo.getCastCollection().toArray());
+//         request.setAttribute("MovieCast", mo.getPersonTypeList().toArray());
         /* TODO output your page here. You may use following sample code. */
-        
+
 //        String realPath = request.getServletContext().getRealPath("/");
 //        String videoPath = "http://localhost:"+request.getLocalPort()+"/XMLProject/asset/trailer/WONDER WOMAN - Official Trailer [HD].mp4";
 //        

@@ -14,7 +14,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Top Rated</title>
     </head>
     <body onload="loadTopMovies()">
         <jsp:include page="template/header.jsp"/>

@@ -15,6 +15,7 @@ import entities.PersonType;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -64,7 +65,7 @@ public class DAO implements Serializable {
             e.printStackTrace();
             return false;
         } finally {
-            
+
         }
         return true;
     }
@@ -85,7 +86,7 @@ public class DAO implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            
+
         }
         return listAccounts;
     }
@@ -104,13 +105,20 @@ public class DAO implements Serializable {
         }
     }
 
+    public Genres getGenrebyId(int id) {
+        Query query = em.createNamedQuery("Genres.findById");
+        query.setParameter("id", id);
+        Genres genre = (Genres) query.getResultList().get(0);
+        return genre;
+    }
+
     public Boolean accountIsExisted(String username, String email) {
         Query query = em.createQuery("SELECT acc FROM AccountType acc"
                 + " WHERE acc.email = ?1 OR acc.username = ?2", AccountType.class);
         query.setParameter(1, email);
         query.setParameter(2, username);
         List<AccountType> list = query.getResultList();
-        
+
         if (list.isEmpty()) {
             return false;
         }
@@ -149,7 +157,7 @@ public class DAO implements Serializable {
         query.setParameter("date", movie.getReleaseDate());
         em.clear();
         List<MovieType> list = (List<MovieType>) query.getResultList();
-        
+
         if (list.isEmpty()) {
             return false;
         } else {
@@ -185,12 +193,18 @@ public class DAO implements Serializable {
         return query.getResultList();
     }
 
+    public List getMovieById(int id) {
+        Query query = em.createNamedQuery("MovieType.findById");
+        query.setParameter("id",id);
+        em.clear();
+        return query.getResultList();
+    }
     public List getMovieForSearch() {
         Query query = em.createNativeQuery("SELECT TOP(50) Id, Name, AlternateName, "
                 + "ImageCover FROM Movies ORDER BY ReleaseDate DESC", MovieType.class);
-        
+
         List list = query.getResultList();
-        
+
         return list;
     }
 
@@ -199,8 +213,21 @@ public class DAO implements Serializable {
                 + "ImageCover FROM Movies ORDER BY Rating DESC", MovieType.class);
 //Query query = em.createQuery("SELECT m FROM MovieType a WHERE a.id, a.alternateName");
         List list2 = query2.getResultList();
-        
+
         return list2;
+    }
+
+    public MovieType get1stMovie() {
+        Query query3 = em.createQuery("SELECT m FROM MovieType m Order By m.rating DESC", MovieType.class);
+//Query query = em.createQuery("SELECT m FROM MovieType a WHERE a.id, a.alternateName");
+
+        MovieType first = (MovieType) query3.getResultList().get(0);
+        List<Genres> list = new ArrayList<>();
+        for (MovieGenres genre : first.getMovieGenresCollection()) {
+            list.add(genre.getGenreId());
+        }
+        first.setGenreList(list);
+        return first;
     }
 
     public MovieType getMovieByName(String name) {
@@ -236,9 +263,8 @@ public class DAO implements Serializable {
         } catch (Exception ex) {
             em.getTransaction().rollback();
             ex.printStackTrace();
-        }
-        finally{
-            
+        } finally {
+
         }
     }
 
@@ -251,9 +277,8 @@ public class DAO implements Serializable {
         } catch (Exception ex) {
             em.getTransaction().rollback();
             ex.printStackTrace();
-        }
-        finally{
-            
+        } finally {
+
         }
     }
 
@@ -267,8 +292,8 @@ public class DAO implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
-        }finally{
-            
+        } finally {
+
         }
         return true;
     }
@@ -293,7 +318,7 @@ public class DAO implements Serializable {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            
+
         }
         return movie;
 //        }
@@ -312,7 +337,7 @@ public class DAO implements Serializable {
             em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            
+
         }
         return genre;
     }
@@ -330,7 +355,7 @@ public class DAO implements Serializable {
             em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            
+
         }
         return person;
     }
@@ -358,7 +383,7 @@ public class DAO implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            
+
         }
         return result;
     }
@@ -390,7 +415,7 @@ public class DAO implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            
+
         }
         return result;
     }
@@ -413,7 +438,7 @@ public class DAO implements Serializable {
             em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            
+
         }
         return cast.getId();
     }

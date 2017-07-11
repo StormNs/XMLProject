@@ -36,7 +36,7 @@ import utilities.Utilities;
 public class LoginServlet extends HttpServlet {
 
     private final String loginPage = "account.jsp";
-    private final String mainPage = "main.jsp";
+    private final String mainPage = "Main";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
