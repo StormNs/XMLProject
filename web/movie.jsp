@@ -12,6 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>movie title</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <style>
         .movie-watching-container{
@@ -42,6 +43,16 @@
         .title-desc{
             margin-top: 10px;
         }
+        .bkMark{
+            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            float: right;
+            margin-top: -30px;
+        }
+
     </style>
     <body>
         <jsp:include page="template/header.jsp"/>
@@ -60,7 +71,9 @@
                     <div class="movie-detail">
                         <div class="movie-container">
 
-                            <img class="movie-picture" alt="<x:out select = "$mo/movie/name" /> Poster" title="<x:out select = "$mo/movie/name" /> Poster" src="FileServlet/<x:out select = "$mo/movie/imageCover" />">
+                            <img class="movie-picture" alt="<x:out select = "$mo/movie/name" /> 
+                                 Poster" title="<x:out select = "$mo/movie/name" />
+                                 Poster" src="FileServlet/<x:out select = "$mo/movie/imageCover" />">
                             <div class="movie-title-overlay"> 
                                 <x:out select = "$mo/movie/name" />
                             </div>
@@ -68,14 +81,15 @@
 
                         </div>
                         <div class="movie-text">
-                            <div>
                             <p class="title-desc"><x:out select = "$mo/movie/name" /><br><x:out select = "$mo/movie/alternateName" /></p>
-                            </div>
+                                <c:if test="${not empty sessionScope.account_Name}" >
+                                <i type="button" onclick="" value="" class="fa fa-bookmark fa-4 bkMark"></i>
+                            </c:if>
                             <div>
                                 <p><span style="color: #78a7e1;">Country:</span> <x:out select = "$mo/movie/country" /></p>
-                            <p><span style="color: #78a7e1;">Language:</span> <x:out select = "$mo/movie/language" /></p>
-                            <p><span style="color: #78a7e1;">Release date:</span> <x:out select = "$mo/movie/releaseDate" /></p>
-                            <p><span style="color: #78a7e1;">Director:</span> <x:out select = "$mo/movie/director" /></p>
+                                <p><span style="color: #78a7e1;">Language:</span> <x:out select = "$mo/movie/language" /></p>
+                                <p><span style="color: #78a7e1;">Release date:</span> <x:out select = "$mo/movie/releaseDate" /></p>
+                                <p><span style="color: #78a7e1;">Director:</span> <x:out select = "$mo/movie/director" /></p>
                             </div>
                             <p><span style="color: #78a7e1;">Description:</span></p>
                             <p><x:out select = "$mo/movie/description" /></p>

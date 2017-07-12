@@ -62,6 +62,9 @@ public class DispatchServlet extends HttpServlet {
                     case "LOGOUT":
                         url = logOutServlet;
                         break;
+                    case "MAIN":
+                        url = mainServlet;
+                        break;
                     default:
                         url = loginPage;
                         break;

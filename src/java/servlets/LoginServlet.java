@@ -74,7 +74,7 @@ public class LoginServlet extends HttpServlet {
             } else {
                 AccountType acc = list.get(0);
                 if (acc.getPassword().equals(password)) {;
-                    url = loginPage;
+                    url = mainServlet;
                     session.setAttribute("account_Name", acc.getUsername());
                 } else {
                     request.setAttribute("Result", "Wrong_field");

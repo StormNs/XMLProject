@@ -104,7 +104,7 @@
     <body style="margin: 0px; margin-top:20px" class="sUpbackgr">
         <div>
             <div class="icon-lgIn">
-                <a class="fa fa-play-circle brand-icon rotate-icon" href="main.jsp"
+                <a class="fa fa-play-circle brand-icon rotate-icon" href="DispatchServlet?btnAction=MAIN"
                    style="font-size:74px !important;"></a>
             </div>
             <div class="Form" id="LogIn_F">
