@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 
 <!DOCTYPE html>
 <html>
@@ -33,23 +33,17 @@
                     <span class="title-row">Result for:  ❯ ${requestScope.keyword}</span>
                 </div>
                 <div class="lastest-row">
-                    <c:set var = "check" value = "${requestScope.result}"/>
-                    <c:choose>
-                        <c:when test= "${check!=''}">
-                            <c:forEach items="${requestScope.result}" var="result">
-                                <div class="movie-container">
-                                    <a href="Watch?mo=<c:out value="${result.id}"/>"> 
-                                        <img class="movie-picture" alt="<c:out value="${result.alternateName}"/>" title="${result.name} Poster" src="FileServlet/${result.imageCover}">
-                                        <div class="movie-title-overlay"><c:out value="${result.name}"/></div>
-                                    </a>
+                   <x:parse xml = "${requestScope.result}" var = "result"/>
+                    <x:forEach select = "$result/movies/movie" var = "resultitem">
+                        <div class="movie-container">
+                            <a href="Watch?mo=<x:out select = "$resultitem/id" />"> 
+                                <img class="movie-picture" alt="<x:out select = '$resultitem/name' /> Poster" title="<x:out select = "$resultitem/name" /> Poster" src="FileServlet/<x:out select = "$resultitem/imageCover" />">
+                                <div class="movie-title-overlay"><x:out select = "$resultitem/name" /></div>
+                            </a>
 
-                                </div>
-                            </c:forEach>
-                        </c:when>
-                        <c:otherwise>
-                            <p>No result was found. Sorry.</p>
-                        </c:otherwise>
-                    </c:choose>
+                        </div>
+                    </x:forEach>
+<!--                    <a>Back</a><a>Next</a>-->
                     <!--                        <div class="movie-container">
                                                 <a href="#"> 
                                                     <img class="movie-picture" alt="The Mummy Poster" title="The Mummy Poster" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMjM5NzM5NTgxN15BMl5BanBnXkFtZTgwNDEyNTk4MTI@._V1_UX182_CR0,0,182,268_AL_.jpg">

@@ -23,7 +23,6 @@
         -webkit-box-shadow:0px 9px 21px 0px #505050;
         -moz-box-shadow:0px 9px 21px 0px #505050;
         box-shadow:0px 9px 21px 0px #505050;
-        text-shadow: 4px 3px 3px black;
     }
     #menu-container >a{
         float:left;
@@ -62,7 +61,6 @@
     #menu-account{
         margin-left: auto;
         margin-right:auto;
-        text-shadow: 4px 3px 3px black;
     }
     a i{
         padding-right: 10px;
@@ -199,7 +197,7 @@
                         <div class="fast-search-result">
                             <form action="SearchMovie" method="GET">
                                 <input id="search-bar" name="search-bar" required="true" type="text" autocomplete="off" placeholder="Search..." oninput="fastSearch()"/>
-                                <button type="submit" id="search-btn" value="search" class="search-btn"><i class="fa fa-search"></i></button>
+                                <button type="submit" id="search-btn" value="SEARCH" class="search-btn"><i class="fa fa-search"></i></button>
                             </form>
 
                             <!--FAST RESULT-->

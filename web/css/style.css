@@ -53,6 +53,7 @@ and open the template in the editor.
     border-radius: 4px;
 }
 .movie-title-overlay{
+    border-top-right-radius: 10px;
     position: absolute;
     left: 0px;
     bottom: 0px;

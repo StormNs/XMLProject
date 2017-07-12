@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="container Slider">
-                        <img src="http://static.srcdn.com/wp-content/uploads/2016/12/War-for-the-Planet-of-the-Apes-Caesar-holding-a-gun.jpg"
+                        <img src="http://s3.foxmovies.com/foxmovies/production/films/113/images/gallery/gallery1-gallery-image.jpg"
                              alt="Image3" class="picture slideshow-image-1"/>
                         <div class="slide-description">
                             <c:set var="firstName" value="${requestScope.firstName}"/>

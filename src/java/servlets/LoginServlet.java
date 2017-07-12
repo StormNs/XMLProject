@@ -88,8 +88,8 @@ public class LoginServlet extends HttpServlet {
 //           MovieType m = (MovieType) dao.getMovieById(1001).get(0);
 //           dao.updateMovieImageCover("haha", m);
 //           dao.closeEM();
-            Utilities ul = new Utilities();
-            ul.CrawlDataAuto();
+//            Utilities ul = new Utilities();
+//            ul.CrawlDataAuto();
 //           
         } catch (Exception ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);

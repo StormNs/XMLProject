@@ -200,7 +200,7 @@ public class DAO implements Serializable {
     }
 
     public List getMovieForSearch() {
-        Query query = em.createNativeQuery("SELECT TOP(50) Id, Name, AlternateName, [Description], "
+        Query query = em.createNativeQuery("SELECT TOP(70) Id, Name, AlternateName, [Description], "
                 + "ImageCover FROM Movies ORDER BY ReleaseDate DESC", MovieType.class);
 
         List list = query.getResultList();
@@ -461,6 +461,13 @@ public class DAO implements Serializable {
         Query query = em.createNativeQuery("SELECT Name,Id,AlternateName,"
                 + "ImageCover FROM Movies WHERE Name Like ?keyword ORDER BY ReleaseDate DESC", MovieType.class);
         query.setParameter("keyword", "%" + keyword + "%");
+        return (List<MovieType>) query.getResultList();
+    }
+    public List searchMoviesByNameAndAlternateName(String keyword) {
+        Query query = em.createNativeQuery("SELECT Name,Id,AlternateName,"
+                + "ImageCover FROM Movies WHERE Name Like ?keyword OR AlternateName Like ?keyword2 ORDER BY ReleaseDate DESC", MovieType.class);
+        query.setParameter("keyword", "%" + keyword + "%");
+        query.setParameter("keyword2", "%" + keyword + "%");
         return (List<MovieType>) query.getResultList();
     }
 }

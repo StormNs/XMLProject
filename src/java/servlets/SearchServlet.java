@@ -40,8 +40,8 @@ public class SearchServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String keyword = request.getParameter("search-bar");
-            DAO dao = new DAO();
-            List<MovieType> result = dao.searchMoviesByName(keyword);
+            Utilities uti = new Utilities();
+            String result = uti.MarshallMoviesResult(keyword);
             request.setAttribute("keyword", keyword);
             request.setAttribute("result", result);
             RequestDispatcher rd = request.getRequestDispatcher("result.jsp");
