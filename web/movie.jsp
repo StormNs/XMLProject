@@ -14,6 +14,8 @@
         <title>movie title</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
+    <x:parse xml = "${requestScope.mo}" var = "mo"/>
+
     <style>
         .movie-watching-container{
             padding: 20px 0;
@@ -30,7 +32,7 @@
             border-radius: 5px;
         }
         .video-player{
-            background-color: black;
+            background-image: url('FileServlet/<x:out select = "$mo/movie/imageCover" />');
         }
         .movie-text{
             color: lightgray;
@@ -57,7 +59,7 @@
     <body>
         <jsp:include page="template/header.jsp"/>
         <div>
-            <x:parse xml = "${requestScope.mo}" var = "mo"/>
+
             <div class="lastest-container">
                 <input hidden type="text" value="<x:out select = "$mo/movie/id" />"/>
                 <div class="movie-watching-container">
@@ -71,9 +73,7 @@
                     <div class="movie-detail">
                         <div class="movie-container">
 
-                            <img class="movie-picture" alt="<x:out select = "$mo/movie/name" /> 
-                                 Poster" title="<x:out select = "$mo/movie/name" />
-                                 Poster" src="FileServlet/<x:out select = "$mo/movie/imageCover" />">
+                            <img class="movie-picture" alt="<x:out select = "$mo/movie/name" /> Poster" title="<x:out select = "$mo/movie/name" /> Poster" src="FileServlet/<x:out select = "$mo/movie/imageCover" />">
                             <div class="movie-title-overlay"> 
                                 <x:out select = "$mo/movie/name" />
                             </div>
@@ -81,11 +81,21 @@
 
                         </div>
                         <div class="movie-text">
-                            <p class="title-desc"><x:out select = "$mo/movie/name" /><br><x:out select = "$mo/movie/alternateName" /></p>
-                                <c:if test="${not empty sessionScope.account_Name}" >
-                                <i type="button" onclick="" value="" class="fa fa-bookmark fa-4 bkMark"></i>
-                            </c:if>
                             <div>
+                                <p class="title-desc"><x:out select = "$mo/movie/name" /><br><x:out select = "$mo/movie/alternateName" /></p>
+<c:if test="${not empty sessionScope.account_Name}" >
+                                <i type="button" onclick="" value="" class="fa fa-bookmark fa-4 bkMark"></i>
+                            </c:if>                            
+</div>
+                            <div>
+                                <p><span style="color: #78a7e1;">IMDB Rating:</span> <x:choose>
+                                        <x:when select = "$mo/movie//rating">
+                                          <i class="fa fa-star" style="color: yellow"></i>  <x:out select = "$mo/movie/rating" />/10 
+                                        </x:when>
+                                        <x:otherwise>
+                                            N/A
+                                        </x:otherwise>
+                                    </x:choose></p>
                                 <p><span style="color: #78a7e1;">Country:</span> <x:out select = "$mo/movie/country" /></p>
                                 <p><span style="color: #78a7e1;">Language:</span> <x:out select = "$mo/movie/language" /></p>
                                 <p><span style="color: #78a7e1;">Release date:</span> <x:out select = "$mo/movie/releaseDate" /></p>
