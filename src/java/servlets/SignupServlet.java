@@ -7,6 +7,8 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +58,7 @@ public class SignupServlet extends HttpServlet {
             dao.closeEM();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

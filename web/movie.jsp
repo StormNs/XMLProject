@@ -52,14 +52,54 @@
             cursor: pointer;
             outline: none;
             float: right;
-            margin-top: -30px;
+            font-size: 30px !important;
         }
+        .bkMark:hover{
+            color:rgb(180, 197, 194);
+        }
+        .modal{
+            display: none;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            position: fixed;
+            z-index: 1;
+            top:0;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .close{
+            font-size: 28px;
+            color: black;
+            font-weight: bold;
+            top: 0;
+            right: 2%;
+            cursor: pointer;
+            position: absolute;
+        }
+        .close:hover{
+            color: #f31f1f;   
+        }
+        .modal_cotent{
+            background-color: #fefefe;
+            margin:auto;
+            padding: 20px;
+            width: 40%;
+            left: 30%;
+            position: absolute;
+            top: 200px;
+        }
+
 
     </style>
     <body>
         <jsp:include page="template/header.jsp"/>
         <div>
-
+            <div id="myModal" class="modal">
+                <div class="modal_cotent">
+                    <span class="close">&times;</span>
+                    <p id="modalContent" >GG</p>
+                </div>
+            </div>
             <div class="lastest-container">
                 <input hidden type="text" value="<x:out select = "$mo/movie/id" />"/>
                 <div class="movie-watching-container">
@@ -82,15 +122,17 @@
                         </div>
                         <div class="movie-text">
                             <div>
+                                <c:if test="${not empty sessionScope.account_Name}" >
+                                    <i onclick="postBkMark()" value="" class="fa fa-bookmark fa-4 bkMark"></i>
+                                    <input id="movieId" hidden="" type="text" value="<x:out select = "$mo/movie/id" />" />
+                                    <button type="button" id="btnModal" value="Click">Hehe</button>
+                                </c:if>    
                                 <p class="title-desc"><x:out select = "$mo/movie/name" /><br><x:out select = "$mo/movie/alternateName" /></p>
-<c:if test="${not empty sessionScope.account_Name}" >
-                                <i type="button" onclick="" value="" class="fa fa-bookmark fa-4 bkMark"></i>
-                            </c:if>                            
-</div>
+                            </div>
                             <div>
                                 <p><span style="color: #78a7e1;">IMDB Rating:</span> <x:choose>
                                         <x:when select = "$mo/movie//rating">
-                                          <i class="fa fa-star" style="color: yellow"></i>  <x:out select = "$mo/movie/rating" />/10 
+                                            <i class="fa fa-star" style="color: yellow"></i>  <x:out select = "$mo/movie/rating" />/10 
                                         </x:when>
                                         <x:otherwise>
                                             N/A
@@ -110,5 +152,74 @@
             </div>
         </div>
         <jsp:include page="template/footer.jsp"/>
+
+        <script>
+            var http = new XMLHttpRequest();
+            var mId = document.getElementById('movieId').value;
+            var url = "EditBookMarkServlet";
+            var params = "btnAction=BMARK&mId=" + mId;
+            var btnBMark = document.getElementsByClassName('bkMark')[0];
+
+            var mModal = document.getElementById('myModal');
+            var mContent = document.getElementById('modalContent');
+            var close = document.getElementsByClassName('close')[0];
+            var btn = document.getElementById('btnModal');
+
+            document.addEventListener("DOMContentLoaded", function (event) {
+                checkFavourite();
+            });
+            function checkFavourite() {
+                var t = '${requestScope.isFavourite}';
+                if (t == 'true') {
+                    btnBMark.style.color = "rgb(12, 187, 164)";
+                } else {
+                    btnBMark.style.color = "white";
+                }
+            }
+
+            function postBkMark() {
+                http.open("POST", url, true);
+                http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                http.send(params);
+            }
+
+            http.onreadystatechange = function () {
+                if (http.readyState == 4 && http.status == 200) {
+                    var result = http.responseText;
+                    if (result == "Added") {
+                        mContent.innerHTML = "Movie has been added to your favourite list";
+                        mModal.style.display = "block";
+                        btnBMark.style.color = " rgb(12, 187, 164)";
+                    }
+                    if (result == "Remove") {
+                        mContent.innerHTML = "Movie has been removed from your favourite list";
+                        mModal.style.display = "block";
+                        btnBMark.style.color = "white";
+                    }
+                    if (result == "Error") {
+                        mContent.innerHTML = "Error occurs! Please try again later";
+                        mModal.style.display = "block";
+                        btnBMark.style.color = "white";
+                    }
+                }
+            }
+
+
+            close.onclick = function () {
+                mModal.style.display = "none";
+            }
+
+            btn.onclick = function () {
+                mModal.style.display = "block";
+            }
+            window.onclick = function (event) {
+                if (event.target == mModal) {
+                    mModal.style.display = "none";
+                }
+            }
+
+
+
+        </script>
     </body>
 </html>

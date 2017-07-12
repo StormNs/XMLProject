@@ -44,6 +44,10 @@
         <servlet-name>Crawling</servlet-name>
         <servlet-class>servlets.Crawling</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditBookMarkServlet</servlet-name>
+        <servlet-class>servlets.EditBookMarkServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DispatchServlet</servlet-name>
         <url-pattern>/DispatchServlet</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>Crawling</servlet-name>
         <url-pattern>/Crawling</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditBookMarkServlet</servlet-name>
+        <url-pattern>/EditBookMarkServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

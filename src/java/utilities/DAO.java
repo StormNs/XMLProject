@@ -5,8 +5,10 @@
  */
 package utilities;
 
+import com.sun.org.apache.xpath.internal.FoundIndex;
 import entities.AccountType;
 import entities.Cast;
+import entities.Favourites;
 import entities.Genres;
 import entities.MovieGenres;
 import entities.MovieImages;
@@ -112,6 +114,17 @@ public class DAO implements Serializable {
         return genre;
     }
 
+    public AccountType getAccountbyId(String name) {
+        Query query = em.createQuery("SELECT a FROM AccountType a WHERE a.username = ?1");
+        query.setParameter(1, name);
+        List<AccountType> list = query.getResultList();
+        if (list.isEmpty()) {
+            return null;
+        } else {
+            return list.get(0);
+        }
+    }
+
     public Boolean accountIsExisted(String username, String email) {
         Query query = em.createQuery("SELECT acc FROM AccountType acc"
                 + " WHERE acc.email = ?1 OR acc.username = ?2", AccountType.class);
@@ -176,6 +189,20 @@ public class DAO implements Serializable {
             return true;
         }
     }
+
+    public Favourites FavouriteExisted(int movieId, int accountId) {
+        Query query = em.createQuery("SELECT f FROM Favourites f WHERE f.accountId.id = ?1 AND f.movieId.id = ?2");
+        query.setParameter(1, accountId);
+        query.setParameter(2, movieId);
+
+        List<Favourites> list = query.getResultList();
+        if (list.isEmpty()) {
+            return null;
+        } else {
+            return list.get(0);
+        }
+
+    }
     //</editor-fold> 
 
     //get DTO function
@@ -194,9 +221,17 @@ public class DAO implements Serializable {
 
     public List getMovieById(int id) {
         Query query4 = em.createNativeQuery("SELECT * FROM Movies WHERE"
-                + " Id = "+id);
+                + " Id = " + id);
         em.clear();
         return query4.getResultList();
+    }
+
+    public MovieType getheFukinMOvieFOrme(int id) {
+        Query query = em.createNamedQuery("MovieType.findById", MovieType.class);
+        query.setParameter("id", id);
+
+        MovieType m = (MovieType) query.getSingleResult();
+        return m;
     }
 
     public List getMovieForSearch() {
@@ -282,7 +317,7 @@ public class DAO implements Serializable {
             t.commit();
         } catch (Exception ex) {
             t.rollback();
-             Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
         }
@@ -320,7 +355,7 @@ public class DAO implements Serializable {
             t.commit();
         } catch (Exception ex) {
             t.rollback();
-           Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
         }
@@ -390,7 +425,7 @@ public class DAO implements Serializable {
             }
         } catch (Exception e) {
             t.rollback();
-           Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, e);
         } finally {
 
         }
@@ -454,6 +489,42 @@ public class DAO implements Serializable {
 
         }
         return cast.getId();
+    }
+
+    public Boolean createFavourites(MovieType movie, AccountType account) {
+        Boolean result = false;
+        EntityTransaction t = em.getTransaction();
+        try {
+            Favourites favourite = new Favourites();
+            favourite.setAccountId(account);
+            favourite.setMovieId(movie);
+            t.begin();
+            em.persist(favourite);
+            em.flush();
+            t.commit();
+            result = true;
+        } catch (Exception e) {
+            t.rollback();
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return result;
+    }
+
+    public Boolean deleteFavourites(Integer favouriteId) {
+        Boolean result = false;
+        EntityTransaction t = em.getTransaction();
+        try {
+            Favourites favourite = em.find(Favourites.class, favouriteId);
+            t.begin();
+            em.remove(favourite);
+            em.flush();
+            t.commit();
+            result = true;
+        } catch (Exception e) {
+            t.rollback();
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return result;
     }
     //</editor-fold>
 

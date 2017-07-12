@@ -5,6 +5,8 @@
  */
 package servlets;
 
+import entities.AccountType;
+import entities.Favourites;
 import entities.MovieType;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import utilities.DAO;
 import utilities.Utilities;
 
@@ -44,6 +47,18 @@ public class VideoServlet extends HttpServlet {
         Utilities uti = new Utilities();
         String mo = uti.MarshallWatchMovie(Integer.parseInt(movieID));
         request.setAttribute("mo", mo);
+
+        DAO dao = new DAO();
+        HttpSession session = request.getSession();
+        String accountName = (String) session.getAttribute("account_Name");
+        if(accountName!= null){
+            MovieType movie = (MovieType) dao.getheFukinMOvieFOrme(Integer.parseInt(movieID));
+            AccountType account = dao.getAccountbyId(accountName);
+            Favourites fav = dao.FavouriteExisted(movie.getId(), account.getId());
+            if (fav != null) {
+                request.setAttribute("isFavourite", true);
+            }
+        }
 //        DAO dao = new DAO();
 //        MovieType mo = (MovieType)dao.getMovieById(Integer.parseInt(movieID)).get(0);
 //        request.setAttribute("MovieName", mo.getName());
@@ -53,7 +68,6 @@ public class VideoServlet extends HttpServlet {
 
 
         /* TODO output your page here. You may use following sample code. */
-
 //        String realPath = request.getServletContext().getRealPath("/");
 //        String videoPath = "http://localhost:"+request.getLocalPort()+"/XMLProject/asset/trailer/WONDER WOMAN - Official Trailer [HD].mp4";
 //        

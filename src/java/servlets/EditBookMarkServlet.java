@@ -5,32 +5,28 @@
  */
 package servlets;
 
+import entities.AccountType;
+import entities.Favourites;
+import entities.MovieType;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import utilities.Utilities;
+import javax.servlet.http.HttpSession;
+import utilities.DAO;
 
 /**
  *
  * @author StormNs
  */
-public class DispatchServlet extends HttpServlet {
+public class EditBookMarkServlet extends HttpServlet {
 
-    private final String loginPage = "account.jsp";
-    private final String mainPage = "main.jsp";
-    private final String loginServlet = "LoginServlet";
-    private final String signUpServlet = "SignupServlet";
-    private final String logOutServlet = "LogoutServlet";
-    private final String searchServlet = "SearchServlet";
-    private final String mainServlet = "MainServlet";
-    private final String filmServlet = "VideoServlet";
-    private final String bookMarkServlet = "EditBookMarkServlet";
-    
-//    private final String invalidPage = "invalid.html";
+    private final String filmSerlvet = "VideoServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,42 +40,7 @@ public class DispatchServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String button = request.getParameter("btnAction");
 
-        String url = null;
-        try {
-            if (button == null) {
-                //invalid
-
-            } else {
-                switch (button) {
-                    case "LOGIN":
-                        url = loginServlet;
-                        break;
-                    case "REGISTER":
-                        url = signUpServlet;
-                        break;
-                    case "LOGOUT":
-                        url = logOutServlet;
-                        break;
-                    case "MAIN":
-                        url = mainServlet;
-                        break;
-                    case "BMARK":
-                        url = bookMarkServlet;
-                        break;
-                    default:
-                        url = loginPage;
-                        break;
-                }
-            }// end of else
-
-        } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
-            out.close();
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -109,6 +70,48 @@ public class DispatchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+
+        PrintWriter out = response.getWriter();
+        String movieId = request.getParameter("mId");
+        HttpSession session = request.getSession();
+        String accountName = (String) session.getAttribute("account_Name");
+        String header = request.getHeader("referer");
+        String url = filmSerlvet;
+        String bkMresult = "";
+        try {
+            if (accountName != null) {
+                DAO dao = new DAO();
+                MovieType movie = (MovieType) dao.getheFukinMOvieFOrme(Integer.parseInt(movieId));
+                AccountType account = dao.getAccountbyId(accountName);
+                Favourites fav = dao.FavouriteExisted(movie.getId(), account.getId());
+                if (fav != null) { // delete
+                    Boolean result = dao.deleteFavourites(fav.getId());
+                    if (result) {
+//                        request.setAttribute("bkMkResult", "Remove");
+                        bkMresult = "Remove";
+                    } else {
+//                        request.setAttribute("bkMkResult", "Error");
+                        bkMresult = "Error";
+
+                    }
+
+                } else { // create
+                    dao.createFavourites(movie, account);
+                    bkMresult = "Added";
+//                    request.setAttribute("bkMkResult", "Added");
+                }
+
+                out.write(bkMresult);
+                dao.closeEM();
+            }
+        } catch (Exception e) {
+            Logger.getLogger(EditBookMarkServlet.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+//            RequestDispatcher rd = request.getRequestDispatcher(url);
+//            rd.forward(request, response);
+            out.close();
+        }
+
     }
 
     /**
