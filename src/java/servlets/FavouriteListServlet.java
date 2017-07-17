@@ -5,24 +5,33 @@
  */
 package servlets;
 
+import entities.AccountType;
+import entities.Favourites;
+import entities.MovieImages;
 import entities.MovieType;
+import entities.Movies;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import utilities.DAO;
+import utilities.Utilities;
 
 /**
  *
  * @author StormNs
  */
-public class SignupServlet extends HttpServlet {
+public class FavouriteListServlet extends HttpServlet {
 
-    private final String signUpPage = "account.jsp";
+    private final String FavouritePage = "favourite.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,31 +46,51 @@ public class SignupServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String username = request.getParameter("txtsgnUpUsername");
-        String password = request.getParameter("txtsgnPassword");
-        String email = request.getParameter("txtsgnEmail");
+        String sIndex = (String) request.getParameter("sIndex");
+        HttpSession session = request.getSession();
+        String accName = (String) session.getAttribute("account_Name");
+        Integer startIndex;
+        if (sIndex == null) {
+            startIndex = 1;
+        } else {
+            startIndex = Integer.parseInt(sIndex);
+        }
+        if (startIndex <= 0) {
+            startIndex = 1;
+        }
+        DAO dao = new DAO();
 
-        String url = signUpPage;
-
+        String url = FavouritePage;
         try {
-            DAO dao = new DAO();
-            Boolean exist = dao.accountIsExisted(username, email);
-            if (exist) {
-                request.setAttribute("Result", "existed");
-            } else {
-                Boolean check = dao.createAccounts(username, email, password);
-                if (!check) {
-                    request.setAttribute("Result", "invalidField");
-                } else {
-                    request.setAttribute("Result", "successed");
-                }
-            }
-            dao.closeEM();
+            if (accName != null) {
+                AccountType acc = dao.getAccount(accName);
+                List<MovieType> movieList = new ArrayList<>();
+                List<Favourites> favList = dao.getUserFavouriteList(acc.getId(), startIndex, startIndex + 29); // get 30 movies
 
+                for (Favourites favItem : favList) {
+                    MovieType movie = dao.getMovieForFavourite(favItem.getMovie().getId());
+                    if (movie != null) {
+                        movieList.add(movie);
+                    }
+                }
+                Movies movies = new Movies();
+                movies.setMovies(movieList);
+                Utilities ul = new Utilities();
+                String moviesXml = ul.marshallFavouriteMovies(movies);
+                Long filmSize = dao.getSizeFavouriteMovies(acc.getId());
+                Double pageSize = Double.parseDouble(filmSize.toString()) / 30;
+                request.setAttribute("sIndex", startIndex);
+                request.setAttribute("PageSize", Math.ceil(pageSize));
+                request.setAttribute("moviePageSize", movieList.size());
+                request.setAttribute("moviesXml", moviesXml);
+            }
         } catch (Exception e) {
-            Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(FavouriteListServlet.class.getName()).log(Level.SEVERE, null, e);
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
+            dao.closeEM();;
+            out.close();
         }
     }
 

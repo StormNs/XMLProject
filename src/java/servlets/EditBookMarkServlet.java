@@ -81,7 +81,7 @@ public class EditBookMarkServlet extends HttpServlet {
         try {
             if (accountName != null) {
                 DAO dao = new DAO();
-                MovieType movie = (MovieType) dao.getheFukinMOvieFOrme(Integer.parseInt(movieId));
+                MovieType movie = (MovieType) dao.getSingleMovie(Integer.parseInt(movieId));
                 AccountType account = dao.getAccountbyId(accountName);
                 Favourites fav = dao.FavouriteExisted(movie.getId(), account.getId());
                 if (fav != null) { // delete

@@ -24,7 +24,7 @@
         -webkit-box-shadow:0px 9px 21px 0px #505050;
         -moz-box-shadow:0px 9px 21px 0px #505050;
         box-shadow:0px 9px 21px 0px #505050;
-        text-shadow: 4px 3px 3px black;
+        /*text-shadow: 4px 3px 3px black;*/
     }
     #menu-container >a{
         float:left;
@@ -43,12 +43,14 @@
         padding: 20px 40px;
     }
     #menu-account > span{
-        float: right;
+        /*float: right;*/
+        right: 10%;
         display: block;
         font-size: 17px;
         text-align: center;
         color: lightgray;
-        padding: 20px 40px;
+        padding: 20px 25px;
+        position: absolute;
     }
 
     #menu a:hover{
@@ -63,7 +65,7 @@
     #menu-account{
         margin-left: auto;
         margin-right:auto;
-        text-shadow: 4px 3px 3px black;
+        /*text-shadow: 4px 3px 3px black;*/
     }
     a i{
         padding-right: 10px;
@@ -175,6 +177,30 @@
     .no-deco{
         text-decoration: none;
     }
+    .dropdown{
+        display: inline-block;
+        position: relative;
+        cursor: pointer;
+    }
+    .dropdown-content{
+        display: none;
+        position: absolute;
+        z-index: 3;
+        padding: 8px 12px;
+    }
+    .dropdown:hover .dropdown-content{
+        display: block;
+    }
+    .dropdown-content a{
+        text-decoration: none;
+        display: block;
+        padding: 8px 12px;
+        color: white;
+        border: solid 1px #6d6d6d;
+        background-color: #24292e;
+        margin-left: -10px;
+        border-radius: 4px;
+    }
 </style>
 <header role="banner">
     <div id="menu">
@@ -232,9 +258,16 @@
             <c:set var="accountName" value="${sessionScope.account_Name}"/>
             <c:if test ="${not empty accountName}">
                 <a href="DispatchServlet?btnAction=LOGOUT">Logout</a>
-                <span>Welcome <span style="color: lightseagreen">${accountName}</span></span>
-                </c:if>
-                <c:if test="${empty accountName}">
+                <span>Welcome 
+                    <div class="dropdown" style="color: lightseagreen">
+                        ${accountName}
+                        <div class="dropdown-content">
+                            <a href="DispatchServlet?btnAction=FAVOURITE">Your Favorites</a>
+                        </div>
+                    </div>
+                </span>
+            </c:if>
+            <c:if test="${empty accountName}">
                 <a class="no-deco" href="account.jsp"><i class="fa fa-user"></i> Login</a>
             </c:if>
 

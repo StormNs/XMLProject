@@ -1,12 +1,67 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-
-
-<Account>
-    <Username>Huy</Username>
-    
-</Account>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><actors>
+    <actor>
+        <img>F:/NetBean_Project/XMLProj_Actor_Img/Tom_Holland/Tom_Holland_pic.jpg</img>
+        <name>Benedict Cumberbatch</name>
+        <character>Dr. Stephen Strange</character>
+    </actor>
+    <actor>
+        <img>F:/NetBean_Project/XMLProj_Actor_Img/Tom_Holland/Tom_Holland_pic.jpg</img>
+        <name>Tom Hiddleston</name>
+        <character>Loki</character>
+    </actor>
+    <actor>
+        <img>F:/NetBean_Project/XMLProj_Actor_Img/Tom_Holland/Tom_Holland_pic.jpg</img>
+        <name>Idris Elba</name>
+        <character>Heimdall</character>
+    </actor>
+    <actor>
+        <img>F:/NetBean_Project/XMLProj_Actor_Img/Tom_Holland/Tom_Holland_pic.jpg</img>
+        <name>Cate Blanchett</name>
+        <character>Hela</character>
+    </actor>
+    <actor>
+        <img>F:/NetBean_Project/XMLProj_Actor_Img/Tom_Holland/Tom_Holland_pic.jpg</img>
+        <name>Chris Hemsworth</name>
+        <character>Thor</character>
+    </actor>
+    <actor>
+        <img>F:/NetBean_Project/XMLProj_Actor_Img/Tom_Holland/Tom_Holland_pic.jpg</img>
+        <name>Jaimie Alexander</name>
+        <character>Sif</character>
+    </actor>
+    <actor>
+        <img>F:/NetBean_Project/XMLProj_Actor_Img/Tom_Holland/Tom_Holland_pic.jpg</img>
+        <name>Karl Urban</name>
+        <character>Skurge</character>
+    </actor>
+    <actor>
+        <img>F:/NetBean_Project/XMLProj_Actor_Img/Tom_Holland/Tom_Holland_pic.jpg</img>
+        <name>Anthony Hopkins</name>
+        <character>Odin</character>
+    </actor>
+    <actor>
+        <img>F:/NetBean_Project/XMLProj_Actor_Img/Tom_Holland/Tom_Holland_pic.jpg</img>
+        <name>Tessa Thompson</name>
+        <character>Valkyrie</character>
+    </actor>
+    <actor>
+        <img>F:/NetBean_Project/XMLProj_Actor_Img/Tom_Holland/Tom_Holland_pic.jpg</img>
+        <name>Jeff Goldblum</name>
+        <character>Grandmaster</character>
+    </actor>
+    <actor>
+        <img>F:/NetBean_Project/XMLProj_Actor_Img/Tom_Holland/Tom_Holland_pic.jpg</img>
+        <name>Mark Ruffalo</name>
+        <character>Hulk</character>
+    </actor>
+    <actor>
+        <img>F:/NetBean_Project/XMLProj_Actor_Img/Tom_Holland/Tom_Holland_pic.jpg</img>
+        <name>Ray Stevenson</name>
+        <character>Volstagg</character>
+    </actor>
+    <actor>
+        <img>F:/NetBean_Project/XMLProj_Actor_Img/Tom_Holland/Tom_Holland_pic.jpg</img>
+        <name>Taika Waititi</name>
+        <character>Korg</character>
+    </actor>
+</actors>

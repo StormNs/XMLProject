@@ -6,14 +6,20 @@
 package servlets;
 
 import entities.AccountType;
+import entities.Actor;
+import entities.ActorList;
+import entities.Cast;
 import entities.Favourites;
 import entities.MovieType;
+import entities.PersonType;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,22 +57,32 @@ public class VideoServlet extends HttpServlet {
         DAO dao = new DAO();
         HttpSession session = request.getSession();
         String accountName = (String) session.getAttribute("account_Name");
-        if(accountName!= null){
-            MovieType movie = (MovieType) dao.getheFukinMOvieFOrme(Integer.parseInt(movieID));
+        if (accountName != null) {
+            MovieType movie = (MovieType) dao.getSingleMovie(Integer.parseInt(movieID));
             AccountType account = dao.getAccountbyId(accountName);
             Favourites fav = dao.FavouriteExisted(movie.getId(), account.getId());
             if (fav != null) {
                 request.setAttribute("isFavourite", true);
             }
         }
+        List<Actor> aList = new ArrayList<>();
+        List<Cast> castList = dao.getCastForMovie(Integer.parseInt(movieID));
+        for (Cast cast : castList) {
+            PersonType p = dao.getPersonById(cast.getActorId().getId());
+            Actor actor = new Actor(p.getName(), p.getImageUrl(), cast.getCharacter());
+            aList.add(actor);
+        }
+        ActorList actors = new ActorList();
+        actors.setActor(aList);
+        String cast4Film = uti.marshallActors(actors);
+        request.setAttribute("Cast4Film", cast4Film);
+
 //        DAO dao = new DAO();
 //        MovieType mo = (MovieType)dao.getMovieById(Integer.parseInt(movieID)).get(0);
 //        request.setAttribute("MovieName", mo.getName());
 //        request.setAttribute("MovieAltName", mo.getAlternateName());
 //        request.setAttribute("MovieDescription", mo.getDescription());
 //        request.setAttribute("MovieImageCover", mo.getImageCover());
-
-
         /* TODO output your page here. You may use following sample code. */
 //        String realPath = request.getServletContext().getRealPath("/");
 //        String videoPath = "http://localhost:"+request.getLocalPort()+"/XMLProject/asset/trailer/WONDER WOMAN - Official Trailer [HD].mp4";

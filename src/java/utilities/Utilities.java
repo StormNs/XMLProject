@@ -5,9 +5,9 @@
  */
 package utilities;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Template;
 import entities.AccountType;
 import entities.Accounts;
+import entities.ActorList;
 import entities.Genres;
 import entities.Movies;
 import entities.MovieType;
@@ -265,6 +265,44 @@ public class Utilities implements Runnable {
 
     }
 
+    public String marshallFavouriteMovies(Movies movies) {
+        JAXBContext jc;
+        String result = null;
+        try {
+            jc = JAXBContext.newInstance(Movies.class);
+
+            Marshaller marshaller = jc.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+
+            StringWriter sw = new StringWriter();
+            marshaller.marshal(movies, sw);
+            result = sw.toString();
+        } catch (JAXBException ex) {
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+     public String marshallActors(ActorList actors) {
+        JAXBContext jc;
+        String result = null;
+        try {
+            jc = JAXBContext.newInstance(ActorList.class);
+
+            Marshaller marshaller = jc.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+
+            StringWriter sw = new StringWriter();
+            marshaller.marshal(actors, sw);
+            result = sw.toString();
+        } catch (JAXBException ex) {
+            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+    
+    
+
     public Boolean validateBeforeSavetoDB(Class<?> type, String schemaFile, Object obj) {
         Boolean result = false;
         String realPath = rPath;
@@ -316,6 +354,7 @@ public class Utilities implements Runnable {
                         movie = mValue;
                     } else { // find exist movie
                         movie = dao.getMovieByName(mItem.getName());
+                        movie = dao.updateMovie(movie.getId(), mItem);
                     }
 
                     ArrayList<Genres> listGenre = new ArrayList<>(mItem.getGenreList());
@@ -395,7 +434,7 @@ public class Utilities implements Runnable {
     @Override
     public void run() {
         printForFun();
-        CrawlDataAuto();
+//        CrawlDataAuto();
     }
 
 }

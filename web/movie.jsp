@@ -88,7 +88,24 @@
             position: absolute;
             top: 200px;
         }
-
+        .caster{
+            padding: 5px;
+            display: block;
+        }
+        .cast-img{
+            width: 50px;
+            height: 75px;
+        }
+        .cast-name{
+            width: 70%;
+        }
+        .cast-char{
+            width: 50%;   
+        }
+        .casting-table{
+         width:80%;
+         position: relative;
+        }
 
     </style>
     <body>
@@ -123,9 +140,9 @@
                         <div class="movie-text">
                             <div>
                                 <c:if test="${not empty sessionScope.account_Name}" >
-                                    <i onclick="postBkMark()" value="" class="fa fa-bookmark fa-4 bkMark"></i>
+                                    <i title="Add to Favorite List" onclick="postBkMark()" value="" class="fa fa-bookmark fa-4 bkMark"></i>
                                     <input id="movieId" hidden="" type="text" value="<x:out select = "$mo/movie/id" />" />
-                                    <button type="button" id="btnModal" value="Click">Hehe</button>
+                                    <!--<button type="button" id="btnModal" value="Click">Hehe</button>-->
                                 </c:if>    
                                 <p class="title-desc"><x:out select = "$mo/movie/name" /><br><x:out select = "$mo/movie/alternateName" /></p>
                             </div>
@@ -145,15 +162,38 @@
                             </div>
                             <p><span style="color: #78a7e1;">Description:</span></p>
                             <p><x:out select = "$mo/movie/description" /></p>
-
+                            <p><span style="color: #78a7e1;">Casting:</span></p>
+<!--                            <table class="casting-table">
+                                <tbody>
+                                    <tr class="caster">
+                                        <td><img class="cast-img" src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTY4Mjg0NjIxOV5BMl5BanBnXkFtZTcwMTM2NTI3MQ@@._V1_SY200_CR0,0,134,200_AL_.jpg"></td>
+                                        <td class="cast-name">Harrison Ford</td>
+                                        <td class="cast-char">Han Solo</td>
+                                    </tr>
+                                </tbody>
+                            </table>-->
+                            <c:import var="castXsl" url="WEB-INF/castMovie.xsl" />
+                            <c:import var="castXml" url="WEB-INF/test.xml" />
+                            <x:transform xml="${requestScope.Cast4Film}" xslt="${castXsl}"/>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <input type="hidden" value="no" id="refresher"/>
         <jsp:include page="template/footer.jsp"/>
 
-        <script>
+        <script type="text/javascript">
+
+            window.onload = function () {
+                var e = document.getElementById("refresher");
+                if (e.value == "no")
+                    e.value = "yes";
+                else {
+                    e.value = "no";
+                    location.reload();
+                }
+            }
             var http = new XMLHttpRequest();
             var mId = document.getElementById('movieId').value;
             var url = "EditBookMarkServlet";

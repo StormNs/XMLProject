@@ -5,7 +5,6 @@
  */
 package utilities;
 
-import com.sun.org.apache.xpath.internal.FoundIndex;
 import entities.AccountType;
 import entities.Cast;
 import entities.Favourites;
@@ -226,12 +225,32 @@ public class DAO implements Serializable {
         return query4.getResultList();
     }
 
-    public MovieType getheFukinMOvieFOrme(int id) {
+    public MovieType getSingleMovie(int id) {
         Query query = em.createNamedQuery("MovieType.findById", MovieType.class);
         query.setParameter("id", id);
 
         MovieType m = (MovieType) query.getSingleResult();
         return m;
+    }
+
+    public List getUserFavouriteList(int userId, int starIndex, int endIndex) {
+        Query query = em.createNativeQuery("SELECT * FROM "
+                + "(SELECT ROW_NUMBER() OVER (ORDER BY Id ASC) AS RowNum , * FROM Favourites WHERE AccountId = ?1 ) AS a"
+                + " WHERE RowNum >= ?2 and RowNum <= ?3", Favourites.class);
+        query.setParameter(1, userId);
+        query.setParameter(2, starIndex);
+        query.setParameter(3, endIndex);
+
+        List<Favourites> list = query.getResultList();
+
+        return list;
+    }
+
+    public Long getSizeFavouriteMovies(int accountId) {
+        Query query = em.createQuery("SELECT COUNT(a) FROM Favourites a WHERE a.accountId.id = ?1");
+        query.setParameter(1, accountId);
+        Long size = (Long) query.getSingleResult();
+        return size;
     }
 
     public List getMovieForSearch() {
@@ -285,6 +304,37 @@ public class DAO implements Serializable {
         query.setParameter(1, name);
         return (PersonType) query.getResultList().get(0);
     }
+
+    public AccountType getAccount(String username) {
+        Query query = em.createQuery("SELECT a FROM AccountType a WHERE a.username = ?1", AccountType.class);
+        query.setParameter(1, username);
+        AccountType account = (AccountType) query.getSingleResult();
+
+        return account;
+    }
+
+    public MovieType getMovieForFavourite(int movieId) {
+        Query query = em.createQuery("SELECT a.id, a.name, a.imageCover FROM MovieType a WHERE a.id = ?1");
+        query.setParameter(1, movieId);
+        Object[] obj = (Object[]) query.getResultList().get(0);
+        MovieType movie = new MovieType();
+        movie.setId(Integer.parseInt(obj[0].toString()));
+        movie.setName(obj[1].toString());
+        movie.setImageCover(obj[2].toString());
+        return movie;
+    }
+    
+    public List getCastForMovie(int movieId){
+       Query query = em.createQuery("SELECT a FROM Cast a WHERE a.movieId.id = ?1", Cast.class);
+       query.setParameter(1, movieId);
+       List<Cast> list = query.getResultList();
+       return list;
+    }
+    
+    public PersonType getPersonById(int personId){
+        PersonType p = em.find(PersonType.class, personId);
+        return p;
+    }
     //</editor-fold>
 
     // Create and edit function 
@@ -304,6 +354,29 @@ public class DAO implements Serializable {
         } finally {
 
         }
+    }
+    public MovieType updateMovie(int movieId, MovieType movie){
+         EntityTransaction t = em.getTransaction();
+         MovieType result = null;
+        try {
+        MovieType m = em.find(MovieType.class, movieId);
+            m.setAlternateName(movie.getAlternateName());
+            m.setDescription(movie.getDescription());
+            m.setCountry(movie.getCountry());
+            m.setRuntime(movie.getRuntime());
+            m.setLanguage(movie.getLanguage());
+            m.setReleaseDate(movie.getReleaseDate());
+            m.setRating(movie.getRating());
+            m.setImageCover(movie.getImageCover());
+            m.setDirector(movie.getDirector());
+            t.begin();
+            result = em.merge(m);
+            em.flush();
+            t.commit();
+        } catch (Exception e) {
+            t.rollback();
+        }
+        return result;
     }
 
     public void updateActorImageCover(String link, PersonType person) {

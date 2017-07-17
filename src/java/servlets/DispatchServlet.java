@@ -29,9 +29,9 @@ public class DispatchServlet extends HttpServlet {
     private final String mainServlet = "MainServlet";
     private final String filmServlet = "VideoServlet";
     private final String bookMarkServlet = "EditBookMarkServlet";
-    
-//    private final String invalidPage = "invalid.html";
+    private final String favouriteServlet = "FavouriteListServlet";
 
+//    private final String invalidPage = "invalid.html";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -68,6 +68,9 @@ public class DispatchServlet extends HttpServlet {
                         break;
                     case "BMARK":
                         url = bookMarkServlet;
+                        break;
+                    case "FAVOURITE":
+                        url = favouriteServlet;
                         break;
                     default:
                         url = loginPage;

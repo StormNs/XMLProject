@@ -67,7 +67,7 @@ public class Favourites implements Serializable {
         this.accountId = accountId;
     }
 
-    public MovieType getMovieId() {
+    public MovieType getMovie() {
         return movieId;
     }
 
